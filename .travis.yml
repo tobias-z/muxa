@@ -1,11 +1,18 @@
+stages:
+  - test
+
 language: node_js
 node_js:
   - stable
-os: linux,
+os: linux
 dist: xenial
-name: Test
 
-script:
-  - npm run prettier
-  - npm run lint
-  - npm test
+jobs:
+  include:
+    - stage: test
+      name: Test
+
+      script:
+        - npm run prettier
+        - npm run lint
+        - npm test
