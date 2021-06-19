@@ -7,7 +7,6 @@
     "build": "tsc",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "coverage": "nyc npm run test",
     "lint": "eslint --ext=.tsx,.ts  .",
     "prettier": "prettier --write .",
     "prepare": "husky install"
@@ -42,7 +41,6 @@
     "eslint-plugin-react": "^7.24.0",
     "husky": "^6.0.0",
     "jest": "^27.0.4",
-    "nyc": "^15.1.0",
     "prettier": "2.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

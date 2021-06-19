@@ -8,10 +8,10 @@ module.exports = {
   // collectCoverage: true, <--Not needed because this would be applied/not by scripts in the package.json below
   coverageThreshold: {
     global: {
-      branches: 90,
-      functions: 95,
-      lines: 95,
-      statements: 90,
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
     },
   },
   collectCoverageFrom: [
