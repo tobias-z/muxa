@@ -48,7 +48,7 @@ export function SSRRouter({ children }: { children: ReactNode }) {
       routes,
       dispatch,
     }),
-    []
+    [routes]
   );
 
   return (

@@ -1,5 +1,7 @@
+type Path = string | readonly string[] | undefined;
+
 export type RouterState = {
-  paths: Array<string>;
+  paths: Array<Path>;
 };
 
 export type RouterContext = {
@@ -9,7 +11,7 @@ export type RouterContext = {
 
 type AddRoute = {
   type: "ADD_ROUTE";
-  path: string;
+  path: Path;
 };
 
 export type RouterActions = AddRoute;
