@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "target": "es6",
     "module": "commonjs",
     "strict": true,
@@ -8,9 +9,8 @@
     "noImplicitAny": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
-    "jsx": "react",
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "exclude": ["tests", "dist", "node_modules"]
+  "exclude": ["__tests__", "dist", "node_modules"]
 }

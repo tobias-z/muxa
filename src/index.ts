@@ -1,1 +1,3 @@
-export { add } from "./muxa";
+import SSRRoute from "./app/ssr-route";
+
+export { SSRRoute };
