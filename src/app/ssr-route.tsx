@@ -20,7 +20,7 @@ export default function SSRRoute(props: RouteProps) {
     if (path === routerPath) {
       console.log("on path: " + path);
     }
-  }, []);
+  }, [routerPath]);
 
   return <Route {...props} />;
 }
