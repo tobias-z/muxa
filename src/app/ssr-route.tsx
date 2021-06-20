@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Route, RouteProps, useRouteMatch } from "react-router-dom";
+import type { RouteProps } from "react-router-dom";
+import { Route, useRouteMatch } from "react-router-dom";
 import { useRouterContext } from "./ssr-router";
 
 export default function SSRRoute(props: RouteProps) {
