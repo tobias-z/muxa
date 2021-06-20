@@ -30,7 +30,7 @@ const routerReducer: Muxa.RouterReducer = (state, action) => {
   switch (action.type) {
     case "ADD_ROUTE": {
       return {
-        paths: [...state.paths, action.path],
+        paths: [...state.paths, { path: action.path }],
       };
     }
     default:

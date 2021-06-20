@@ -1,7 +1,12 @@
-type Path = string | readonly string[] | undefined;
+export type Path = string | readonly string[] | undefined;
+
+export type RouteData = {
+  path: Path;
+  routeData?: unknown;
+};
 
 export type RouterState = {
-  paths: Array<Path>;
+  paths: Array<RouteData>;
 };
 
 export type RouterContext = {

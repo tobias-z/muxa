@@ -1,26 +1,38 @@
+import type * as Muxa from "../types";
 import { useEffect } from "react";
-import type { RouteProps } from "react-router-dom";
-import { Route, useRouteMatch } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { useRouterContext } from "./ssr-router";
 
-export default function SSRRoute(props: RouteProps) {
-  let { path } = props;
+export default function SSRRoute(props: Muxa.SSRRouteProps) {
+  let { path, get } = props;
   let { routes, dispatch } = useRouterContext();
-  let { path: routerPath } = useRouteMatch();
+  let { location } = useHistory();
 
   useEffect(() => {
     let isAlreadyInPaths = routes.paths.find(
-      currentPath => path === currentPath
+      currentPath => path === currentPath.path
     );
     if (isAlreadyInPaths) return;
     dispatch({ type: "ADD_ROUTE", path });
   }, []);
 
   useEffect(() => {
-    if (path === routerPath) {
-      console.log("on path: " + path);
+    if (!isGoingToRenderRoute()) return;
+    console.log("rendering: " + path);
+    if (get) {
+      let returnVal = get();
+      console.log(returnVal);
     }
-  }, [routerPath]);
+  }, [location]);
+
+  function isGoingToRenderRoute(): boolean {
+    let willRender = false;
+    if (location.pathname.includes(path as string)) {
+      willRender = true;
+    }
+    return willRender;
+  }
 
   return <Route {...props} />;
 }

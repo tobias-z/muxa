@@ -9,10 +9,11 @@ import { useHistory } from "react-router-dom";
 
 function OtherApp() {
   let { routes } = useRouterContext();
+  let route = routes.paths.find(path => path.path === "/other-app");
   return (
     <>
       <h1>Other app</h1>
-      <p>{routes.paths.find(path => path === "/other-app")}</p>
+      {route && <p>{route.path}</p>}
     </>
   );
 }
@@ -28,7 +29,7 @@ function App() {
   return (
     <div>
       <h1>First app</h1>
-      <p>{routes.paths.map(path => path)}</p>
+      <p>{routes.paths.map(path => path.path)}</p>
       <h2>{routes.paths.length}</h2>
       <button onClick={reRender}>ReRender</button>
       <button onClick={changePath}>Push</button>
