@@ -41,7 +41,7 @@ afterEach(cleanup);
 
 test("renders on the screen", () => {
   render(
-    <SSRRouter>
+    <SSRRouter fallback={<div>Loading...</div>}>
       <SSRRoute path="/" component={App} />
     </SSRRouter>
   );
@@ -50,7 +50,7 @@ test("renders on the screen", () => {
 
 test("when adding a route the path gets put into the route state", () => {
   render(
-    <SSRRouter>
+    <SSRRouter fallback={<div>Loading...</div>}>
       <SSRRoute path="/" component={App} />
     </SSRRouter>
   );
@@ -59,7 +59,7 @@ test("when adding a route the path gets put into the route state", () => {
 
 test("will not add the same path after rerender", () => {
   render(
-    <SSRRouter>
+    <SSRRouter fallback={<div>Loading...</div>}>
       <SSRRoute exact path="/" component={App} />
       <SSRRoute path="/other-app" component={App} />
     </SSRRouter>
@@ -71,7 +71,7 @@ test("will not add the same path after rerender", () => {
 
 test("will only render one inside a switch", () => {
   render(
-    <SSRRouter>
+    <SSRRouter fallback={<div>Loading...</div>}>
       <SSRSwitch>
         <SSRRoute exact path="/" component={App} />
         <SSRRoute path="/other-app" component={OtherApp} />

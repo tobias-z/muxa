@@ -1,3 +1,5 @@
+import type { ReactChild, ReactFragment, ReactPortal } from "react";
+
 export type Path = string | readonly string[] | undefined;
 
 export type RouteData = {
@@ -12,6 +14,7 @@ export type RouterState = {
 export type RouterContext = {
   routes: RouterState;
   dispatch: React.Dispatch<RouterActions>;
+  fallback: ReactChild | ReactFragment | ReactPortal;
 };
 
 type AddRoute = {
@@ -19,7 +22,13 @@ type AddRoute = {
   path: Path;
 };
 
-export type RouterActions = AddRoute;
+type AddRouteData = {
+  type: "ADD_ROUTE_DATA";
+  path: Path;
+  routeData: unknown;
+};
+
+export type RouterActions = AddRoute | AddRouteData;
 
 export type RouterReducer = (
   state: RouterState,

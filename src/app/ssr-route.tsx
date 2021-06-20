@@ -1,13 +1,14 @@
 import type * as Muxa from "../types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { useRouterContext } from "./ssr-router";
 
 export default function SSRRoute(props: Muxa.SSRRouteProps) {
   let { path, get } = props;
-  let { routes, dispatch } = useRouterContext();
+  let { routes, dispatch, fallback } = useRouterContext();
   let { location } = useHistory();
+  let [isLoadingRoute, setIsLoadingRoute] = useState(false);
 
   useEffect(() => {
     let isAlreadyInPaths = routes.paths.find(
@@ -19,10 +20,16 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
 
   useEffect(() => {
     if (!isGoingToRenderRoute()) return;
-    console.log("rendering: " + path);
     if (get) {
-      let returnVal = get();
-      console.log(returnVal);
+      setIsLoadingRoute(true);
+      get()
+        .then(data => {
+          dispatch({ type: "ADD_ROUTE_DATA", path, routeData: data });
+        })
+        .catch(err => {
+          console.error(err.message);
+        })
+        .finally(() => setIsLoadingRoute(false));
     }
   }, [location]);
 
@@ -33,6 +40,8 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
     }
     return willRender;
   }
+
+  if (isLoadingRoute) return <>{fallback}</>;
 
   return <Route {...props} />;
 }

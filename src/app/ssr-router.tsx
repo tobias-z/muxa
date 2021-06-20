@@ -1,11 +1,6 @@
 import type * as Muxa from "../types";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useMemo,
-  useReducer,
-} from "react";
+import type { ReactChild, ReactFragment, ReactNode, ReactPortal } from "react";
+import { createContext, useContext, useMemo, useReducer } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 let initialContext = {
@@ -15,6 +10,7 @@ let initialContext = {
   dispatch: () => ({
     paths: [],
   }),
+  fallback: <div>Loading...</div>,
 };
 
 let RouterContext = createContext<Muxa.RouterContext>(initialContext);
@@ -30,15 +26,40 @@ const routerReducer: Muxa.RouterReducer = (state, action) => {
   switch (action.type) {
     case "ADD_ROUTE": {
       return {
-        paths: [...state.paths, { path: action.path }],
+        paths: [
+          ...state.paths,
+          {
+            path: action.path,
+            routeData: null,
+          },
+        ],
+      };
+    }
+    case "ADD_ROUTE_DATA": {
+      return {
+        paths: state.paths.map(path => {
+          if (path.path === action.path) {
+            return {
+              ...path,
+              routeData: action.routeData,
+            };
+          }
+          return path;
+        }),
       };
     }
     default:
-      throw Error("Unknown action: " + action.type);
+      throw Error("Unknown routerReducer action");
   }
 };
 
-export function SSRRouter({ children }: { children: ReactNode }) {
+export function SSRRouter({
+  children,
+  fallback,
+}: {
+  children: ReactNode;
+  fallback: ReactChild | ReactFragment | ReactPortal;
+}) {
   let [routes, dispatch] = useReducer<Muxa.RouterReducer>(routerReducer, {
     paths: [],
   });
@@ -47,6 +68,7 @@ export function SSRRouter({ children }: { children: ReactNode }) {
     () => ({
       routes,
       dispatch,
+      fallback,
     }),
     [routes]
   );
