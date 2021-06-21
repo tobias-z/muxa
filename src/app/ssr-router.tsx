@@ -1,5 +1,5 @@
 import type * as Muxa from "../types";
-import type { ReactChild, ReactFragment, ReactNode, ReactPortal } from "react";
+import { ReactChild, ReactFragment, ReactNode, ReactPortal } from "react";
 import { createContext, useContext, useMemo, useReducer } from "react";
 import { BrowserRouter } from "react-router-dom";
 

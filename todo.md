@@ -8,4 +8,4 @@
   - [x] Make a useRouteData function returning the found data
   - [x] Setup fallback when loading data
   - [x] Test that the data is found
-- [ ] Make post prop
+  - [ ] Send params to the loader

@@ -1,6 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
-import { useRouteMatch } from "react-router-dom";
 import { useRouterContext } from "./ssr-router";
 
 export default function useRouteData<RouteData>(): [
@@ -8,11 +7,12 @@ export default function useRouteData<RouteData>(): [
   setRouterData: Dispatch<SetStateAction<RouteData | undefined>>
 ] {
   let { routes } = useRouterContext();
-  let { path } = useRouteMatch();
   const [routeData, setRouteData] = useState<RouteData>();
 
   useEffect(() => {
-    let route = routes.paths.find(route => route.path === path);
+    let route = routes.paths.find(
+      route => route.path === window.location.pathname
+    );
     if (!route) return;
     setRouteData(route.routeData as RouteData | undefined);
   }, []);
