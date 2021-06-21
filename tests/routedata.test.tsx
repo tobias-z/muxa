@@ -1,21 +1,35 @@
 /**
  * @jest-environment jsdom
  */
-import { SSRRoute, SSRRouter, SSRSwitch } from "../src";
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { SSRRoute, SSRRouter, SSRSwitch, useRouteData } from "../src";
+import {
+  act,
+  cleanup,
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
+import { useHistory } from "react-router-dom";
 
 function App() {
+  let [routeData] = useRouteData<{ info: string }>();
+  let { push } = useHistory();
   return (
     <>
       <h1>App</h1>
+      {routeData && <p>{routeData.info}</p>}
+      <button onClick={() => push("/other-app")}>Push</button>
     </>
   );
 }
 
 function OtherApp() {
+  let [routeData] = useRouteData<{ info: string }>();
   return (
     <>
       <h1>Other app</h1>
+      {routeData && <p>{routeData.info}</p>}
     </>
   );
 }
@@ -35,7 +49,7 @@ test("will run get function when rendered", async () => {
       </SSRRouter>
     );
   });
-  screen.debug();
+  expect(screen.getByText(/hello/i));
 });
 
 test("will only run one get function in switch", async () => {
@@ -46,6 +60,7 @@ test("will only run one get function in switch", async () => {
           <SSRRoute
             path="/"
             component={App}
+            exact
             get={async () => ({ info: "hello" })}
           />
           <SSRRoute
@@ -57,5 +72,8 @@ test("will only run one get function in switch", async () => {
       </SSRRouter>
     );
   });
-  screen.debug();
+  expect(screen.getByText(/hello/i));
+  screen.getByText(/hello/i);
+  fireEvent.click(screen.getByText(/push/i));
+  await waitFor(() => expect(screen.getByText(/hello2/i)));
 });
