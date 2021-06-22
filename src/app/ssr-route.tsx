@@ -38,10 +38,8 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
       return realPathname === currentPath.path;
     });
     if (isAlreadyInPaths) return;
-    if (!realPathname?.includes(":")) {
-      dispatch({ type: "ADD_ROUTE", path: realPathname });
-    }
-  }, []);
+    dispatch({ type: "ADD_ROUTE", path: realPathname });
+  }, [location]);
 
   useEffect(() => {
     if (!isGoingToRenderRoute()) return;
@@ -81,7 +79,7 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
   }
 
   if (!route) return null;
-  if (route.isLoading) return <>{fallback}</>;
+  if (route.isLoading && !route.routeData) return <>{fallback}</>;
 
   return <Route {...props} />;
 }
