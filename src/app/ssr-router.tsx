@@ -1,5 +1,5 @@
 import type * as Muxa from "../types";
-import { ReactChild, ReactFragment, ReactNode, ReactPortal } from "react";
+import type { ReactChild, ReactFragment, ReactNode, ReactPortal } from "react";
 import { createContext, useContext, useMemo, useReducer } from "react";
 import { BrowserRouter } from "react-router-dom";
 
@@ -22,20 +22,20 @@ export function useRouterContext(): Muxa.RouterContext {
   return context;
 }
 
-const routerReducer: Muxa.RouterReducer = (state, action) => {
+let routerReducer: Muxa.RouterReducer = (state, action) => {
   switch (action.type) {
-    case "ADD_ROUTE": {
+    case "ADD_ROUTE":
       return {
         paths: [
           ...state.paths,
           {
             path: action.path,
             routeData: null,
+            isLoading: false,
           },
         ],
       };
-    }
-    case "ADD_ROUTE_DATA": {
+    case "ADD_ROUTE_DATA":
       return {
         paths: state.paths.map(path => {
           if (path.path === action.path) {
@@ -47,7 +47,18 @@ const routerReducer: Muxa.RouterReducer = (state, action) => {
           return path;
         }),
       };
-    }
+    case "TOGGLE_LOADING":
+      return {
+        paths: state.paths.map(path => {
+          if (path.path === action.path) {
+            return {
+              ...path,
+              isLoading: !path.isLoading,
+            };
+          }
+          return path;
+        }),
+      };
     default:
       throw Error("Unknown routerReducer action");
   }

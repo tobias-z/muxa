@@ -7,7 +7,13 @@ import { useRouterContext } from "./ssr-router";
 function getRealPathname(path: Muxa.Path) {
   if (!path) return path;
   if (path.includes(":")) {
-    return window.location.pathname;
+    let tmpPath = path as string;
+    let idx = tmpPath.indexOf(":");
+    let toReturn = window.location.pathname;
+    if (toReturn.length < idx) {
+      toReturn = tmpPath;
+    }
+    return toReturn;
   } else {
     return path;
   }
@@ -17,32 +23,52 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
   let { path, get } = props;
   let { routes, dispatch, fallback } = useRouterContext();
   let { location } = useHistory();
-  let [isLoadingRoute, setIsLoadingRoute] = useState(false);
   let params = useParams();
+  let [route, setRoute] = useState<Muxa.RouteData | null>(null);
+
+  useEffect(() => {
+    let tmpRoute = routes.paths.find(p => p.path === getRealPathname(path));
+    if (!tmpRoute) return;
+    setRoute(tmpRoute);
+  }, [routes]);
 
   useEffect(() => {
     let realPathname = getRealPathname(path);
-    let isAlreadyInPaths = routes.paths.find(
-      currentPath => realPathname === currentPath.path
-    );
+    let isAlreadyInPaths = routes.paths.find(currentPath => {
+      return realPathname === currentPath.path;
+    });
     if (isAlreadyInPaths) return;
-    dispatch({ type: "ADD_ROUTE", path: realPathname });
+    if (!realPathname?.includes(":")) {
+      dispatch({ type: "ADD_ROUTE", path: realPathname });
+    }
   }, []);
 
   useEffect(() => {
     if (!isGoingToRenderRoute()) return;
-    if (get) {
-      setIsLoadingRoute(true);
+    let isCurrent = true;
+    if (get && isCurrent) {
+      let realPath = getRealPathname(path);
+      dispatch({ type: "TOGGLE_LOADING", path: realPath });
       get(params)
         .then(data => {
-          let realPath = getRealPathname(path);
-          dispatch({ type: "ADD_ROUTE_DATA", path: realPath, routeData: data });
+          if (isCurrent) {
+            dispatch({
+              type: "ADD_ROUTE_DATA",
+              path: realPath,
+              routeData: data,
+            });
+          }
         })
         .catch(err => {
           console.error(err.message);
         })
-        .finally(() => setIsLoadingRoute(false));
+        .finally(() => {
+          dispatch({ type: "TOGGLE_LOADING", path: realPath });
+        });
     }
+    return () => {
+      isCurrent = false;
+    };
   }, [location]);
 
   function isGoingToRenderRoute(): boolean {
@@ -54,7 +80,8 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
     return willRender;
   }
 
-  if (isLoadingRoute) return <>{fallback}</>;
+  if (!route) return null;
+  if (route.isLoading) return <>{fallback}</>;
 
   return <Route {...props} />;
 }

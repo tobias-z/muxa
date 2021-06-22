@@ -5,6 +5,7 @@ export type Path = string | readonly string[] | undefined;
 export type RouteData = {
   path: Path;
   routeData?: unknown;
+  isLoading: boolean;
 };
 
 export type RouterState = {
@@ -28,7 +29,12 @@ type AddRouteData = {
   routeData: unknown;
 };
 
-export type RouterActions = AddRoute | AddRouteData;
+type SetLoading = {
+  type: "TOGGLE_LOADING";
+  path: Path;
+};
+
+export type RouterActions = AddRoute | AddRouteData | SetLoading;
 
 export type RouterReducer = (
   state: RouterState,
