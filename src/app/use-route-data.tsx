@@ -1,3 +1,4 @@
+import type * as Muxa from "../types";
 import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import { useRouterContext } from "./ssr-router";
@@ -8,8 +9,9 @@ export default function useRouteData<RouteData>(
   routeData: RouteData | undefined,
   setRouterData: Dispatch<SetStateAction<RouteData | undefined>>
 ] {
-  let { routes } = useRouterContext();
+  let { routes, dispatch } = useRouterContext();
   let [routeData, setRouteData] = useState<RouteData>();
+  let [routePath, setRoutePath] = useState<Muxa.Path>();
 
   useEffect(() => {
     let location = window.location.pathname;
@@ -21,7 +23,18 @@ export default function useRouteData<RouteData>(
     });
     if (!route) return;
     setRouteData(route.routeData as RouteData | undefined);
+    setRoutePath(route.path);
   }, []);
 
-  return [routeData, setRouteData];
+  let updateRouteData: Dispatch<SetStateAction<RouteData | undefined>> =
+    value => {
+      setRouteData(value);
+      dispatch({
+        type: "UPDATE_ROUTE_DATA",
+        path: routePath,
+        routeData: value,
+      });
+    };
+
+  return [routeData, updateRouteData];
 }

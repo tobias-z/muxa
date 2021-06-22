@@ -59,6 +59,18 @@ let routerReducer: Muxa.RouterReducer = (state, action) => {
           return path;
         }),
       };
+    case "UPDATE_ROUTE_DATA":
+      return {
+        paths: state.paths.map(path => {
+          if (path.path === action.path) {
+            return {
+              ...path,
+              routeData: action.routeData,
+            };
+          }
+          return path;
+        }),
+      };
     default:
       throw Error("Unknown routerReducer action");
   }

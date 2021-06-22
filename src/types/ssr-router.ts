@@ -34,7 +34,17 @@ type SetLoading = {
   path: Path;
 };
 
-export type RouterActions = AddRoute | AddRouteData | SetLoading;
+type UpdateRouteData = {
+  type: "UPDATE_ROUTE_DATA";
+  path: Path;
+  routeData: unknown;
+};
+
+export type RouterActions =
+  | AddRoute
+  | AddRouteData
+  | SetLoading
+  | UpdateRouteData;
 
 export type RouterReducer = (
   state: RouterState,
