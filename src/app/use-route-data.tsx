@@ -3,24 +3,30 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRouterContext } from "./ssr-router";
 
-type RouteData<Data> = {
-  data: Data | undefined;
-  get: () => Promise<unknown>;
-};
+export default function useRouteData<Data = unknown, Errors = unknown>(
+  path?: string
+): Muxa.RouteData<Data, Errors>;
 
-export default function useRouteData<Data>(path?: string): RouteData<Data> {
+export default function useRouteData<Data, Errors = unknown>(
+  path?: string
+): Muxa.RouteData<Data, Errors>;
+
+export default function useRouteData<Data, Errors>(
+  path?: string
+): Muxa.RouteData<Data, Errors> {
   let { routes, dispatch } = useRouterContext();
-  let [routeData, setRouteData] = useState<RouteData<Data>>();
+  let [routeData, setRouteData] = useState<Muxa.RouteData<Data, Errors>>();
   let params = useParams();
 
-  function getLoader(route: Muxa.RouteData): () => Promise<unknown> {
+  function getLoader(route: Muxa.Route): () => Promise<unknown> {
     return async () => {
       try {
-        let data = await route.get(params);
+        let res = await route.get({ params });
         dispatch({
           type: "ADD_ROUTE_DATA",
           path: route.path,
-          routeData: data,
+          routeData: res.data,
+          errors: res.errors,
         });
       } catch (err) {
         console.error(err.message);
@@ -41,11 +47,13 @@ export default function useRouteData<Data>(path?: string): RouteData<Data> {
     setRouteData({
       data: route.routeData as Data | undefined,
       get,
+      errors: route.errors as Errors,
     });
   }, []);
 
   return {
     data: routeData?.data,
     get: routeData?.get as () => Promise<unknown>,
+    errors: routeData?.errors,
   };
 }

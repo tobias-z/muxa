@@ -44,7 +44,11 @@ test("will run get function when rendered", async () => {
           exact
           path="/"
           component={App}
-          get={async () => ({ info: "hello" })}
+          get={async () => ({
+            data: {
+              info: "hello",
+            },
+          })}
         />
       </SSRRouter>
     );
@@ -61,12 +65,20 @@ test("will only run one get function in switch", async () => {
             path="/"
             component={App}
             exact
-            get={async () => ({ info: "hello" })}
+            get={async () => ({
+              data: {
+                info: "hello",
+              },
+            })}
           />
           <SSRRoute
             path="/other-app"
             component={OtherApp}
-            get={async () => ({ info: "hello2" })}
+            get={async () => ({
+              data: {
+                info: "hello2",
+              },
+            })}
           />
         </SSRSwitch>
       </SSRRouter>

@@ -24,7 +24,7 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
   let { routes, dispatch, fallback } = useRouterContext();
   let { location } = useHistory();
   let params = useParams();
-  let [route, setRoute] = useState<Muxa.RouteData | null>(null);
+  let [route, setRoute] = useState<Muxa.Route | null>(null);
 
   useEffect(() => {
     let tmpRoute = routes.paths.find(p => p.path === getRealPathname(path));
@@ -47,13 +47,14 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
     if (get && isCurrent) {
       let realPath = getRealPathname(path);
       dispatch({ type: "TOGGLE_LOADING", path: realPath });
-      get(params)
-        .then(data => {
+      get({ params })
+        .then(res => {
           if (isCurrent) {
             dispatch({
               type: "ADD_ROUTE_DATA",
               path: realPath,
-              routeData: data,
+              routeData: res.data,
+              errors: res.errors,
             });
           }
         })

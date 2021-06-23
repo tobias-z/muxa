@@ -3,15 +3,16 @@ import type { Get } from "./ssr-route";
 
 export type Path = string | readonly string[] | undefined;
 
-export type RouteData = {
+export type Route = {
   path: Path;
   routeData?: unknown;
+  errors?: unknown;
   isLoading: boolean;
-  get: Get;
+  get: Get<unknown>;
 };
 
 export type RouterState = {
-  paths: Array<RouteData>;
+  paths: Array<Route>;
 };
 
 export type RouterContext = {
@@ -23,13 +24,14 @@ export type RouterContext = {
 type AddRoute = {
   type: "ADD_ROUTE";
   path: Path;
-  get: Get;
+  get: Get<unknown>;
 };
 
 type AddRouteData = {
   type: "ADD_ROUTE_DATA";
   path: Path;
   routeData: unknown;
+  errors: unknown;
 };
 
 type SetLoading = {
