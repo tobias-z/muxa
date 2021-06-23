@@ -32,6 +32,7 @@ let routerReducer: Muxa.RouterReducer = (state, action) => {
             path: action.path,
             routeData: null,
             isLoading: false,
+            get: action.get,
           },
         ],
       };
@@ -39,6 +40,7 @@ let routerReducer: Muxa.RouterReducer = (state, action) => {
       return {
         paths: state.paths.map(path => {
           if (path.path === action.path) {
+            console.log("updating: " + path.path, action.path);
             return {
               ...path,
               routeData: action.routeData,

@@ -1,7 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-import { render, cleanup, screen, fireEvent } from "@testing-library/react";
+import {
+  render,
+  cleanup,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
 import { useState } from "react";
 import { SSRRoute, SSRRouter, SSRSwitch } from "../src";
 import { useRouterContext } from "../src/app/ssr-router";
@@ -39,47 +45,57 @@ function App() {
 
 afterEach(cleanup);
 
-test("renders on the screen", () => {
+async function loader() {
+  return {
+    data: "hello",
+  };
+}
+
+test("renders on the screen", async () => {
   render(
     <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRRoute path="/" component={App} />
+      <SSRRoute get={loader} path="/" component={App} />
     </SSRRouter>
   );
-  expect(screen.getByText("First app"));
+  await waitFor(() => expect(screen.getByText("First app")));
 });
 
-test("when adding a route the path gets put into the route state", () => {
+test("when adding a route the path gets put into the route state", async () => {
   render(
     <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRRoute path="/" component={App} />
+      <SSRRoute get={loader} path="/" component={App} />
     </SSRRouter>
   );
-  expect(screen.getByText("1"));
+  await waitFor(() => expect(screen.getByText("1")));
 });
 
-test("will not add the same path after rerender", () => {
+test("will not add the same path after rerender", async () => {
   render(
     <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRRoute exact path="/" component={App} />
-      <SSRRoute path="/other-app" component={App} />
+      <SSRRoute get={loader} exact path="/" component={App} />
+      <SSRRoute get={loader} path="/other-app" component={App} />
     </SSRRouter>
   );
-  let reRender = screen.getByText("ReRender");
-  fireEvent.click(reRender);
+  await waitFor(() => {
+    let reRender = screen.getByText("ReRender");
+    fireEvent.click(reRender);
+  });
   expect(screen.getByText("2"));
 });
 
-test("will only render one inside a switch", () => {
+test("will only render one inside a switch", async () => {
   render(
     <SSRRouter fallback={<div>Loading...</div>}>
       <SSRSwitch>
-        <SSRRoute exact path="/" component={App} />
-        <SSRRoute path="/other-app" component={OtherApp} />
+        <SSRRoute get={loader} exact path="/" component={App} />
+        <SSRRoute get={loader} path="/other-app" component={OtherApp} />
       </SSRSwitch>
     </SSRRouter>
   );
-  expect(screen.getByText("2"));
+  await waitFor(() => expect(screen.getByText("2")));
   fireEvent.click(screen.getByText("Push"));
-  expect(screen.getByText("Other app"));
-  expect(screen.getByText("/other-app"));
+  await waitFor(() => {
+    expect(screen.getByText("Other app"));
+    expect(screen.getByText("/other-app"));
+  });
 });

@@ -12,6 +12,7 @@
   - [x] Cancel setting of state if unmounted
   - [x] Show cached result if it exists instead of loading
   - [x] make useRouteData take an optional path
+  - [ ] Add the loader function to state and return it in useRouteData
+  - [ ] Add errors to routeData and a function to insert the error
   - [ ] Send params to the loader
   - [ ] Caching option on route
-  - [ ] setRouteData calls dispatch

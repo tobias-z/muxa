@@ -13,7 +13,7 @@ import {
 import { useHistory } from "react-router-dom";
 
 function App() {
-  let [routeData] = useRouteData<{ info: string }>("/");
+  let { data: routeData } = useRouteData<{ info: string }>("/");
   let { push } = useHistory();
   return (
     <>
@@ -25,7 +25,7 @@ function App() {
 }
 
 function OtherApp() {
-  let [routeData] = useRouteData<{ info: string }>("/other-app");
+  let { data: routeData } = useRouteData<{ info: string }>("/other-app");
   return (
     <>
       <h1>Other app</h1>

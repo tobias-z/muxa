@@ -38,7 +38,7 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
       return realPathname === currentPath.path;
     });
     if (isAlreadyInPaths) return;
-    dispatch({ type: "ADD_ROUTE", path: realPathname });
+    dispatch({ type: "ADD_ROUTE", path: realPathname, get });
   }, [location]);
 
   useEffect(() => {
