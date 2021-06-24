@@ -3,17 +3,7 @@ import type { ReactChild, ReactFragment, ReactNode, ReactPortal } from "react";
 import { createContext, useContext, useMemo, useReducer } from "react";
 import { BrowserRouter } from "react-router-dom";
 
-let initialContext = {
-  routes: {
-    paths: [],
-  },
-  dispatch: () => ({
-    paths: [],
-  }),
-  fallback: <div>Loading...</div>,
-};
-
-let RouterContext = createContext<Muxa.RouterContext>(initialContext);
+let RouterContext = createContext<Muxa.RouterContext | null>(null);
 
 export function useRouterContext(): Muxa.RouterContext {
   let context = useContext(RouterContext);
@@ -57,18 +47,6 @@ let routerReducer: Muxa.RouterReducer = (state, action) => {
             return {
               ...path,
               isLoading: !path.isLoading,
-            };
-          }
-          return path;
-        }),
-      };
-    case "UPDATE_ROUTE_DATA":
-      return {
-        paths: state.paths.map(path => {
-          if (path.path === action.path) {
-            return {
-              ...path,
-              routeData: action.routeData,
             };
           }
           return path;

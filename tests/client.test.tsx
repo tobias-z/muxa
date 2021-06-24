@@ -1,13 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import {
-  render,
-  cleanup,
-  screen,
-  fireEvent,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { useState } from "react";
 import { SSRRoute, SSRRouter, SSRSwitch } from "../src";
 import { useRouterContext } from "../src/app/ssr-router";
@@ -42,8 +36,6 @@ function App() {
     </div>
   );
 }
-
-afterEach(cleanup);
 
 async function loader() {
   return {

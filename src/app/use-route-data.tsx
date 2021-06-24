@@ -29,6 +29,7 @@ export default function useRouteData<Data, Errors>(
           errors: res.errors,
         });
       } catch (err) {
+        // Do something with the error?
         console.error(err.message);
       }
     };
