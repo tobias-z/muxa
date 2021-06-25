@@ -1,19 +1,45 @@
 <div align="center">
-  <h2>Java SQL Mapping</h2>
-  <p>Mapping of SQL statements into it's corresponding object 🤩</p>
+  <h2>Muxa</h2>
+  <p>Some great text about react routing and fetching!</p>
 
 [![Build Status](https://travis-ci.com/tobias-z/muxa.svg?branch=main)](https://travis-ci.com/tobias-z/muxa)
 [![codecov](https://codecov.io/gh/tobias-z/muxa/branch/main/graph/badge.svg?token=FIA5TUP1GA)](https://codecov.io/gh/tobias-z/muxa)
 ![GitHub](https://img.shields.io/github/license/tobias-z/muxa)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
+<!-- Get Version, Size and Downloads -->
+
 </div>
 
 ---
 
-<!-- Get Version, Size and Downloads -->
+## Docs
 
-This is going ot be great!
+**[View documentation here](https://muxa.tobias-z.com)**
+
+## About
+
+Some text about what Muxa is
+
+## Issues
+
+Looking to contribute? Please read the `CONTRIBUTING.md` file, which contains
+information about making a PR.
+
+Any feedback is very appreciated!
+
+### 🪲 Bugs
+
+Please file an issue for bugs, missing documentation, unexpected behavior etc.
+
+[**Create bug report**](https://github.com/tobias-z/muxa/issues/new?assignees=&labels=&template=bug_report.md&title=)
+
+### 🕯 Feature Requests
+
+Please file an issue to suggest new features. Vote on feature requests by adding
+a 👍.
+
+[**Create Feature Requests**](https://github.com/tobias-z/muxa/issues/new?assignees=&labels=&template=feature_request.md&title=)
 
 ## Contributors ✨
 
