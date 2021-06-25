@@ -8,7 +8,8 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext=.tsx,.ts  .",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "setup": "npm install && npm test"
   },
   "repository": {
     "type": "git",
