@@ -6,6 +6,8 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+[![codecov](https://codecov.io/gh/tobias-z/muxa/branch/main/graph/badge.svg?token=FIA5TUP1GA)](https://codecov.io/gh/tobias-z/muxa)
+
 This is going ot be great!
 
 ## Contributors ✨
