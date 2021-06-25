@@ -23,7 +23,7 @@ let routerReducer: Muxa.RouterReducer = (state, action) => {
             routeData: null,
             errors: null,
             isLoading: false,
-            get: action.get,
+            getter: action.getter,
           },
         ],
       };

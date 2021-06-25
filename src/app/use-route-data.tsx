@@ -21,7 +21,7 @@ export default function useRouteData<Data, Errors>(
   function getLoader(route: Muxa.Route): () => Promise<unknown> {
     return async () => {
       try {
-        let res = await route.get({ params });
+        let res = await route.getter({ params });
         dispatch({
           type: "ADD_ROUTE_DATA",
           path: route.path,
@@ -44,17 +44,17 @@ export default function useRouteData<Data, Errors>(
       return route.path === location;
     });
     if (!route) return;
-    let get = getLoader(route);
+    let getter = getLoader(route);
     setRouteData({
       data: route.routeData as Data | undefined,
-      get,
+      getter,
       errors: route.errors as Errors,
     });
   }, []);
 
   return {
     data: routeData?.data,
-    get: routeData?.get as () => Promise<unknown>,
+    getter: routeData?.getter as () => Promise<unknown>,
     errors: routeData?.errors,
   };
 }

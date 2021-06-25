@@ -8,19 +8,19 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import { Get, useRouteData } from "../src";
+import { GetterFunction, useRouteData } from "../src";
 import { SSRRouter, SSRRoute } from "../src";
 
-let getter: Get = async () => {
+let getter: GetterFunction = async () => {
   return Promise.reject("Some error happended");
 };
 
 function App() {
-  let { get } = useRouteData();
+  let { getter } = useRouteData();
   return (
     <>
       <p>Is showing</p>
-      <button onClick={get}>Call getter</button>
+      <button onClick={getter}>Call getter</button>
     </>
   );
 }
@@ -29,7 +29,7 @@ test("will catch error when thrown by getter", async () => {
   await act(async () => {
     render(
       <SSRRouter fallback={<h1>Loading...</h1>}>
-        <SSRRoute path="/" get={getter} component={App} />
+        <SSRRoute path="/" getter={getter} component={App} />
       </SSRRouter>
     );
   });

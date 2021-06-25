@@ -1,7 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-import { Get, SSRRoute, SSRRouter, SSRSwitch, useRouteData } from "../src";
+import {
+  GetterFunction,
+  SSRRoute,
+  SSRRouter,
+  SSRSwitch,
+  useRouteData,
+} from "../src";
 import {
   act,
   render,
@@ -30,7 +36,7 @@ function ErrorApp() {
 }
 
 function App() {
-  let { data: routeData, errors, get } = useRouteData<Data, Errors>();
+  let { data: routeData, errors, getter } = useRouteData<Data, Errors>();
   let { push } = useHistory();
   return (
     <>
@@ -40,7 +46,7 @@ function App() {
       <button onClick={() => push("/other-app")}>Push</button>
       <button
         onClick={() => {
-          get();
+          getter();
         }}>
         Fetch again
       </button>
@@ -58,7 +64,7 @@ function OtherApp() {
   );
 }
 
-let loader: Get = async () => {
+let loader: GetterFunction = async () => {
   return {
     data: {
       info: "hello",
@@ -73,7 +79,7 @@ test("will run get function when rendered and rerun it when called", async () =>
   await act(async () => {
     render(
       <SSRRouter fallback={<div>Loading...</div>}>
-        <SSRRoute exact path="/" component={App} get={loader} />
+        <SSRRoute exact path="/" component={App} getter={loader} />
       </SSRRouter>
     );
   });
@@ -88,11 +94,11 @@ test("will only run one get function in switch", async () => {
     render(
       <SSRRouter fallback={<div>Loading...</div>}>
         <SSRSwitch>
-          <SSRRoute path="/" component={App} exact get={loader} />
+          <SSRRoute path="/" component={App} exact getter={loader} />
           <SSRRoute
             path="/other-app"
             component={OtherApp}
-            get={async () => ({
+            getter={async () => ({
               data: {
                 info: "hello2",
               },
@@ -112,7 +118,7 @@ test("will not find data when given incorrect path", async () => {
   await act(async () => {
     render(
       <SSRRouter fallback={<div>Loading...</div>}>
-        <SSRRoute exact path="/" component={ErrorApp} get={loader} />
+        <SSRRoute exact path="/" component={ErrorApp} getter={loader} />
       </SSRRouter>
     );
   });

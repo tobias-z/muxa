@@ -1,5 +1,5 @@
 export type RouteData<Data, Errors> = {
   data?: Data;
-  get: () => Promise<unknown>;
+  getter: () => Promise<unknown>;
   errors?: Errors;
 };

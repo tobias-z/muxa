@@ -9,10 +9,10 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { SSRRoute, SSRRouter, useRouteData } from "../src";
-import type { Get } from "../src";
+import type { GetterFunction } from "../src";
 import { useHistory } from "react-router-dom";
 
-let parentGetter: Get = async () => {
+let parentGetter: GetterFunction = async () => {
   return {
     data: {
       info: "Info from dad",
@@ -28,12 +28,12 @@ function Parent() {
       <h1>Parent</h1>
       {data?.info && <p>{data.info}</p>}
       <button onClick={() => push("/bob")}>Go to child</button>
-      <SSRRoute path="/:name" component={Child} get={childGetter} />
+      <SSRRoute path="/:name" component={Child} getter={childGetter} />
     </>
   );
 }
 
-let childGetter: Get = async () => {
+let childGetter: GetterFunction = async () => {
   return {
     data: {
       info: "Info from kid",
@@ -58,7 +58,7 @@ async function renderRoutes(exact: boolean) {
         <SSRRoute
           path="/"
           component={Parent}
-          get={parentGetter}
+          getter={parentGetter}
           exact={exact}
         />
       </SSRRouter>

@@ -8,6 +8,10 @@
 
 [![codecov](https://codecov.io/gh/tobias-z/muxa/branch/main/graph/badge.svg?token=FIA5TUP1GA)](https://codecov.io/gh/tobias-z/muxa)
 
+![GitHub](https://img.shields.io/github/license/tobias-z/muxa)
+
+<!-- Get Version, Size and Downloads -->
+
 This is going ot be great!
 
 ## Contributors ✨

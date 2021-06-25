@@ -46,7 +46,7 @@ async function loader() {
 test("renders on the screen", async () => {
   render(
     <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRRoute get={loader} path="/" component={App} />
+      <SSRRoute getter={loader} path="/" component={App} />
     </SSRRouter>
   );
   await waitFor(() => expect(screen.getByText("First app")));
@@ -55,7 +55,7 @@ test("renders on the screen", async () => {
 test("when adding a route the path gets put into the route state", async () => {
   render(
     <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRRoute get={loader} path="/" component={App} />
+      <SSRRoute getter={loader} path="/" component={App} />
     </SSRRouter>
   );
   await waitFor(() => expect(screen.getByText("1")));
@@ -64,8 +64,8 @@ test("when adding a route the path gets put into the route state", async () => {
 test("will not add the same path after rerender", async () => {
   render(
     <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRRoute get={loader} exact path="/" component={App} />
-      <SSRRoute get={loader} path="/other-app" component={App} />
+      <SSRRoute getter={loader} exact path="/" component={App} />
+      <SSRRoute getter={loader} path="/other-app" component={App} />
     </SSRRouter>
   );
   await waitFor(() => {
@@ -79,8 +79,8 @@ test("will only render one inside a switch", async () => {
   render(
     <SSRRouter fallback={<div>Loading...</div>}>
       <SSRSwitch>
-        <SSRRoute get={loader} exact path="/" component={App} />
-        <SSRRoute get={loader} path="/other-app" component={OtherApp} />
+        <SSRRoute getter={loader} exact path="/" component={App} />
+        <SSRRoute getter={loader} path="/other-app" component={OtherApp} />
       </SSRSwitch>
     </SSRRouter>
   );

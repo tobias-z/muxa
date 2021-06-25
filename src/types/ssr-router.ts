@@ -1,5 +1,5 @@
 import type { ReactChild, ReactFragment, ReactPortal } from "react";
-import type { Get } from "./ssr-route";
+import type { GetterFunction } from "./ssr-route";
 
 export type Path = string | readonly string[] | undefined;
 
@@ -8,7 +8,7 @@ export type Route = {
   routeData?: unknown;
   errors?: unknown;
   isLoading: boolean;
-  get: Get<unknown>;
+  getter: GetterFunction<unknown>;
 };
 
 export type RouterState = {
@@ -24,7 +24,7 @@ export type RouterContext = {
 type AddRoute = {
   type: "ADD_ROUTE";
   path: Path;
-  get: Get<unknown>;
+  getter: GetterFunction<unknown>;
 };
 
 type AddRouteData = {

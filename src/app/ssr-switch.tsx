@@ -9,11 +9,11 @@ export default function SSRSwitch({ children }: { children: ReactNode }) {
   useEffect(() => {
     Children.map(children, child => {
       if (isValidElement(child)) {
-        let { path, get } = child.props;
+        let { path, getter } = child.props;
         if (!path) return;
         // Will not add it again if rerendered
         if (path === currentPath) return;
-        dispatch({ type: "ADD_ROUTE", path, get });
+        dispatch({ type: "ADD_ROUTE", path, getter });
       }
     });
   }, []);

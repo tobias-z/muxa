@@ -3,9 +3,9 @@
  */
 
 import { render } from "@testing-library/react";
-import { Get, SSRRoute } from "../src";
+import { GetterFunction, SSRRoute } from "../src";
 
-let getter: Get = async () => {
+let getter: GetterFunction = async () => {
   return {
     data: {
       info: "hello",
@@ -21,6 +21,6 @@ function ErrorApp() {
 
 test("will throw error if not wrapped with a router", () => {
   expect(() =>
-    render(<SSRRoute path="/" component={ErrorApp} get={getter} />)
+    render(<SSRRoute path="/" component={ErrorApp} getter={getter} />)
   ).toThrow("You must wrap your SSRRoutes inside of a SSRRouter");
 });

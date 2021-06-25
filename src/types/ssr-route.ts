@@ -1,16 +1,18 @@
 import type { RouteProps } from "react-router-dom";
 
-export type Get<Params = unknown> = (helpers: GetHelpers<Params>) => Promise<{
+export type GetterFunction<Params = unknown> = (
+  helpers: GetterHelpers<Params>
+) => Promise<{
   data: unknown;
   errors?: unknown;
 }>;
 
-type GetHelpers<T> = {
+type GetterHelpers<T> = {
   params: T;
 };
 
 type SSRProps = {
-  get: Get<unknown>;
+  getter: GetterFunction<unknown>;
 };
 
 export type SSRRouteProps = RouteProps & SSRProps;

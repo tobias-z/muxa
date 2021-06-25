@@ -20,7 +20,7 @@ function getRealPathname(path: Muxa.Path) {
 }
 
 export default function SSRRoute(props: Muxa.SSRRouteProps) {
-  let { path, get } = props;
+  let { path, getter } = props;
   let { routes, dispatch, fallback } = useRouterContext();
   let history = useHistory();
   let params = useParams();
@@ -38,7 +38,7 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
       return realPathname === currentPath.path;
     });
     if (isAlreadyInPaths) return;
-    dispatch({ type: "ADD_ROUTE", path: realPathname, get });
+    dispatch({ type: "ADD_ROUTE", path: realPathname, getter });
   }, [history.location]);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
     if (isCurrent) {
       let realPath = getRealPathname(path);
       dispatch({ type: "TOGGLE_LOADING", path: realPath });
-      get({ params })
+      getter({ params })
         .then(res => {
           if (isCurrent) {
             dispatch({
