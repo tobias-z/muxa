@@ -1,14 +1,15 @@
-# Muxa
+<div align="center">
+  <h2>Java SQL Mapping</h2>
+  <p>Mapping of SQL statements into it's corresponding object 🤩</p>
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
+[![Build Status](https://travis-ci.com/tobias-z/muxa.svg?branch=main)](https://travis-ci.com/tobias-z/muxa)
+[![codecov](https://codecov.io/gh/tobias-z/muxa/branch/main/graph/badge.svg?token=FIA5TUP1GA)](https://codecov.io/gh/tobias-z/muxa)
+![GitHub](https://img.shields.io/github/license/tobias-z/muxa)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+</div>
 
-[![codecov](https://codecov.io/gh/tobias-z/muxa/branch/main/graph/badge.svg?token=FIA5TUP1GA)](https://codecov.io/gh/tobias-z/muxa)
-
-![GitHub](https://img.shields.io/github/license/tobias-z/muxa)
+---
 
 <!-- Get Version, Size and Downloads -->
 
