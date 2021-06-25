@@ -13,8 +13,8 @@
 - [x] make useRouteData take an optional path
 - [x] Add the loader function to state and return it in useRouteData
 - [x] Add errors to routeData
-- [ ] Rename get type to getter
-- [ ] Take BrowserRouter props on the SSRRouter
+- [x] Rename get type to getter
+- [x] Take BrowserRouter props on the SSRRouter
 - [ ] Remove Switch???
 - [ ] Send params to the loader
 - [ ] Caching option on route

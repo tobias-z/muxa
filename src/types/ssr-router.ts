@@ -1,7 +1,15 @@
-import type { ReactChild, ReactFragment, ReactPortal } from "react";
+import type { ReactChild, ReactFragment, ReactNode, ReactPortal } from "react";
 import type { GetterFunction } from "./ssr-route";
+import type { BrowserRouterProps } from "react-router-dom";
 
 export type Path = string | readonly string[] | undefined;
+
+type MuxaProps = {
+  children: ReactNode;
+  fallback: ReactChild | ReactFragment | ReactPortal;
+};
+
+export type RouterProps = BrowserRouterProps & MuxaProps;
 
 export type Route = {
   path: Path;

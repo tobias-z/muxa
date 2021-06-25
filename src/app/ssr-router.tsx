@@ -1,5 +1,4 @@
 import type * as Muxa from "../types";
-import type { ReactChild, ReactFragment, ReactNode, ReactPortal } from "react";
 import { createContext, useContext, useMemo, useReducer } from "react";
 import { BrowserRouter } from "react-router-dom";
 
@@ -57,13 +56,7 @@ let routerReducer: Muxa.RouterReducer = (state, action) => {
   }
 };
 
-export function SSRRouter({
-  children,
-  fallback,
-}: {
-  children: ReactNode;
-  fallback: ReactChild | ReactFragment | ReactPortal;
-}) {
+export function SSRRouter({ children, fallback, ...props }: Muxa.RouterProps) {
   let [routes, dispatch] = useReducer<Muxa.RouterReducer>(routerReducer, {
     paths: [],
   });
@@ -78,7 +71,7 @@ export function SSRRouter({
   );
 
   return (
-    <BrowserRouter>
+    <BrowserRouter {...props}>
       <RouterContext.Provider value={values}>{children}</RouterContext.Provider>
     </BrowserRouter>
   );
