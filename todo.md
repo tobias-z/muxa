@@ -17,7 +17,22 @@
 - [ ] Caching option on route
 - [ ] Remove Switch???
 - [ ] Rename get type to getter
+- [ ] Take BrowserRouter props on the SSRRouter
 
-- [ ] Tests
+- [x] Tests
+
   - [x] Error and get from useRouteData
-  - [ ] Get converage!
+  - [x] Get converage!
+  - [ ] Render with router function
+
+- [ ] Package
+
+  - [ ] Get MIT Licence
+  - [ ] Code of conduct
+  - [ ] CONTRIBUTIN.md
+  - [ ] All contributors
+  - [ ] Issue templates
+  - [ ] Readme.md / Docs website
+
+- [ ] Docs
+  - [ ] Nextjs setup
