@@ -18,6 +18,8 @@ module.exports = {
     "**/*.{ts,tsx,js,jsx}",
     "!**/node_modules/**",
     "!**/vendor/**",
+    "!**/docs/**",
+    "!**/tests/**",
   ],
 
   coveragePathIgnorePatterns: ["/node_modules"],

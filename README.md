@@ -1,5 +1,5 @@
 <div align="center">
-  <h2>Muxa</h2>
+  <h1>Muxa</h1>
   <p>Some great text about react routing and fetching!</p>
 
 [![Build Status](https://travis-ci.com/tobias-z/muxa.svg?branch=main)](https://travis-ci.com/tobias-z/muxa)
@@ -10,8 +10,6 @@
 <!-- Get Version, Size and Downloads -->
 
 </div>
-
----
 
 ## Docs
 

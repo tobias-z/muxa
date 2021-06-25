@@ -1,0 +1,34 @@
+.siteLayout {
+  display: grid;
+  justify-content: center;
+  min-height: 100vh;
+  width: 1300px;
+  grid-template-columns: 1fr 950px;
+  margin: auto;
+}
+
+.siteNavbar {
+  padding-left: 25px;
+}
+
+.siteContent {
+  padding: 0 20px;
+}
+
+.footer {
+  background-color: var(--light-gray);
+}
+
+.footerHeader {
+  text-transform: uppercase;
+  color: var(--secondary);
+  font-size: 25px;
+  font-weight: 500;
+  padding: 50px;
+}
+
+.link {
+  font-size: 20px;
+  color: var(--secondary);
+  margin-bottom: 10px;
+}

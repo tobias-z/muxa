@@ -15,7 +15,7 @@
 - [x] Add errors to routeData
 - [x] Rename get type to getter
 - [x] Take BrowserRouter props on the SSRRouter
-- [ ] Remove Switch???
+- [x] Remove Switch???
 - [ ] Send params to the loader
 - [ ] Caching option on route
 
@@ -23,7 +23,7 @@
 
   - [x] Error and get from useRouteData
   - [x] Get converage!
-  - [ ] Render with router function
+  - [x] Render with router function
 
 - [ ] Package
 

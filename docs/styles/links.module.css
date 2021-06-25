@@ -1,0 +1,21 @@
+.headerTitle {
+  color: var(--siteHeader);
+  font-size: 45px;
+}
+
+.verticalHr {
+  width: 2px;
+  min-height: 100vh;
+  margin-left: 60px;
+  background-color: var(--light-gray);
+}
+
+.linkTitle {
+  font-size: 24px;
+}
+
+.link {
+  font-size: 20px;
+  color: var(--secondary);
+  margin-bottom: 10px;
+}

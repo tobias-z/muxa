@@ -12,5 +12,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "exclude": ["tests", "dist", "node_modules"]
+  "exclude": ["tests", "dist", "node_modules", "docs"]
 }
