@@ -27,11 +27,12 @@
 
 - [ ] Package
 
-  - [ ] Get MIT Licence
-  - [ ] Code of conduct
-  - [ ] CONTRIBUTIN.md
-  - [ ] All contributors
-  - [ ] Issue templates
+  - [x] Get MIT Licence
+  - [x] Code of conduct
+  - [x] CONTRIBUTIN.md
+  - [x] All contributors
+  - [x] Issue templates
+  - [ ] Add description
   - [ ] Readme.md / Docs website
 
 - [ ] Docs

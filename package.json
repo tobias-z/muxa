@@ -7,6 +7,7 @@
     "build": "tsc",
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "test:coverage_report": "jest --ci --coverage && codecov",
     "lint": "eslint --ext=.tsx,.ts  .",
     "prettier": "prettier --write .",
     "setup": "npm install && npm test"

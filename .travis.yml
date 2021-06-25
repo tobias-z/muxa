@@ -16,3 +16,12 @@ jobs:
         - npm run prettier
         - npm run lint
         - npm test
+    - stage: coverage
+      if: branch = main
+      name: Coverage
+
+      before_install:
+        - npm install -g codecov
+
+      script:
+        - npm run test:coverage_report
