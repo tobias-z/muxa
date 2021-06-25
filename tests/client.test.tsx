@@ -1,11 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { useState } from "react";
-import { SSRRoute, SSRRouter, SSRSwitch } from "../src";
+import { SSRRoute } from "../src";
 import { useRouterContext } from "../src/app/ssr-router";
-import { useHistory } from "react-router-dom";
+import { useHistory, Switch } from "react-router-dom";
+import { renderWithRouter } from "./test-utils";
 
 function OtherApp() {
   let { routes } = useRouterContext();
@@ -44,29 +45,21 @@ async function loader() {
 }
 
 test("renders on the screen", async () => {
-  render(
-    <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRRoute getter={loader} path="/" component={App} />
-    </SSRRouter>
-  );
+  await renderWithRouter(<SSRRoute getter={loader} path="/" component={App} />);
   await waitFor(() => expect(screen.getByText("First app")));
 });
 
 test("when adding a route the path gets put into the route state", async () => {
-  render(
-    <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRRoute getter={loader} path="/" component={App} />
-    </SSRRouter>
-  );
+  await renderWithRouter(<SSRRoute getter={loader} path="/" component={App} />);
   await waitFor(() => expect(screen.getByText("1")));
 });
 
 test("will not add the same path after rerender", async () => {
-  render(
-    <SSRRouter fallback={<div>Loading...</div>}>
+  await renderWithRouter(
+    <>
       <SSRRoute getter={loader} exact path="/" component={App} />
       <SSRRoute getter={loader} path="/other-app" component={App} />
-    </SSRRouter>
+    </>
   );
   await waitFor(() => {
     let reRender = screen.getByText("ReRender");
@@ -76,15 +69,12 @@ test("will not add the same path after rerender", async () => {
 });
 
 test("will only render one inside a switch", async () => {
-  render(
-    <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRSwitch>
-        <SSRRoute getter={loader} exact path="/" component={App} />
-        <SSRRoute getter={loader} path="/other-app" component={OtherApp} />
-      </SSRSwitch>
-    </SSRRouter>
+  await renderWithRouter(
+    <Switch>
+      <SSRRoute getter={loader} exact path="/" component={App} />
+      <SSRRoute getter={loader} path="/other-app" component={OtherApp} />
+    </Switch>
   );
-  await waitFor(() => expect(screen.getByText("2")));
   fireEvent.click(screen.getByText("Push"));
   await waitFor(() => {
     expect(screen.getByText("Other app"));

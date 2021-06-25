@@ -1,15 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { GetterFunction, useRouteData } from "../src";
 import { SSRRouter, SSRRoute } from "../src";
+import { renderWithRouter } from "./test-utils";
 
 let getter: GetterFunction = async () => {
   return Promise.reject("Some error happended");
@@ -26,13 +21,11 @@ function App() {
 }
 
 test("will catch error when thrown by getter", async () => {
-  await act(async () => {
-    render(
-      <SSRRouter fallback={<h1>Loading...</h1>}>
-        <SSRRoute path="/" getter={getter} component={App} />
-      </SSRRouter>
-    );
-  });
+  await renderWithRouter(
+    <SSRRouter fallback={<h1>Loading...</h1>}>
+      <SSRRoute path="/" getter={getter} component={App} />
+    </SSRRouter>
+  );
   // Is not seeing an error screen after initial render
   expect(screen.getByText(/is showing/i));
   fireEvent.click(screen.getByText(/call getter/i));

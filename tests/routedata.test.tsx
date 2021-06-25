@@ -1,21 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import {
-  GetterFunction,
-  SSRRoute,
-  SSRRouter,
-  SSRSwitch,
-  useRouteData,
-} from "../src";
-import {
-  act,
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-} from "@testing-library/react";
-import { useHistory } from "react-router-dom";
+import { GetterFunction, SSRRoute, SSRRouter, useRouteData } from "../src";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
+import { useHistory, Switch } from "react-router-dom";
+import { renderWithRouter } from "./test-utils";
 
 type Data = {
   info: string;
@@ -76,13 +65,9 @@ let loader: GetterFunction = async () => {
 };
 
 test("will run get function when rendered and rerun it when called", async () => {
-  await act(async () => {
-    render(
-      <SSRRouter fallback={<div>Loading...</div>}>
-        <SSRRoute exact path="/" component={App} getter={loader} />
-      </SSRRouter>
-    );
-  });
+  await renderWithRouter(
+    <SSRRoute exact path="/" component={App} getter={loader} />
+  );
   expect(screen.getByText(/hello/i));
   expect(screen.getByText(/this is an error/i));
   fireEvent.click(screen.getByText(/fetch/i));
@@ -90,24 +75,20 @@ test("will run get function when rendered and rerun it when called", async () =>
 });
 
 test("will only run one get function in switch", async () => {
-  await act(async () => {
-    render(
-      <SSRRouter fallback={<div>Loading...</div>}>
-        <SSRSwitch>
-          <SSRRoute path="/" component={App} exact getter={loader} />
-          <SSRRoute
-            path="/other-app"
-            component={OtherApp}
-            getter={async () => ({
-              data: {
-                info: "hello2",
-              },
-            })}
-          />
-        </SSRSwitch>
-      </SSRRouter>
-    );
-  });
+  await renderWithRouter(
+    <Switch>
+      <SSRRoute path="/" component={App} exact getter={loader} />
+      <SSRRoute
+        path="/other-app"
+        component={OtherApp}
+        getter={async () => ({
+          data: {
+            info: "hello2",
+          },
+        })}
+      />
+    </Switch>
+  );
   expect(screen.getByText(/hello/i));
   screen.getByText(/hello/i);
   fireEvent.click(screen.getByText(/push/i));
@@ -115,13 +96,11 @@ test("will only run one get function in switch", async () => {
 });
 
 test("will not find data when given incorrect path", async () => {
-  await act(async () => {
-    render(
-      <SSRRouter fallback={<div>Loading...</div>}>
-        <SSRRoute exact path="/" component={ErrorApp} getter={loader} />
-      </SSRRouter>
-    );
-  });
+  await renderWithRouter(
+    <SSRRouter fallback={<div>Loading...</div>}>
+      <SSRRoute exact path="/" component={ErrorApp} getter={loader} />
+    </SSRRouter>
+  );
   expect(screen.queryByTestId(/hello/i)).toBeNull();
   expect(screen.queryByTestId(/error/i)).toBeNull();
 });

@@ -1,16 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { SSRRoute, SSRRouter, useRouteData } from "../src";
 import type { GetterFunction } from "../src";
 import { useHistory } from "react-router-dom";
+import { renderWithRouter } from "./test-utils";
 
 let parentGetter: GetterFunction = async () => {
   return {
@@ -52,18 +47,16 @@ function Child() {
 }
 
 async function renderRoutes(exact: boolean) {
-  await act(async () => {
-    render(
-      <SSRRouter fallback={<h1>Loading...</h1>}>
-        <SSRRoute
-          path="/"
-          component={Parent}
-          getter={parentGetter}
-          exact={exact}
-        />
-      </SSRRouter>
-    );
-  });
+  await renderWithRouter(
+    <SSRRouter fallback={<h1>Loading...</h1>}>
+      <SSRRoute
+        path="/"
+        component={Parent}
+        getter={parentGetter}
+        exact={exact}
+      />
+    </SSRRouter>
+  );
 }
 
 test("renders only the parent", async () => {
