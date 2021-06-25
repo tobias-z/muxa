@@ -1,8 +1,18 @@
-node_modules
+**/node_modules
 dist
 coverage
 
 # these cause more harm than good
 # when working with contributors
-package-lock.json
-yarn.lock
+**/package-lock.json
+**/yarn.lock
+
+# Docs
+/docs/.next/
+/docs/out/
+/docs/build
+
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
