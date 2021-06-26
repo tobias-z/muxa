@@ -16,6 +16,7 @@ body {
   --primary: blue;
   --secondary: rgb(125, 125, 125);
   --light-gray: rgb(231, 230, 230);
+  --header: rgb(55, 55, 55);
 }
 
 a {
@@ -29,4 +30,38 @@ li {
 
 hr {
   border: 1px solid var(--light-gray);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: var(--header);
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+h3 {
+  font-size: 28px;
+}
+
+h4 {
+  font-size: 25px;
+}
+
+h5 {
+  font-size: 22px;
+}
+
+h6 {
+  font-size: 18px;
 }

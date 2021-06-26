@@ -1,17 +1,20 @@
 import styles from "../styles/links.module.css";
+import Link from "next/link";
 
 export default function Links() {
   return (
     <>
       <div style={{ display: "flex" }}>
-        <div style={{ width: "240px" }}>
+        <div style={{ width: "230px" }}>
           <header>
-            <h1 style={{ textAlign: "center" }} className={styles.headerTitle}>
-              Muxa
+            <h1 className={styles.headerTitle}>
+              <Link href="/">
+                <a>Muxa</a>
+              </Link>
             </h1>
           </header>
           <nav>
-            <h3 className={styles.linkTitle}>Getting started</h3>
+            <h3 className={styles.linkTitle}>Tutorial (Start here!)</h3>
             <ul>
               <li className={styles.link}>Installation</li>
             </ul>
