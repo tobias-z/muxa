@@ -1,14 +1,19 @@
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import { serialize } from "next-mdx-remote/serialize";
 import { getAllMenus, getDirectory, MenuDir } from "../../lib/page-data";
 import Head from "next/head";
 import Layout from "../../components/layout";
+import ReactMarkdown from "react-markdown";
+import { PrismAsync as SyntaxHighlighter } from "react-syntax-highlighter";
+import {
+  materialDark,
+  materialLight,
+} from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { useTheme } from "../../context/theme-provider";
 
 export type SlugProps = {
   frontMatter: {
     title: string;
   };
-  source: MDXRemoteSerializeResult;
+  source: string;
   menus: Array<MenuDir>;
 };
 
@@ -17,13 +22,39 @@ export default function TutorialPage({
   source,
   menus,
 }: SlugProps) {
+  let theme = useTheme();
+
+  const components = {
+    code({ node, inline, className, children, ...props }: any) {
+      const match = /language-(\w+)/.exec(className || "");
+      return !inline && match ? (
+        <SyntaxHighlighter
+          style={theme === "light" ? materialLight : materialDark}
+          language={match[1]}
+          showLineNumbers
+          customStyle={{ borderRadius: "18px" }}
+          PreTag="section"
+          children={String(children).replace(/\n$/, "")}
+          {...props}
+        />
+      ) : (
+        <code className={className} {...props} />
+      );
+    },
+    a(props: any) {
+      return <a className="primary" {...props}></a>;
+    },
+  };
+
   return (
     <Layout menus={menus}>
       <Head>
         <title>Muxa | {frontMatter.title}</title>
       </Head>
       <main>
-        <MDXRemote {...source} />
+        <ReactMarkdown className="markdown-body" components={components}>
+          {source}
+        </ReactMarkdown>
       </main>
     </Layout>
   );
@@ -33,10 +64,9 @@ export async function getStaticProps({ params }: any) {
   let turorialDir = getDirectory("tutorial");
   let tutorial = turorialDir.files.find(item => item.slug === params.slug);
   if (!tutorial) return;
-  let mdxSource = await serialize(tutorial.content, { scope: tutorial.data });
   return {
     props: {
-      source: mdxSource,
+      source: tutorial.content,
       frontMatter: tutorial.data,
       menus: getAllMenus(),
     },

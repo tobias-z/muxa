@@ -13,19 +13,15 @@ body {
 
 :root {
   --siteHeader: rgb(40, 100, 137);
-  --primary: blue;
+  --primary: rgb(0, 134, 217);
   --secondary: rgb(125, 125, 125);
-  --light-gray: rgb(231, 230, 230);
+  --light-gray: rgb(243, 241, 241);
   --header: rgb(55, 55, 55);
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-li {
-  list-style: none;
 }
 
 hr {
@@ -64,4 +60,12 @@ h5 {
 
 h6 {
   font-size: 18px;
+}
+
+.primary {
+  color: var(--primary);
+}
+
+.secondary {
+  color: var(--secondary);
 }
