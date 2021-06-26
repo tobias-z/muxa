@@ -1,7 +1,9 @@
 import styles from "../styles/links.module.css";
 import Link from "next/link";
+import { MenuDir } from "../lib/page-data";
+import { Fragment } from "react";
 
-export default function Links() {
+export default function Links({ menus }: { menus: Array<MenuDir> }) {
   return (
     <>
       <div style={{ display: "flex" }}>
@@ -14,10 +16,23 @@ export default function Links() {
             </h1>
           </header>
           <nav>
-            <h3 className={styles.linkTitle}>Tutorial (Start here!)</h3>
-            <ul>
-              <li className={styles.link}>Installation</li>
-            </ul>
+            {menus.map(menu => (
+              <Fragment key={menu.title}>
+                <h3 className={styles.linkTitle}>{menu.title}</h3>
+                <ul>
+                  {menu.files.map(file => {
+                    console.log(file.slug);
+                    return (
+                      <li key={file.slug} className={styles.link}>
+                        <Link href={"/" + file.data.link}>
+                          <a>{file.data.title}</a>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Fragment>
+            ))}
           </nav>
         </div>
         <div className={styles.verticalHr}></div>

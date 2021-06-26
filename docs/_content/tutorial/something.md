@@ -1,4 +1,5 @@
 ---
+parent: "Getting Started"
 title: "Something"
 slug: "something"
 ---
