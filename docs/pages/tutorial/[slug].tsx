@@ -64,6 +64,7 @@ export async function getStaticProps({ params }: any) {
   let turorialDir = getDirectory("tutorial");
   let tutorial = turorialDir.files.find(item => item.slug === params.slug);
   if (!tutorial) return;
+
   return {
     props: {
       source: tutorial.content,
@@ -72,6 +73,7 @@ export async function getStaticProps({ params }: any) {
     },
   };
 }
+
 export async function getStaticPaths() {
   let tutorialDir = getDirectory("tutorial");
   let tutorialPaths = tutorialDir.files.map(item => ({
@@ -79,6 +81,7 @@ export async function getStaticPaths() {
       slug: item.slug,
     },
   }));
+
   return {
     paths: tutorialPaths,
     fallback: false,

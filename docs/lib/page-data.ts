@@ -7,6 +7,7 @@ export type MenuFile = {
     title: string;
     parent: string;
     link: string;
+    order: number;
   };
   content: string;
   slug: string;
@@ -32,7 +33,7 @@ export function getDirectory(directory: string): MenuDir {
   let foundDirectory = path.join(process.cwd(), `_content/${directory}`);
   let allFiles = fs.readdirSync(foundDirectory);
 
-  let menuFiles = allFiles.map(fileName => {
+  let unorderedMenuFiles = allFiles.map(fileName => {
     let slug = fileName.replace(".md", "");
     let fileContent = fs.readFileSync(
       path.join(foundDirectory, fileName),
@@ -49,8 +50,33 @@ export function getDirectory(directory: string): MenuDir {
     };
   }) as Array<MenuFile>;
 
+  let orderedMenufiles = getOrderedMenuFiles(unorderedMenuFiles, [], 1);
+
+  console.log(orderedMenufiles);
+
+  if (!orderedMenufiles) {
+    throw new Error("No menu files were found for directory: " + directory);
+  }
+
   return {
-    title: menuFiles[0].data.parent,
-    files: menuFiles,
+    title: orderedMenufiles[0].data.parent,
+    files: orderedMenufiles,
   };
+}
+
+function getOrderedMenuFiles(
+  unorderedMenus: Array<MenuFile>,
+  currentMenus: Array<MenuFile>,
+  orderCount: number
+): Array<MenuFile> {
+  for (let menu of unorderedMenus) {
+    if (menu.data.order === orderCount) {
+      currentMenus.push(menu);
+      break;
+    }
+  }
+  if (orderCount === unorderedMenus.length) {
+    return currentMenus;
+  }
+  return getOrderedMenuFiles(unorderedMenus, currentMenus, ++orderCount);
 }

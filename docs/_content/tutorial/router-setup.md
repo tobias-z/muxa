@@ -2,6 +2,7 @@
 parent: "Getting Started"
 title: "Router Setup"
 slug: "router-setup"
+order: 2
 ---
 
 # Router Setup
