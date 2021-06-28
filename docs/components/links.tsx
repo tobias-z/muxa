@@ -21,7 +21,6 @@ export default function Links({ menus }: { menus: Array<MenuDir> }) {
                 <h3 className={styles.linkTitle}>{menu.title}</h3>
                 <ul>
                   {menu.files.map(file => {
-                    console.log(file.slug);
                     return (
                       <li key={file.slug} className={styles.link}>
                         <Link href={"/" + file.data.link}>

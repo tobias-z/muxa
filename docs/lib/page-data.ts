@@ -52,8 +52,6 @@ export function getDirectory(directory: string): MenuDir {
 
   let orderedMenufiles = getOrderedMenuFiles(unorderedMenuFiles, [], 1);
 
-  console.log(orderedMenufiles);
-
   if (!orderedMenufiles) {
     throw new Error("No menu files were found for directory: " + directory);
   }
@@ -64,6 +62,7 @@ export function getDirectory(directory: string): MenuDir {
   };
 }
 
+// Recursively order by given order
 function getOrderedMenuFiles(
   unorderedMenus: Array<MenuFile>,
   currentMenus: Array<MenuFile>,

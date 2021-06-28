@@ -1,15 +1,16 @@
-import { getAllMenus, getDirectory, MenuDir } from "../../lib/page-data";
+import { getAllMenus, MenuDir, MenuFile } from "../lib/page-data";
 import Head from "next/head";
-import Layout from "../../components/layout";
+import Layout from "../components/layout";
 import ReactMarkdown from "react-markdown";
 import { PrismAsync as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   materialDark,
   materialLight,
 } from "react-syntax-highlighter/dist/cjs/styles/prism";
-import { useTheme } from "../../context/theme-provider";
+import { useTheme } from "../context/theme-provider";
+import { useRouter } from "next/dist/client/router";
 
-export type SlugProps = {
+export type PageProps = {
   frontMatter: {
     title: string;
   };
@@ -17,12 +18,13 @@ export type SlugProps = {
   menus: Array<MenuDir>;
 };
 
-export default function TutorialPage({
-  frontMatter,
-  source,
-  menus,
-}: SlugProps) {
+export default function Pages({ frontMatter, source, menus }: PageProps) {
   let theme = useTheme();
+  let router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   const components = {
     code({ node, inline, className, children, ...props }: any) {
@@ -60,30 +62,61 @@ export default function TutorialPage({
   );
 }
 
-export async function getStaticProps({ params }: any) {
-  let turorialDir = getDirectory("tutorial");
-  let tutorial = turorialDir.files.find(item => item.slug === params.slug);
-  if (!tutorial) return;
+type Path = {
+  params: {
+    slug: Array<string>;
+  };
+};
+
+export async function getStaticProps({ params }: Path) {
+  let menus = getAllMenus();
+  let file: MenuFile | undefined;
+  for (let menu of menus) {
+    for (let item of menu.files) {
+      let foundSlug = params.slug.find(slug => slug === item.slug);
+      if (foundSlug) {
+        // the slug was in this directory
+        file = item;
+      } else {
+        continue;
+      }
+    }
+  }
+
+  // Did not find a page
+  if (!file) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
-      source: tutorial.content,
-      frontMatter: tutorial.data,
-      menus: getAllMenus(),
+      source: file.content,
+      frontMatter: file.data,
+      menus,
     },
   };
 }
 
 export async function getStaticPaths() {
-  let tutorialDir = getDirectory("tutorial");
-  let tutorialPaths = tutorialDir.files.map(item => ({
-    params: {
-      slug: item.slug,
-    },
-  }));
+  let menus = getAllMenus();
+  let paths: Array<Path> = [];
+  for (let menu of menus) {
+    for (let file of menu.files) {
+      paths.push({
+        params: {
+          slug: file.data.link.split("/"),
+        },
+      });
+    }
+  }
 
   return {
-    paths: tutorialPaths,
-    fallback: false,
+    paths,
+    fallback: true,
   };
 }

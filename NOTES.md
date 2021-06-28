@@ -43,3 +43,4 @@
   - [ ] Make getting started
   - [ ] Make Examples
   - [ ] Deploy docs and add to CI workflow
+  - [ ] Fix "any" typescript errors
