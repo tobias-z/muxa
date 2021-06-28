@@ -69,3 +69,9 @@ h6 {
 .secondary {
   color: var(--secondary);
 }
+
+.default-code {
+  background-color: var(--light-gray);
+  padding: 3px;
+  border-radius: 5px;
+}

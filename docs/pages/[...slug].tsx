@@ -40,7 +40,7 @@ export default function Pages({ frontMatter, source, menus }: PageProps) {
           {...props}
         />
       ) : (
-        <code className={className} {...props} />
+        <code className="default-code" {...props} children={children} />
       );
     },
     a(props: any) {

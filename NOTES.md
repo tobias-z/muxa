@@ -39,7 +39,7 @@
 - [ ] Docs
   - [x] Nextjs setup
   - [x] Make order of pages
-  - [ ] Make star routes
+  - [x] Make star routes
   - [ ] Make getting started
   - [ ] Make Examples
   - [ ] Deploy docs and add to CI workflow
