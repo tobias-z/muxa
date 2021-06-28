@@ -2,6 +2,7 @@
 parent: "Getting Started"
 title: "Installation"
 slug: "installation"
+order: 1
 ---
 
 # Installation
