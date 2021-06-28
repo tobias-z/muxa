@@ -70,6 +70,10 @@ h6 {
   color: var(--secondary);
 }
 
+.underline {
+  border-bottom: 1px solid var(--secondary);
+}
+
 .default-code {
   background-color: var(--light-gray);
   padding: 3px;

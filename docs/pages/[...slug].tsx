@@ -17,6 +17,7 @@ export type PageProps = {
     title: string;
     description: string;
     order: number;
+    link: string;
   };
   source: string;
   menus: Array<MenuDir>;
@@ -84,7 +85,7 @@ export default function Pages({ frontMatter, source, menus }: PageProps) {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            marginTop: "30px",
+            marginTop: "40px",
           }}>
           {previousPage && (
             <Link href={previousPage.data.link}>
@@ -101,6 +102,12 @@ export default function Pages({ frontMatter, source, menus }: PageProps) {
             </Link>
           )}
         </div>
+        <hr style={{ margin: "20px 0" }} />
+        <a
+          className="secondary underline"
+          href={`https://github.com/tobias-z/muxa/tree/main/docs/_content/${frontMatter.link}.md`}>
+          Edit this page on GitHub
+        </a>
       </main>
     </Layout>
   );

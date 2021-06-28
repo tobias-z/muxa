@@ -40,8 +40,13 @@
   - [x] Nextjs setup
   - [x] Make order of pages
   - [x] Make star routes
-  - [ ] Make getting started
+  - [x] Make getting started
+  - [x] Edit this page on github
+  - [ ] Currently active link
+  - [ ] Make footer be picture links
+  - [ ] API Reference
   - [ ] Sort directories
   - [ ] Make Examples
+  - [ ] Add Typescript to examples
   - [ ] Deploy docs and add to CI workflow
   - [ ] Fix "any" typescript errors
