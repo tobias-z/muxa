@@ -1,6 +1,7 @@
 ---
 parent: "Getting Started"
 title: "Installation"
+description: "Installing Muxa"
 slug: "installation"
 order: 1
 ---

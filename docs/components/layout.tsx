@@ -23,6 +23,7 @@ export default function Layout({
         <div className={styles.siteNavbar}>
           <Links menus={menus} />
         </div>
+        <div className={styles.verticalHr}></div>
         {children}
       </div>
 

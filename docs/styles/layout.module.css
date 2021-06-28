@@ -4,7 +4,7 @@
   min-height: 100vh;
   width: 1300px;
   max-width: 98vw;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 230px 100px 2fr;
   margin: auto;
 }
 
@@ -34,4 +34,11 @@
   color: var(--secondary);
   margin-bottom: 10px;
   list-style: none;
+}
+
+.verticalHr {
+  width: 2px;
+  min-height: 100vh;
+  margin-left: 60px;
+  background-color: var(--light-gray);
 }

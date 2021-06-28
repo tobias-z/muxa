@@ -34,7 +34,6 @@ export default function Links({ menus }: { menus: Array<MenuDir> }) {
             ))}
           </nav>
         </div>
-        <div className={styles.verticalHr}></div>
       </div>
     </>
   );

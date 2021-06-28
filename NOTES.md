@@ -41,6 +41,7 @@
   - [x] Make order of pages
   - [x] Make star routes
   - [ ] Make getting started
+  - [ ] Sort directories
   - [ ] Make Examples
   - [ ] Deploy docs and add to CI workflow
   - [ ] Fix "any" typescript errors

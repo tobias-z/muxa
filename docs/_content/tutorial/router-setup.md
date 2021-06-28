@@ -1,6 +1,7 @@
 ---
 parent: "Getting Started"
 title: "Router Setup"
+description: "Setting up the router"
 slug: "router-setup"
 order: 2
 ---
@@ -15,7 +16,8 @@ Simple router example:
 ```jsx
 import { LoadedRoute, Router } from "muxa";
 import { Route } from "react-router-dom";
-import { HomePage, homeGetter } from "./routes";
+// Implemented in the next step
+import HomePage, { homeGetter } from "./routes";
 
 export default function App() {
   return (

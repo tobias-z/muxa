@@ -5,6 +5,7 @@ import matter from "gray-matter";
 export type MenuFile = {
   data: {
     title: string;
+    description: string;
     parent: string;
     link: string;
     order: number;

@@ -2,14 +2,6 @@
   color: var(--siteHeader);
   font-size: 55px;
 }
-
-.verticalHr {
-  width: 2px;
-  min-height: 100vh;
-  margin-left: 60px;
-  background-color: var(--light-gray);
-}
-
 .linkTitle {
   font-size: 24px;
 }
