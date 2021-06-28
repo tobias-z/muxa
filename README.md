@@ -49,7 +49,7 @@ Thanks goes to these wonderful people
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://tobias-z.com"><img src="https://avatars.githubusercontent.com/u/70150300?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tobias Zimmermann</b></sub></a><br /><a href="#infra-tobias-z" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/tobias-z/muxa/commits?author=tobias-z" title="Tests">⚠️</a> <a href="https://github.com/tobias-z/muxa/commits?author=tobias-z" title="Code">💻</a></td>
+    <td align="center"><a href="http://tobias-z.com"><img src="https://avatars.githubusercontent.com/u/70150300?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tobias Zimmermann</b></sub></a><br /><a href="#infra-tobias-z" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/tobias-z/muxa/commits?author=tobias-z" title="Tests">⚠️</a> <a href="https://github.com/tobias-z/muxa/commits?author=tobias-z" title="Code">💻</a> <a href="https://github.com/tobias-z/muxa/commits?author=tobias-z" title="Documentation">📖</a></td>
   </tr>
 </table>
 
