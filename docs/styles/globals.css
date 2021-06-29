@@ -11,8 +11,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: rgba(16, 22, 35, 0.874);
-    --siteHeader: rgb(40, 100, 137);
-    --primary: rgb(0, 134, 217);
+    --siteHeader: rgba(47, 188, 210, 0.874);
+    --primary: rgb(35, 167, 249);
     --secondary: rgb(188, 188, 188);
     --light-gray: rgb(243, 241, 241);
     --hr: rgb(57, 57, 57);
