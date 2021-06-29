@@ -26,8 +26,11 @@
     "@types/prismjs": "^1.16.5",
     "@types/react": "17.0.11",
     "@types/react-syntax-highlighter": "^13.5.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
     "eslint": "^7.29.0",
     "eslint-config-next": "^11.0.1",
+    "eslint-plugin-react": "^7.24.0",
     "typescript": "4.3.4"
   }
 }
