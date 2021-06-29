@@ -17,7 +17,10 @@
 - [x] Take BrowserRouter props on the SSRRouter
 - [x] Remove Switch???
 - [ ] Send params to the loader
+- [ ] Rename Router and route to "Router" and "LoadedRoute"
+- [ ] Optional fallback on routes
 - [ ] Caching option on route
+- [ ] Make useRouteData call getter if it doesn't exist
 
 - [x] Tests
 
@@ -42,11 +45,11 @@
   - [x] Make star routes
   - [x] Make getting started
   - [x] Edit this page on github
-  - [ ] Currently active link
-  - [ ] Make footer be picture links
+  - [x] Sort directories
+  - [x] Currently active link
+  - [x] Make footer be picture links
   - [ ] API Reference
-  - [ ] Sort directories
   - [ ] Make Examples
-  - [ ] Add Typescript to examples
   - [ ] Deploy docs and add to CI workflow
   - [ ] Fix "any" typescript errors
+  - [ ] Make dark and light theme colors
