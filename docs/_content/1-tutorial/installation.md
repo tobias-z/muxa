@@ -19,7 +19,7 @@ If not already done, install **React Router Dom**
 
 ```bash
 npm install --save react-router-dom
-#or
+# or
 yarn add react-router-dom
 ```
 
@@ -27,7 +27,7 @@ When these dependencies are installed run the command
 
 ```bash
 npm install --save muxa
-#or
+# or
 yarn add muxa
 ```
 

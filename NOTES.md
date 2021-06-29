@@ -35,7 +35,7 @@
   - [x] CONTRIBUTIN.md
   - [x] All contributors
   - [x] Issue templates
-  - [ ] Add description
+  - [x] Add description
   - [ ] Readme.md / Docs website
   - [ ] Deploy to NPM
 
@@ -48,8 +48,12 @@
   - [x] Sort directories
   - [x] Currently active link
   - [x] Make footer be picture links
+  - [x] Deploy docs and add to CI workflow
+  - [ ] Make dark and light theme colors
   - [ ] API Reference
   - [ ] Make Examples
-  - [ ] Deploy docs and add to CI workflow
+    - [ ] Typescript
+    - [ ] Nested routing
+    - [ ] Error handling
+    - [ ] Caching
   - [ ] Fix "any" typescript errors
-  - [ ] Make dark and light theme colors
