@@ -28,6 +28,10 @@ export default function Pages({ frontMatter, source, menus }: PageProps) {
   let theme = useTheme();
   let router = useRouter();
 
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   let currentDir = menus.find(menu =>
     menu.files.find(
       file =>
@@ -42,10 +46,6 @@ export default function Pages({ frontMatter, source, menus }: PageProps) {
   let nextPage = currentDir?.files.find(
     file => file.data.order === frontMatter.order + 1
   );
-
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
 
   const components = {
     code({ inline, className, children, ...props }: any) {
