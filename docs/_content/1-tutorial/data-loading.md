@@ -41,12 +41,18 @@ Whatever you return as your data will be set as your page's state.
 Still in `routes/index.js` create a HomePage component:
 
 ```jsx
+// At the top
+import { useRouteData } from "muxa";
+
 export default function HomePage() {
   let { data } = useRouteData();
 
   return (
     <div>
-      <h1>Hello {data.pokemon.name}</h1>
+      {data && data.pokemon && (
+        <h1>Pokemon</h1>
+        <p>Our pokemon is {data.pokemon.name}</p>
+      )}
     </div>
   );
 }

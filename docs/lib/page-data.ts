@@ -44,7 +44,7 @@ export function getDirectory(directory: string): MenuDir {
     return {
       data: {
         ...data,
-        link: `${directory}/${slug}`,
+        link: `${directory.substr(2, directory.length)}/${slug}`,
       },
       content,
       slug,

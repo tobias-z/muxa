@@ -15,12 +15,12 @@ order: 1
 
 ## Setup
 
-If not already done, install **React**, **ReactDOM** and **React Router Dom**
+If not already done, install **React Router Dom**
 
 ```bash
-npm install --save react react-dom react-router-dom
+npm install --save react-router-dom
 #or
-yarn add react react-dom react-router-dom
+yarn add react-router-dom
 ```
 
 When these dependencies are installed run the command

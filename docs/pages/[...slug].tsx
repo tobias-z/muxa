@@ -10,7 +10,8 @@ import {
 } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { useTheme } from "../context/theme-provider";
 import { useRouter } from "next/dist/client/router";
-import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
 
 export type PageProps = {
   frontMatter: {
@@ -26,24 +27,21 @@ export type PageProps = {
 export default function Pages({ frontMatter, source, menus }: PageProps) {
   let theme = useTheme();
   let router = useRouter();
-  let [previousPage, setPreviousPage] = useState<MenuFile | undefined>();
-  let [nextPage, setNextPage] = useState<MenuFile | undefined>();
 
-  useEffect(() => {
-    let currentDir = menus.find(menu =>
-      menu.files.find(
-        file =>
-          file.data.order === frontMatter.order &&
-          frontMatter.title === file.data.title
-      )
-    );
-    setPreviousPage(
-      currentDir?.files.find(file => file.data.order === frontMatter.order - 1)
-    );
-    setNextPage(
-      currentDir?.files.find(file => file.data.order === frontMatter.order + 1)
-    );
-  }, []);
+  let currentDir = menus.find(menu =>
+    menu.files.find(
+      file =>
+        file.data.order === frontMatter.order &&
+        frontMatter.title === file.data.title
+    )
+  );
+
+  let previousPage = currentDir?.files.find(
+    file => file.data.order === frontMatter.order - 1
+  );
+  let nextPage = currentDir?.files.find(
+    file => file.data.order === frontMatter.order + 1
+  );
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -77,7 +75,7 @@ export default function Pages({ frontMatter, source, menus }: PageProps) {
         <title>Muxa | {frontMatter.title}</title>
         <meta name="description" content={frontMatter.description} />
       </Head>
-      <main>
+      <main style={{ marginBottom: "25px" }}>
         <ReactMarkdown className="markdown-body" components={components}>
           {source}
         </ReactMarkdown>
@@ -103,11 +101,25 @@ export default function Pages({ frontMatter, source, menus }: PageProps) {
           )}
         </div>
         <hr style={{ margin: "20px 0" }} />
-        <a
-          className="secondary underline"
-          href={`https://github.com/tobias-z/muxa/tree/main/docs/_content/${frontMatter.link}.md`}>
-          Edit this page on GitHub
-        </a>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <a
+            className="secondary"
+            href={`https://github.com/tobias-z/muxa/tree/main/docs/_content/${frontMatter.link}.md`}>
+            Edit this page on GitHub
+          </a>
+          <div>
+            <Link href="https://www.npmjs.com/package/muxa">
+              <a className="picture">
+                <FontAwesomeIcon icon={faNpm} />
+              </a>
+            </Link>
+            <Link href="https://github.com/tobias-z/muxa">
+              <a className="picture">
+                <FontAwesomeIcon icon={faGithub} />
+              </a>
+            </Link>
+          </div>
+        </div>
       </main>
     </Layout>
   );

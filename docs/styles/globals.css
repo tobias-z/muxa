@@ -79,3 +79,9 @@ h6 {
   padding: 3px;
   border-radius: 3px;
 }
+
+.picture {
+  color: var(--secondary);
+  font-size: 25px;
+  padding: 0 10px;
+}
