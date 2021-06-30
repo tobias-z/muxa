@@ -22,9 +22,15 @@ export type PageProps = {
   };
   source: string;
   menus: Array<MenuDir>;
+  directoryName: string;
 };
 
-export default function Pages({ frontMatter, source, menus }: PageProps) {
+export default function Pages({
+  frontMatter,
+  source,
+  menus,
+  directoryName,
+}: PageProps) {
   let theme = useTheme();
   let router = useRouter();
 
@@ -104,18 +110,24 @@ export default function Pages({ frontMatter, source, menus }: PageProps) {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <a
             className="secondary"
-            href={`https://github.com/tobias-z/muxa/tree/main/docs/_content/${frontMatter.link}.md`}>
+            href={`https://github.com/tobias-z/muxa/tree/main/docs/_content/${directoryName}/${
+              frontMatter.link.split("/")[1]
+            }.md`}>
             Edit this page on GitHub
           </a>
           <div>
             <Link href="https://www.npmjs.com/package/muxa">
               <a className="picture">
-                <FontAwesomeIcon icon={faNpm} />
+                <span aria-label="Link to npm">
+                  <FontAwesomeIcon icon={faNpm} />
+                </span>
               </a>
             </Link>
             <Link href="https://github.com/tobias-z/muxa">
               <a className="picture">
-                <FontAwesomeIcon icon={faGithub} />
+                <span aria-label="Link to github">
+                  <FontAwesomeIcon icon={faGithub} />
+                </span>
               </a>
             </Link>
           </div>
@@ -134,12 +146,14 @@ type Path = {
 export async function getStaticProps({ params }: Path) {
   let menus = getAllMenus();
   let file: MenuFile | undefined;
+  let directoryName = "";
   for (let menu of menus) {
     for (let item of menu.files) {
       let foundSlug = params.slug.find(slug => slug === item.slug);
       if (foundSlug) {
         // the slug was in this directory
         file = item;
+        directoryName = menu.directoryName;
       } else {
         continue;
       }
@@ -161,6 +175,7 @@ export async function getStaticProps({ params }: Path) {
       source: file.content,
       frontMatter: file.data,
       menus,
+      directoryName,
     },
   };
 }

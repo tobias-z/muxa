@@ -49,7 +49,7 @@
   - [x] Currently active link
   - [x] Make footer be picture links
   - [x] Deploy docs and add to CI workflow
-  - [ ] Make dark and light theme colors
+  - [x] Make dark and light theme colors
   - [ ] API Reference
   - [ ] Make Examples
     - [ ] Typescript

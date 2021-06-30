@@ -16,6 +16,7 @@ export type MenuFile = {
 
 export type MenuDir = {
   title: string;
+  directoryName: string;
   files: Array<MenuFile>;
 };
 
@@ -58,6 +59,7 @@ export function getDirectory(directory: string): MenuDir {
   }
 
   return {
+    directoryName: directory,
     title: orderedMenufiles[0].data.parent,
     files: orderedMenufiles,
   };
