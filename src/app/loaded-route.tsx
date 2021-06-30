@@ -40,8 +40,32 @@ function getParams(path: Muxa.Path) {
   return params;
 }
 
+function isGoingToRenderRoute(
+  path: Muxa.Path,
+  exact: boolean | undefined,
+  params: Params
+): boolean {
+  let willRender = false;
+  let realPath = getRealPathname(path) as string;
+
+  if (location.pathname === realPath) {
+    willRender = true;
+  }
+
+  if (location.pathname.includes(realPath) && !exact) {
+    willRender = true;
+  }
+
+  // Done to fix renders of paramaterized routes when it's not on the page
+  if (Object.values(params)[0] === "") {
+    willRender = false;
+  }
+
+  return willRender;
+}
+
 export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
-  let { path, loader } = props;
+  let { path, loader, exact } = props;
   let { routes, dispatch, fallback } = useRouterContext();
   let history = useHistory();
   let params = getParams(path);
@@ -63,7 +87,7 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   }, [history.location]);
 
   useEffect(() => {
-    if (!isGoingToRenderRoute()) return;
+    if (!isGoingToRenderRoute(path, exact, params)) return;
     let isCurrent = true;
     if (isCurrent) {
       let realPath = getRealPathname(path);
@@ -90,15 +114,6 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
       isCurrent = false;
     };
   }, [history.location]);
-
-  function isGoingToRenderRoute(): boolean {
-    let willRender = false;
-    let realPath = getRealPathname(path) as string;
-    if (location.pathname.includes(realPath)) {
-      willRender = true;
-    }
-    return willRender;
-  }
 
   if (!route) return null;
   if (route.isLoading && !route.routeData) return <>{fallback}</>;

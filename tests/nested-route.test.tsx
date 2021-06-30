@@ -81,6 +81,7 @@ test("child is rendered when path is pushed to it", async () => {
 
 test("parent and child data are present at the same time", async () => {
   await renderRoutes(false);
+  expect(screen.getByText(/info from dad/i));
   fireEvent.click(screen.getByText(/go to child/i));
   await waitFor(() => {
     expect(screen.getByText(/info from dad/i));
