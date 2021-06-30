@@ -1,6 +1,6 @@
-import SSRRoute from "./app/ssr-route";
-import { SSRRouter } from "./app/ssr-router";
+import LoadedRoute from "./app/loaded-route";
+import { Router } from "./app/router";
 import useRouteData from "./app/use-route-data";
-import { GetterFunction } from "./types";
+import { LoaderFunction } from "./types";
 
-export { SSRRoute, SSRRouter, useRouteData, GetterFunction };
+export { LoadedRoute, Router, useRouteData, LoaderFunction };

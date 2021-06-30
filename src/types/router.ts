@@ -1,5 +1,5 @@
 import type { ReactChild, ReactFragment, ReactNode, ReactPortal } from "react";
-import type { GetterFunction } from "./ssr-route";
+import type { LoaderFunction } from "./loaded-route";
 import type { BrowserRouterProps } from "react-router-dom";
 
 export type Path = string | readonly string[] | undefined;
@@ -16,7 +16,7 @@ export type Route = {
   routeData?: unknown;
   errors?: unknown;
   isLoading: boolean;
-  getter: GetterFunction<unknown>;
+  loader: LoaderFunction<unknown>;
 };
 
 export type RouterState = {
@@ -32,7 +32,7 @@ export type RouterContext = {
 type AddRoute = {
   type: "ADD_ROUTE";
   path: Path;
-  getter: GetterFunction<unknown>;
+  loader: LoaderFunction<unknown>;
 };
 
 type AddRouteData = {

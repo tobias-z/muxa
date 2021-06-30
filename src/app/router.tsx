@@ -22,7 +22,7 @@ let routerReducer: Muxa.RouterReducer = (state, action) => {
             routeData: null,
             errors: null,
             isLoading: false,
-            getter: action.getter,
+            loader: action.loader,
           },
         ],
       };
@@ -56,7 +56,7 @@ let routerReducer: Muxa.RouterReducer = (state, action) => {
   }
 };
 
-export function SSRRouter({ children, fallback, ...props }: Muxa.RouterProps) {
+export function Router({ children, fallback, ...props }: Muxa.RouterProps) {
   let [routes, dispatch] = useReducer<Muxa.RouterReducer>(routerReducer, {
     paths: [],
   });

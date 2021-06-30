@@ -1,3 +1,3 @@
-export * from "./ssr-router";
-export * from "./ssr-route";
+export * from "./router";
+export * from "./loaded-route";
 export * from "./use-route-data";

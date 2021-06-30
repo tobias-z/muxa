@@ -1,26 +1,31 @@
 # Todo
 
-- [x] Switch will add all paths
-- [x] Make prop
-- [x] Call function when route is rendered
-- [x] Update the routeData with the returned data
-- [x] Make a useRouteData function returning the found data
-- [x] Setup fallback when loading data
-- [x] Test that the data is found
-- [x] Manual test of nested routes
-- [x] Cancel setting of state if unmounted
-- [x] Show cached result if it exists instead of loading
-- [x] make useRouteData take an optional path
-- [x] Add the loader function to state and return it in useRouteData
-- [x] Add errors to routeData
-- [x] Rename get type to getter
-- [x] Take BrowserRouter props on the SSRRouter
-- [x] Remove Switch???
-- [ ] Send params to the loader
-- [ ] Rename Router and route to "Router" and "LoadedRoute"
-- [ ] Optional fallback on routes
-- [ ] Caching option on route
-- [ ] Make useRouteData call getter if it doesn't exist
+- [ ] SourceCode
+
+  - [x] Switch will add all paths
+  - [x] Make prop
+  - [x] Call function when route is rendered
+  - [x] Update the routeData with the returned data
+  - [x] Make a useRouteData function returning the found data
+  - [x] Setup fallback when loading data
+  - [x] Test that the data is found
+  - [x] Manual test of nested routes
+  - [x] Cancel setting of state if unmounted
+  - [x] Show cached result if it exists instead of loading
+  - [x] make useRouteData take an optional path
+  - [x] Add the loader function to state and return it in useRouteData
+  - [x] Add errors to routeData
+  - [x] Rename get type to getter
+  - [x] Take BrowserRouter props on the SSRRouter
+  - [x] Remove Switch???
+  - [x] Rename Router and route to "Router" and "LoadedRoute"
+  - [x] Rename getter to loader
+  - [x] Rename loader in useRouteData to runLoader
+  - [ ] Send params to the loader
+  - [ ] Optional fallback on routes
+  - [ ] Caching option on route
+  - [ ] Make useRouteData call getter if it doesn't exist
+  - [ ] Make Form and call action
 
 - [x] Tests
 

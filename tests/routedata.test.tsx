@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { GetterFunction, SSRRoute, SSRRouter, useRouteData } from "../src";
+import { LoaderFunction, LoadedRoute, Router, useRouteData } from "../src";
 import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { useHistory, Switch } from "react-router-dom";
 import { renderWithRouter } from "./test-utils";
@@ -25,7 +25,7 @@ function ErrorApp() {
 }
 
 function App() {
-  let { data: routeData, errors, getter } = useRouteData<Data, Errors>();
+  let { data: routeData, errors, runLoader } = useRouteData<Data, Errors>();
   let { push } = useHistory();
   return (
     <>
@@ -35,7 +35,7 @@ function App() {
       <button onClick={() => push("/other-app")}>Push</button>
       <button
         onClick={() => {
-          getter();
+          runLoader();
         }}>
         Fetch again
       </button>
@@ -53,7 +53,7 @@ function OtherApp() {
   );
 }
 
-let loader: GetterFunction = async () => {
+let loader: LoaderFunction = async () => {
   return {
     data: {
       info: "hello",
@@ -64,9 +64,9 @@ let loader: GetterFunction = async () => {
   };
 };
 
-test("will run get function when rendered and rerun it when called", async () => {
+test("will run loader function when rendered and rerun it when called", async () => {
   await renderWithRouter(
-    <SSRRoute exact path="/" component={App} getter={loader} />
+    <LoadedRoute exact path="/" component={App} loader={loader} />
   );
   expect(screen.getByText(/hello/i));
   expect(screen.getByText(/this is an error/i));
@@ -77,11 +77,11 @@ test("will run get function when rendered and rerun it when called", async () =>
 test("will only run one get function in switch", async () => {
   await renderWithRouter(
     <Switch>
-      <SSRRoute path="/" component={App} exact getter={loader} />
-      <SSRRoute
+      <LoadedRoute path="/" component={App} exact loader={loader} />
+      <LoadedRoute
         path="/other-app"
         component={OtherApp}
-        getter={async () => ({
+        loader={async () => ({
           data: {
             info: "hello2",
           },
@@ -97,9 +97,9 @@ test("will only run one get function in switch", async () => {
 
 test("will not find data when given incorrect path", async () => {
   await renderWithRouter(
-    <SSRRouter fallback={<div>Loading...</div>}>
-      <SSRRoute exact path="/" component={ErrorApp} getter={loader} />
-    </SSRRouter>
+    <Router fallback={<div>Loading...</div>}>
+      <LoadedRoute exact path="/" component={ErrorApp} loader={loader} />
+    </Router>
   );
   expect(screen.queryByTestId(/hello/i)).toBeNull();
   expect(screen.queryByTestId(/error/i)).toBeNull();

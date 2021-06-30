@@ -2,7 +2,7 @@ import type * as Muxa from "../types";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Route } from "react-router-dom";
-import { useRouterContext } from "./ssr-router";
+import { useRouterContext } from "./router";
 
 function getRealPathname(path: Muxa.Path) {
   if (!path) return path;
@@ -19,8 +19,8 @@ function getRealPathname(path: Muxa.Path) {
   }
 }
 
-export default function SSRRoute(props: Muxa.SSRRouteProps) {
-  let { path, getter } = props;
+export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
+  let { path, loader } = props;
   let { routes, dispatch, fallback } = useRouterContext();
   let history = useHistory();
   let params = useParams();
@@ -38,7 +38,7 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
       return realPathname === currentPath.path;
     });
     if (isAlreadyInPaths) return;
-    dispatch({ type: "ADD_ROUTE", path: realPathname, getter });
+    dispatch({ type: "ADD_ROUTE", path: realPathname, loader });
   }, [history.location]);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function SSRRoute(props: Muxa.SSRRouteProps) {
     if (isCurrent) {
       let realPath = getRealPathname(path);
       dispatch({ type: "TOGGLE_LOADING", path: realPath });
-      getter({ params })
+      loader({ params })
         .then(res => {
           if (isCurrent) {
             dispatch({

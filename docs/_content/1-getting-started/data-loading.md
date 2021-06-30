@@ -14,16 +14,16 @@ given to your "Router" when you first load the page. The second time someone
 visits the page, the old data will be returned immediately. Meanwhile a
 background fetch is happening to get an updated version of your data.
 
-## Creating a getter
+## Creating a loader
 
-A getter is simply an asynchronous function that that which can return any data
-that you want. You can look at a getter as all of the data, that your page needs
+A loader is simply an asynchronous function that that which can return any data
+that you want. You can look at a loader as all of the data, that your page needs
 to function correctly.
 
 In `routes/index.js`:
 
 ```jsx
-export async function homeGetter() {
+export async function homeLoader() {
   let res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
   let data = await res.json();
   return {
@@ -36,7 +36,7 @@ export async function homeGetter() {
 
 Whatever you return as your data will be set as your page's state.
 
-## Using data from your getter
+## Using data from your loader
 
 Still in `routes/index.js` create a HomePage component:
 

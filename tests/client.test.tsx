@@ -3,8 +3,8 @@
  */
 import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { useState } from "react";
-import { SSRRoute } from "../src";
-import { useRouterContext } from "../src/app/ssr-router";
+import { LoadedRoute } from "../src";
+import { useRouterContext } from "../src/app/router";
 import { useHistory, Switch } from "react-router-dom";
 import { renderWithRouter } from "./test-utils";
 
@@ -45,20 +45,24 @@ async function loader() {
 }
 
 test("renders on the screen", async () => {
-  await renderWithRouter(<SSRRoute getter={loader} path="/" component={App} />);
+  await renderWithRouter(
+    <LoadedRoute loader={loader} path="/" component={App} />
+  );
   await waitFor(() => expect(screen.getByText("First app")));
 });
 
 test("when adding a route the path gets put into the route state", async () => {
-  await renderWithRouter(<SSRRoute getter={loader} path="/" component={App} />);
+  await renderWithRouter(
+    <LoadedRoute loader={loader} path="/" component={App} />
+  );
   await waitFor(() => expect(screen.getByText("1")));
 });
 
 test("will not add the same path after rerender", async () => {
   await renderWithRouter(
     <>
-      <SSRRoute getter={loader} exact path="/" component={App} />
-      <SSRRoute getter={loader} path="/other-app" component={App} />
+      <LoadedRoute loader={loader} exact path="/" component={App} />
+      <LoadedRoute loader={loader} path="/other-app" component={App} />
     </>
   );
   await waitFor(() => {
@@ -71,8 +75,8 @@ test("will not add the same path after rerender", async () => {
 test("will only render one inside a switch", async () => {
   await renderWithRouter(
     <Switch>
-      <SSRRoute getter={loader} exact path="/" component={App} />
-      <SSRRoute getter={loader} path="/other-app" component={OtherApp} />
+      <LoadedRoute loader={loader} exact path="/" component={App} />
+      <LoadedRoute loader={loader} path="/other-app" component={OtherApp} />
     </Switch>
   );
   fireEvent.click(screen.getByText("Push"));

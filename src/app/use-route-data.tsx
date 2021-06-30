@@ -1,7 +1,7 @@
 import type * as Muxa from "../types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRouterContext } from "./ssr-router";
+import { useRouterContext } from "./router";
 
 export default function useRouteData<Data = unknown, Errors = unknown>(
   path?: string
@@ -21,7 +21,7 @@ export default function useRouteData<Data, Errors>(
   function getLoader(route: Muxa.Route): () => Promise<unknown> {
     return async () => {
       try {
-        let res = await route.getter({ params });
+        let res = await route.loader({ params });
         dispatch({
           type: "ADD_ROUTE_DATA",
           path: route.path,
@@ -44,17 +44,17 @@ export default function useRouteData<Data, Errors>(
       return route.path === location;
     });
     if (!route) return;
-    let getter = getLoader(route);
+    let loader = getLoader(route);
     setRouteData({
       data: route.routeData as Data | undefined,
-      getter,
+      runLoader: loader,
       errors: route.errors as Errors,
     });
   }, []);
 
   return {
     data: routeData?.data,
-    getter: routeData?.getter as () => Promise<unknown>,
+    runLoader: routeData?.runLoader as () => Promise<unknown>,
     errors: routeData?.errors,
   };
 }

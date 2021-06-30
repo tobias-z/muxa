@@ -3,11 +3,11 @@
  */
 
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { GetterFunction, SSRRoute, useRouteData } from "../src";
+import { LoaderFunction, LoadedRoute, useRouteData } from "../src";
 import { renderWithRouter } from "./test-utils";
 import { Switch, useHistory } from "react-router-dom";
 
-let getter: GetterFunction = async () => {
+let loader: LoaderFunction = async () => {
   return {
     data: {
       info: "hello",
@@ -48,15 +48,15 @@ function OtherApp() {
 
 test("will throw error if not wrapped with a router", () => {
   expect(() =>
-    render(<SSRRoute path="/" component={ErrorApp} getter={getter} />)
+    render(<LoadedRoute path="/" component={ErrorApp} loader={loader} />)
   ).toThrow("You must wrap your SSRRoutes inside of a SSRRouter");
 });
 
 test("works with switch from react-router-dom", async () => {
   await renderWithRouter(
     <Switch>
-      <SSRRoute path="/" exact component={App} getter={getter} />
-      <SSRRoute path="/other-app" component={OtherApp} getter={getter} />
+      <LoadedRoute path="/" exact component={App} loader={loader} />
+      <LoadedRoute path="/other-app" component={OtherApp} loader={loader} />
     </Switch>
   );
   expect(screen.queryByTestId("first"));
@@ -74,8 +74,8 @@ test("works with switch from react-router-dom", async () => {
 test("has data from both rendered routes in switch", async () => {
   await renderWithRouter(
     <Switch>
-      <SSRRoute path="/" component={App} getter={getter} />
-      <SSRRoute path="/other-app" component={OtherApp} getter={getter} />
+      <LoadedRoute path="/" component={App} loader={loader} />
+      <LoadedRoute path="/other-app" component={OtherApp} loader={loader} />
     </Switch>
   );
   fireEvent.click(screen.getByText(/push/i));

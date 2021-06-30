@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { SSRRoute, SSRRouter, useRouteData } from "../src";
-import type { GetterFunction } from "../src";
+import { LoadedRoute, Router, useRouteData } from "../src";
+import type { LoaderFunction } from "../src";
 import { useHistory } from "react-router-dom";
 import { renderWithRouter } from "./test-utils";
 
-let parentGetter: GetterFunction = async () => {
+let parentLoader: LoaderFunction = async () => {
   return {
     data: {
       info: "Info from dad",
@@ -23,12 +23,12 @@ function Parent() {
       <h1>Parent</h1>
       {data?.info && <p>{data.info}</p>}
       <button onClick={() => push("/bob")}>Go to child</button>
-      <SSRRoute path="/:name" component={Child} getter={childGetter} />
+      <LoadedRoute path="/:name" component={Child} loader={childLoader} />
     </>
   );
 }
 
-let childGetter: GetterFunction = async () => {
+let childLoader: LoaderFunction = async () => {
   return {
     data: {
       info: "Info from kid",
@@ -48,14 +48,14 @@ function Child() {
 
 async function renderRoutes(exact: boolean) {
   await renderWithRouter(
-    <SSRRouter fallback={<h1>Loading...</h1>}>
-      <SSRRoute
+    <Router fallback={<h1>Loading...</h1>}>
+      <LoadedRoute
         path="/"
         component={Parent}
-        getter={parentGetter}
+        loader={parentLoader}
         exact={exact}
       />
-    </SSRRouter>
+    </Router>
   );
 }
 
@@ -65,7 +65,7 @@ test("renders only the parent", async () => {
   expect(screen.queryByTestId(/child/i)).toBeNull();
 });
 
-test("parent has data from getter", async () => {
+test("parent has data from loader", async () => {
   await renderRoutes(false);
   expect(screen.getByText(/info from dad/i));
 });
