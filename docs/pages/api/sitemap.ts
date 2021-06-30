@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { SitemapStream, streamToPromise } from "sitemap";
 import { Readable } from "stream";
-import { getAllMenus } from "../../lib/page-data";
 
 interface SitemapLink {
   url: string;
@@ -10,28 +9,7 @@ interface SitemapLink {
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  let menus = getAllMenus();
-  let links: Array<SitemapLink> = [];
-
-  // Home page is not part of markdown files
-  links.push({
-    url: "/",
-    changefreq: "daily",
-    priority: 0.3,
-  });
-
-  // Add all markdown file links as pages
-  for (let menu of menus) {
-    for (let file of menu.files) {
-      links.push({
-        url: "/" + file.data.link,
-        changefreq: "daily",
-        priority: 0.3,
-      });
-    }
-  }
-
-  console.log(links);
+  let links = getAllLinks();
 
   // Create a stream to write to
   const stream = new SitemapStream({ hostname: `https://${req.headers.host}` });
@@ -46,3 +24,33 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   res.end(xmlString);
 };
+
+function getAllLinks(): Array<SitemapLink> {
+  return [
+    { url: "/", changefreq: "daily", priority: 0.3 },
+    {
+      url: "/getting-started/installation",
+      changefreq: "daily",
+      priority: 0.3,
+    },
+    {
+      url: "/getting-started/router-setup",
+      changefreq: "daily",
+      priority: 0.3,
+    },
+    {
+      url: "/getting-started/data-loading",
+      changefreq: "daily",
+      priority: 0.3,
+    },
+    { url: "/examples/typescript", changefreq: "daily", priority: 0.3 },
+    {
+      url: "/examples/nested-routing",
+      changefreq: "daily",
+      priority: 0.3,
+    },
+    { url: "/api/router", changefreq: "daily", priority: 0.3 },
+    { url: "/api/loaded-route", changefreq: "daily", priority: 0.3 },
+    { url: "/api/use-route-data", changefreq: "daily", priority: 0.3 },
+  ];
+}
