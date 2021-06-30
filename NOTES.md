@@ -21,7 +21,8 @@
   - [x] Rename Router and route to "Router" and "LoadedRoute"
   - [x] Rename getter to loader
   - [x] Rename loader in useRouteData to runLoader
-  - [ ] Send params to the loader
+  - [x] Send params to the loader
+  - [ ] Fix unnessesary renders of routes
   - [ ] Optional fallback on routes
   - [ ] Caching option on route
   - [ ] Make useRouteData call getter if it doesn't exist

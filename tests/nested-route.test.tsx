@@ -28,7 +28,8 @@ function Parent() {
   );
 }
 
-let childLoader: LoaderFunction = async () => {
+let childLoader: LoaderFunction = async ({ params }) => {
+  console.log(params);
   return {
     data: {
       info: "Info from kid",

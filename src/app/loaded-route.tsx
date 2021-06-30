@@ -1,7 +1,6 @@
 import type * as Muxa from "../types";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { Route } from "react-router-dom";
+import { useHistory, Route } from "react-router-dom";
 import { useRouterContext } from "./router";
 
 function getRealPathname(path: Muxa.Path) {
@@ -19,11 +18,33 @@ function getRealPathname(path: Muxa.Path) {
   }
 }
 
+type Params = {
+  [K in keyof string]?: string;
+};
+
+function getParams(path: Muxa.Path) {
+  let params: Params = {};
+  if (typeof path === "string") {
+    let splitPath = path.split("/");
+    let splitActualPath = location.pathname.split("/");
+    for (let i = 0; i < splitActualPath.length; i++) {
+      if (splitActualPath[i] !== splitPath[i]) {
+        let key = splitPath[i].replace(":", "");
+        params = {
+          ...params,
+          [key]: splitActualPath[i],
+        };
+      }
+    }
+  }
+  return params;
+}
+
 export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   let { path, loader } = props;
   let { routes, dispatch, fallback } = useRouterContext();
   let history = useHistory();
-  let params = useParams();
+  let params = getParams(path);
   let [route, setRoute] = useState<Muxa.Route | null>(null);
 
   useEffect(() => {
