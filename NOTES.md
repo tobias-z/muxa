@@ -22,7 +22,9 @@
   - [x] Rename getter to loader
   - [x] Rename loader in useRouteData to runLoader
   - [x] Send params to the loader
-  - [ ] Fix unnessesary renders of routes
+  - [x] Fix unnessesary renders of routes
+  - [x] Make utils file
+  - [ ] addError function sent to loader
   - [ ] Optional fallback on routes
   - [ ] Caching option on route
   - [ ] Make useRouteData call getter if it doesn't exist
@@ -33,6 +35,7 @@
   - [x] Error and get from useRouteData
   - [x] Get converage!
   - [x] Render with router function
+  - [x] Nested route has params in loader
 
 - [ ] Package
 

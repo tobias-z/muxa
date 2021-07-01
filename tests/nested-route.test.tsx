@@ -28,21 +28,22 @@ function Parent() {
   );
 }
 
-let childLoader: LoaderFunction = async ({ params }) => {
-  console.log(params);
+let childLoader: LoaderFunction<{ name: string }> = async ({ params }) => {
   return {
     data: {
       info: "Info from kid",
+      name: params.name,
     },
   };
 };
 
 function Child() {
-  let { data } = useRouteData<{ info: string }>();
+  let { data } = useRouteData<{ info: string; name: string }>();
   return (
     <>
       <h2 data-testid="child">Child</h2>
       {data?.info && <p>{data.info}</p>}
+      {data?.name && <p>{data.name}</p>}
     </>
   );
 }
@@ -86,5 +87,13 @@ test("parent and child data are present at the same time", async () => {
   await waitFor(() => {
     expect(screen.getByText(/info from dad/i));
     expect(screen.getByText(/info from kid/i));
+  });
+});
+
+test("child shows the param comming from loader", async () => {
+  await renderRoutes(false);
+  fireEvent.click(screen.getByText(/go to child/i));
+  await waitFor(() => {
+    expect(screen.getByText(/bob/i));
   });
 });

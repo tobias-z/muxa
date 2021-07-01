@@ -1,6 +1,7 @@
 import type { RouteProps } from "react-router-dom";
 
-export type LoaderFunction<Params = unknown> = (
+// Any used so that developer can choose if he wants to type it
+export type LoaderFunction<Params = any> = (
   helpers: LoaderHelpers<Params>
 ) => Promise<{
   data: unknown;
@@ -12,7 +13,7 @@ type LoaderHelpers<T> = {
 };
 
 type LoadedProps = {
-  loader: LoaderFunction<unknown>;
+  loader: LoaderFunction<any>;
 };
 
 export type LoadedRouteProps = RouteProps & LoadedProps;
