@@ -2,16 +2,14 @@
  * @jest-environment jsdom
  */
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { LoadedRoute, Router, useRouteData } from "../src";
+import { LoadedRoute, useRouteData } from "../src";
 import type { LoaderFunction } from "../src";
 import { useHistory } from "react-router-dom";
 import { renderWithRouter } from "./test-utils";
 
 let parentLoader: LoaderFunction = async () => {
   return {
-    data: {
-      info: "Info from dad",
-    },
+    info: "Info from dad",
   };
 };
 
@@ -30,10 +28,8 @@ function Parent() {
 
 let childLoader: LoaderFunction<{ name: string }> = async ({ params }) => {
   return {
-    data: {
-      info: "Info from kid",
-      name: params.name,
-    },
+    info: "Info from kid",
+    name: params.name,
   };
 };
 
@@ -50,14 +46,12 @@ function Child() {
 
 async function renderRoutes(exact: boolean) {
   await renderWithRouter(
-    <Router fallback={<h1>Loading...</h1>}>
-      <LoadedRoute
-        path="/"
-        component={Parent}
-        loader={parentLoader}
-        exact={exact}
-      />
-    </Router>
+    <LoadedRoute
+      path="/"
+      component={Parent}
+      loader={parentLoader}
+      exact={exact}
+    />
   );
 }
 

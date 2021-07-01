@@ -29,17 +29,24 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   useEffect(() => {
     if (!isGoingToRenderRoute(path, exact, params)) return;
     let isCurrent = true;
+
+    // Generates errors to be put in the dispatch
+    let errors: Muxa.RouteErrors = {};
+    function addError(key: string, value: any) {
+      errors[key] = value;
+    }
+
     if (isCurrent) {
       let realPath = getRealPathname(path);
       dispatch({ type: "TOGGLE_LOADING", path: realPath });
-      loader({ params })
+      loader({ params, addError })
         .then(res => {
           if (isCurrent) {
             dispatch({
               type: "ADD_ROUTE_DATA",
               path: realPath,
-              routeData: res.data,
-              errors: res.errors,
+              routeData: res,
+              errors,
             });
           }
         })

@@ -20,7 +20,7 @@ let routerReducer: Muxa.RouterReducer = (state, action) => {
           {
             path: action.path,
             routeData: null,
-            errors: null,
+            errors: {},
             isLoading: false,
             loader: action.loader,
           },

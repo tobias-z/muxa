@@ -11,12 +11,16 @@ type MuxaProps = {
 
 export type RouterProps = BrowserRouterProps & MuxaProps;
 
+export type RouteErrors = {
+  [K in keyof any]?: unknown;
+};
+
 export type Route = {
   path: Path;
   routeData?: unknown;
-  errors?: unknown;
+  errors?: RouteErrors;
   isLoading: boolean;
-  loader: LoaderFunction<unknown>;
+  loader: LoaderFunction<any>;
 };
 
 export type RouterState = {
@@ -32,14 +36,14 @@ export type RouterContext = {
 type AddRoute = {
   type: "ADD_ROUTE";
   path: Path;
-  loader: LoaderFunction<unknown>;
+  loader: LoaderFunction<any>;
 };
 
 type AddRouteData = {
   type: "ADD_ROUTE_DATA";
   path: Path;
   routeData: unknown;
-  errors: unknown;
+  errors: RouteErrors;
 };
 
 type SetLoading = {

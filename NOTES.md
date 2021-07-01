@@ -24,7 +24,8 @@
   - [x] Send params to the loader
   - [x] Fix unnessesary renders of routes
   - [x] Make utils file
-  - [ ] addError function sent to loader
+  - [x] addError function sent to loader
+  - [ ] Refactor addError function
   - [ ] Optional fallback on routes
   - [ ] Caching option on route
   - [ ] Make useRouteData call getter if it doesn't exist

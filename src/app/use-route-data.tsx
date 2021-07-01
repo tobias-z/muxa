@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRouterContext } from "./router";
 
-export default function useRouteData<Data = unknown, Errors = unknown>(
+export default function useRouteData<Data = any, Errors = any>(
   path?: string
-): Muxa.RouteData<Data, Errors>;
+): Muxa.RouteData<Data | undefined, Errors>;
 
-export default function useRouteData<Data, Errors = unknown>(
+export default function useRouteData<Data, Errors = any>(
   path?: string
-): Muxa.RouteData<Data, Errors>;
+): Muxa.RouteData<Data | undefined, Errors>;
 
 export default function useRouteData<Data, Errors>(
   path?: string
@@ -19,14 +19,19 @@ export default function useRouteData<Data, Errors>(
   let params = useParams();
 
   function getLoader(route: Muxa.Route): () => Promise<unknown> {
+    let errors: Muxa.RouteErrors = {};
+    function addError(key: string, value: any) {
+      errors[key] = value;
+    }
+
     return async () => {
       try {
-        let res = await route.loader({ params });
+        let res = await route.loader({ params, addError });
         dispatch({
           type: "ADD_ROUTE_DATA",
           path: route.path,
-          routeData: res.data,
-          errors: res.errors,
+          routeData: res,
+          errors,
         });
       } catch (err) {
         // Do something with the error?
@@ -55,6 +60,6 @@ export default function useRouteData<Data, Errors>(
   return {
     data: routeData?.data,
     runLoader: routeData?.runLoader as () => Promise<unknown>,
-    errors: routeData?.errors,
+    errors: routeData?.errors as Errors,
   };
 }

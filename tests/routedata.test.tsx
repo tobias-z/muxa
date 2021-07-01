@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { LoaderFunction, LoadedRoute, Router, useRouteData } from "../src";
+import { LoaderFunction, LoadedRoute, useRouteData } from "../src";
 import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { useHistory, Switch } from "react-router-dom";
 import { renderWithRouter } from "./test-utils";
@@ -53,14 +53,10 @@ function OtherApp() {
   );
 }
 
-let loader: LoaderFunction = async () => {
+let loader: LoaderFunction = async ({ addError }) => {
+  addError("info", "This is an error");
   return {
-    data: {
-      info: "hello",
-    },
-    errors: {
-      info: "This is an error",
-    },
+    info: "hello",
   };
 };
 
@@ -82,9 +78,7 @@ test("will only run one get function in switch", async () => {
         path="/other-app"
         component={OtherApp}
         loader={async () => ({
-          data: {
-            info: "hello2",
-          },
+          info: "hello2",
         })}
       />
     </Switch>
@@ -97,9 +91,7 @@ test("will only run one get function in switch", async () => {
 
 test("will not find data when given incorrect path", async () => {
   await renderWithRouter(
-    <Router fallback={<div>Loading...</div>}>
-      <LoadedRoute exact path="/" component={ErrorApp} loader={loader} />
-    </Router>
+    <LoadedRoute exact path="/" component={ErrorApp} loader={loader} />
   );
   expect(screen.queryByTestId(/hello/i)).toBeNull();
   expect(screen.queryByTestId(/error/i)).toBeNull();

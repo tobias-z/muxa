@@ -39,9 +39,7 @@ function App() {
 }
 
 async function loader() {
-  return {
-    data: "hello",
-  };
+  return "hello";
 }
 
 test("renders on the screen", async () => {

@@ -9,9 +9,7 @@ import { Switch, useHistory } from "react-router-dom";
 
 let loader: LoaderFunction = async () => {
   return {
-    data: {
-      info: "hello",
-    },
+    info: "hello",
     errors: {
       info: "error",
     },
