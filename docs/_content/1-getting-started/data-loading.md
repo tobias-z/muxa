@@ -53,3 +53,7 @@ export default function HomePage() {
   );
 }
 ```
+
+There you have it. That is the basics of Muxa.
+
+If you want more in detail examples, please checkout the examples on the left.

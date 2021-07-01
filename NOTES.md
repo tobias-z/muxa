@@ -63,8 +63,8 @@
   - [ ] API Reference
   - [ ] Make Examples
     - [ ] Typescript
-    - [ ] Nested routing
-    - [ ] Error handling
+    - [x] Nested routing
+    - [x] Error handling
     - [ ] Caching
   - [ ] Fix "any" typescript errors
   - [ ] Muxa Image
