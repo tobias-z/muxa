@@ -6,4 +6,4 @@ slug: "nested-routing"
 order: 2
 ---
 
-# LoadedRoute
+# Nested Routes

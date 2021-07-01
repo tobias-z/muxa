@@ -17,8 +17,8 @@ background fetch is happening to get an updated version of your data.
 ## Creating a loader
 
 A loader is simply an asynchronous function that that which can return any data
-that you want. You can look at a loader as all of the data, that your page needs
-to function correctly.
+that you want. You can look at a loader as all of the data, that your route
+needs to function correctly.
 
 In `routes/index.js`:
 
@@ -26,15 +26,11 @@ In `routes/index.js`:
 export async function homeLoader() {
   let res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
   let data = await res.json();
-  return {
-    data: {
-      pokemon: ditto,
-    },
-  };
+  return data;
 }
 ```
 
-Whatever you return as your data will be set as your page's state.
+Whatever you return as your data will be set as your routes's state.
 
 ## Using data from your loader
 
@@ -45,13 +41,13 @@ Still in `routes/index.js` create a HomePage component:
 import { useRouteData } from "muxa";
 
 export default function HomePage() {
-  let { data } = useRouteData();
+  let { data: pokemon } = useRouteData();
 
   return (
     <div>
-      {data && data.pokemon && (
+      {pokemon && (
         <h1>Pokemon</h1>
-        <p>Our pokemon is {data.pokemon.name}</p>
+        <p>Our pokemon is {pokemon.name}</p>
       )}
     </div>
   );

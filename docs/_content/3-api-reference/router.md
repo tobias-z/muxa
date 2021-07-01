@@ -1,5 +1,5 @@
 ---
-parent: "API"
+parent: "API Reference"
 title: "Router"
 description: "API reference of the Router component"
 slug: "router"

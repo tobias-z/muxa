@@ -67,3 +67,4 @@
     - [ ] Error handling
     - [ ] Caching
   - [ ] Fix "any" typescript errors
+  - [ ] Muxa Image
