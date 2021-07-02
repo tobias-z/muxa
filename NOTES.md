@@ -25,13 +25,13 @@
   - [x] Fix unnessesary renders of routes
   - [x] Make utils file
   - [x] addError function sent to loader
+  - [ ] Make only the route which changes call loader
   - [ ] Refactor addError function
-  - [ ] Optional fallback on routes
-  - [ ] Caching option on route
+  - [ ] Caching option on route (default to 1 minute)
   - [ ] Make useRouteData call getter if it doesn't exist
   - [ ] Make Form and call action
 
-- [ ] Convert state to singleton class
+- [x] Convert state to singleton class
 
 - [x] Tests
 

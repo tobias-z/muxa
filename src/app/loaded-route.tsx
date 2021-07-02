@@ -10,24 +10,25 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   let history = useHistory();
   let params = getParams(path);
   let [rerender, toggleRerender] = useState<boolean>(true);
-  let route = cache.getRoute(getRealPathname(path));
+  let route = cache.get(getRealPathname(path));
 
   useEffect(() => {
     // Checks if route is added and adds a brand new one if it doesn't
     let realPathname = getRealPathname(path);
-    if (route) return;
-    cache.addRoute(realPathname, { loader, path: realPathname });
+    let foundRoute = cache.get(getRealPathname(path));
+    if (foundRoute) return;
+    cache.put(realPathname, { loader, path: realPathname });
   }, [history.location]);
 
   useEffect(() => {
     if (!isGoingToRenderRoute(path, exact, params)) return;
-    let isCurrent = true;
 
     // Generates errors to be put on the route
     let errors: Muxa.RouteErrors = {};
     function addError(key: string, value: any) {
       errors[key] = value;
     }
+
     let realPath = getRealPathname(path);
     cache.toggleRouteLoading(realPath);
     loader({ params, addError })
@@ -39,12 +40,8 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
       })
       .finally(() => {
         cache.toggleRouteLoading(realPath);
-        if (isCurrent) toggleRerender(!rerender);
+        toggleRerender(!rerender);
       });
-
-    return () => {
-      isCurrent = false;
-    };
   }, [history.location]);
 
   if (!route) return null;
