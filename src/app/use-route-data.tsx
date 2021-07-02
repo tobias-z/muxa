@@ -1,7 +1,7 @@
 import type * as Muxa from "../types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useRouterContext } from "./router";
+import { useRouterCache } from "./router";
 
 export default function useRouteData<Data = any, Errors = any>(
   path?: string
@@ -14,7 +14,7 @@ export default function useRouteData<Data, Errors = any>(
 export default function useRouteData<Data, Errors>(
   path?: string
 ): Muxa.RouteData<Data, Errors> {
-  let { routes, dispatch } = useRouterContext();
+  let cache = useRouterCache();
   let [routeData, setRouteData] = useState<Muxa.RouteData<Data, Errors>>();
   let params = useParams();
 
@@ -26,13 +26,8 @@ export default function useRouteData<Data, Errors>(
 
     return async () => {
       try {
-        let res = await route.loader({ params, addError });
-        dispatch({
-          type: "ADD_ROUTE_DATA",
-          path: route.path,
-          routeData: res,
-          errors,
-        });
+        let routeData = await route.loader({ params, addError });
+        cache.updateRoute(route.path, { errors, routeData });
       } catch (err) {
         // Do something with the error?
         console.error(err.message);
@@ -40,20 +35,22 @@ export default function useRouteData<Data, Errors>(
     };
   }
 
+  function getRoute() {
+    if (path) {
+      return cache.getRoute(path);
+    }
+    return cache.getRoute(window.location.pathname);
+  }
+
   useEffect(() => {
-    let location = window.location.pathname;
-    let route = routes.paths.find(route => {
-      if (path) {
-        return route.path === path;
-      }
-      return route.path === location;
-    });
+    let route = getRoute();
     if (!route) return;
     let loader = getLoader(route);
     setRouteData({
       data: route.routeData as Data | undefined,
       runLoader: loader,
       errors: route.errors as Errors,
+      isLoading: route.isLoading,
     });
   }, []);
 
@@ -61,5 +58,6 @@ export default function useRouteData<Data, Errors>(
     data: routeData?.data,
     runLoader: routeData?.runLoader as () => Promise<unknown>,
     errors: routeData?.errors as Errors,
+    isLoading: routeData?.isLoading as boolean,
   };
 }

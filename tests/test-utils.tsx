@@ -4,6 +4,6 @@ import { Router } from "../src";
 
 export async function renderWithRouter(ui: ReactElement) {
   await act(async () => {
-    render(<Router fallback={<h1>Loading...</h1>}>{ui}</Router>);
+    render(<Router>{ui}</Router>);
   });
 }

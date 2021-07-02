@@ -1,36 +1,30 @@
 import type * as Muxa from "../types";
 import { useEffect, useState } from "react";
 import { useHistory, Route } from "react-router-dom";
-import { useRouterContext } from "./router";
+import { useRouterCache } from "./router";
 import { getParams, isGoingToRenderRoute, getRealPathname } from "./utils";
 
 export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   let { path, loader, exact } = props;
-  let { routes, dispatch, fallback } = useRouterContext();
+  let cache = useRouterCache();
   let history = useHistory();
   let params = getParams(path);
-  let [route, setRoute] = useState<Muxa.Route | null>(null);
+  let [rerender, toggleRerender] = useState<boolean>(true);
+  let route = cache.getRoute(getRealPathname(path));
 
   useEffect(() => {
-    let tmpRoute = routes.paths.find(p => p.path === getRealPathname(path));
-    if (!tmpRoute) return;
-    setRoute(tmpRoute);
-  }, [routes]);
-
-  useEffect(() => {
+    // Checks if route is added and adds a brand new one if it doesn't
     let realPathname = getRealPathname(path);
-    let isAlreadyInPaths = routes.paths.find(currentPath => {
-      return realPathname === currentPath.path;
-    });
-    if (isAlreadyInPaths) return;
-    dispatch({ type: "ADD_ROUTE", path: realPathname, loader });
+    let foundRoute = cache.getRoute(realPathname);
+    if (foundRoute) return;
+    cache.addRoute(realPathname, { loader, path: realPathname });
   }, [history.location]);
 
   useEffect(() => {
     if (!isGoingToRenderRoute(path, exact, params)) return;
     let isCurrent = true;
 
-    // Generates errors to be put in the dispatch
+    // Generates errors to be put on the route
     let errors: Muxa.RouteErrors = {};
     function addError(key: string, value: any) {
       errors[key] = value;
@@ -38,23 +32,19 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
 
     if (isCurrent) {
       let realPath = getRealPathname(path);
-      dispatch({ type: "TOGGLE_LOADING", path: realPath });
+      cache.toggleRouteLoading(realPath);
       loader({ params, addError })
-        .then(res => {
+        .then(response => {
           if (isCurrent) {
-            dispatch({
-              type: "ADD_ROUTE_DATA",
-              path: realPath,
-              routeData: res,
-              errors,
-            });
+            cache.updateRoute(realPath, { errors, routeData: response });
           }
         })
         .catch(err => {
           console.error(err.message);
         })
         .finally(() => {
-          dispatch({ type: "TOGGLE_LOADING", path: realPath });
+          cache.toggleRouteLoading(realPath);
+          toggleRerender(!rerender);
         });
     }
     return () => {
@@ -63,7 +53,6 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   }, [history.location]);
 
   if (!route) return null;
-  if (route.isLoading && !route.routeData) return <>{fallback}</>;
 
   return <Route {...props} />;
 }
