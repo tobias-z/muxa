@@ -47,7 +47,7 @@ function OtherApp() {
 test("will throw error if not wrapped with a router", () => {
   expect(() =>
     render(<LoadedRoute path="/" component={ErrorApp} loader={loader} />)
-  ).toThrow("You must wrap your SSRRoutes inside of a SSRRouter");
+  ).toThrow("You must wrap your LoadedRoutes inside a Router");
 });
 
 test("works with switch from react-router-dom", async () => {

@@ -45,6 +45,7 @@ function App() {
 
 function OtherApp() {
   let { data: routeData } = useRouteData<{ info: string }>("/other-app");
+
   return (
     <>
       <h1>Other app</h1>
@@ -84,7 +85,6 @@ test("will only run one get function in switch", async () => {
     </Switch>
   );
   expect(screen.getByText(/hello/i));
-  screen.getByText(/hello/i);
   fireEvent.click(screen.getByText(/push/i));
   await waitFor(() => expect(screen.getByText(/hello2/i)));
 });
