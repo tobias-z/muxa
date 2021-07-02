@@ -1,4 +1,5 @@
 import type * as Muxa from "../../types";
+import invariant from "../utils/invariant";
 import Cache from "./cache";
 
 export default class RouterCache extends Cache {
@@ -14,13 +15,20 @@ export default class RouterCache extends Cache {
 
   toggleRouteLoading = (path: Muxa.Path): void => {
     let route = this.get(path);
-    if (!route) return;
+    /* istanbul ignore next */
+    invariant(
+      route,
+      "A route tried to update before it was added. This is a problem on Muxa's part not yours"
+    );
     this.cache.set(path, { ...route, isLoading: !route.isLoading });
   };
 
   updateRoute = (path: Muxa.Path, action: Muxa.UpdateRoute): void => {
     let currentRoute = this.get(path);
-    if (!currentRoute) return;
+    invariant(
+      currentRoute,
+      "A route tried to update before it was added. This is a problem on Muxa's part not yours"
+    );
     let updatedRoute: Muxa.Route = {
       ...currentRoute,
       ...action,

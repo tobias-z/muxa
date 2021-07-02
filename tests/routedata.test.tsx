@@ -25,11 +25,17 @@ function ErrorApp() {
 }
 
 function App() {
-  let { data: routeData, errors, runLoader } = useRouteData<Data, Errors>();
+  let {
+    data: routeData,
+    errors,
+    runLoader,
+    isLoading,
+  } = useRouteData<Data, Errors>();
   let { push } = useHistory();
   return (
     <>
       <h1>App</h1>
+      {isLoading && <p>Loading...</p>}
       {routeData && <p>{routeData.info}</p>}
       {errors && <p>{errors.info}</p>}
       <button onClick={() => push("/other-app")}>Push</button>
@@ -62,6 +68,16 @@ let loader: LoaderFunction = async ({ addError }) => {
 };
 
 test("will run loader function when rendered and rerun it when called", async () => {
+  await renderWithRouter(
+    <LoadedRoute exact path="/" component={App} loader={loader} />
+  );
+  expect(screen.getByText(/hello/i));
+  expect(screen.getByText(/this is an error/i));
+  fireEvent.click(screen.getByText(/fetch/i));
+  await waitFor(() => expect(screen.getByText(/hello/i)));
+});
+
+test("Will show loading", async () => {
   await renderWithRouter(
     <LoadedRoute exact path="/" component={App} loader={loader} />
   );

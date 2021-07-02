@@ -2,6 +2,7 @@ import type * as Muxa from "../types";
 import { useRouterCache } from "./router";
 import { useParams } from "react-router-dom";
 import { useCallback, useState } from "react";
+import invariant from "./utils/invariant";
 
 export default function useRouteData<Data = any, Errors = any>(
   path?: string
@@ -20,14 +21,12 @@ export default function useRouteData<Data, Errors>(
 
   let getLoader = useCallback(
     (route: Muxa.Route | undefined) => {
-      if (!route) {
-        throw new Error("Could not generate loader");
-      }
-
       let errors: Muxa.RouteErrors = {};
       function addError(key: string, value: any) {
         errors[key] = value;
       }
+
+      invariant(route, "Could not generate loader");
 
       return async () => {
         let realPath = path ? path : window.location.pathname;

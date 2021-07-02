@@ -13,15 +13,11 @@ declare global {
 let initialContext = createContext<RouterCache | undefined>(undefined);
 
 function getRouterContext() {
-  if (typeof window !== "undefined") {
-    // Keep a singleton of the context
-    if (!window.RouterCacheContext) {
-      window.RouterCacheContext = initialContext;
-    }
-    return window.RouterCacheContext;
+  // Keep a singleton of the context
+  if (!window.RouterCacheContext) {
+    window.RouterCacheContext = initialContext;
   }
-
-  return initialContext;
+  return window.RouterCacheContext;
 }
 
 export function useRouterCache() {

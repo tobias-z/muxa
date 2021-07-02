@@ -1,4 +1,4 @@
-import type * as Muxa from "../types";
+import type * as Muxa from "../../types";
 
 export function getRealPathname(path: Muxa.Path) {
   if (!path) return path;
