@@ -31,6 +31,8 @@
   - [ ] Make useRouteData call getter if it doesn't exist
   - [ ] Make Form and call action
 
+- [ ] Convert state to singleton class
+
 - [x] Tests
 
   - [x] Error and get from useRouteData
