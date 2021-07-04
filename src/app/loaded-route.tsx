@@ -24,13 +24,13 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
     cache.put(realPathname, { loader, path: realPathname });
 
     return () => {
-      // Keep track of the old path
+      // Keep track of the previous path
       cache.history.previousPath = realPathname;
     };
   }, [history.location]);
 
   useEffect(() => {
-    if (!isGoingToRenderRoute(path, exact, params)) return;
+    if (!isGoingToRenderRoute({ path, exact, params }, cache.history)) return;
 
     // Generates errors to be put on the route
     let errors: Muxa.RouteErrors = {};
