@@ -28,7 +28,8 @@ export function getParams(path: Muxa.Path) {
     for (let i = 0; i < splitPath.length; i++) {
       if (
         splitActualPath[i] !== splitPath[i] &&
-        splitActualPath[i] !== undefined
+        splitActualPath[i] !== undefined &&
+        splitPath[i] !== ""
       ) {
         let key = splitPath[i].replace(":", "");
         params = {
@@ -47,7 +48,7 @@ interface RouteParams {
   params: Params;
 }
 
-export function isGoingToRenderRoute(
+export function shouldRefetchLoader(
   route: RouteParams,
   history: History
 ): boolean {
@@ -62,25 +63,26 @@ export function isGoingToRenderRoute(
     willRender = true;
   }
 
-  // Done to fix renders of paramaterized routes when it's not on the page
-  if (Object.values(route.params)[0] === "") {
-    willRender = false;
+  function isParamaterizedAndHasUndefinedParam(): boolean {
+    if (route.path?.includes(":")) {
+      let param = Object.values(route.params)[0];
+      if (param === undefined || param === "") {
+        return true;
+      }
+    }
+    return false;
   }
 
-  if (typeof history.previousPath === "string") {
-    let splitPreviousPath = history.previousPath.split("/");
-    let splitRealPath = realPath.split("/");
-    if (
-      splitPreviousPath[splitPreviousPath.length - 2] ===
-        splitRealPath[splitRealPath.length - 1] &&
-      !route.exact
-    ) {
-      console.log(
-        "previous: " + splitPreviousPath[splitPreviousPath.length - 2],
-        "real: " + splitRealPath[splitRealPath.length - 1]
-      );
-      willRender = false;
-    }
+  if (
+    history.activePaths.has(route.path) &&
+    !isParamaterizedAndHasUndefinedParam()
+  ) {
+    willRender = true;
+  }
+
+  // Done to fix renders of paramaterized routes when it's not on the page
+  if (isParamaterizedAndHasUndefinedParam()) {
+    willRender = false;
   }
 
   return willRender;

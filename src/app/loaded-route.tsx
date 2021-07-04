@@ -2,11 +2,7 @@ import type * as Muxa from "../types";
 import { useEffect, useState } from "react";
 import { useHistory, Route } from "react-router-dom";
 import { useRouterCache } from "./router";
-import {
-  getParams,
-  isGoingToRenderRoute,
-  getRealPathname,
-} from "./utils/utils";
+import { getParams, shouldRefetchLoader, getRealPathname } from "./utils/utils";
 
 export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   let { path, loader, exact } = props;
@@ -21,16 +17,19 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
     let realPathname = getRealPathname(path);
     let foundRoute = cache.get(getRealPathname(path));
     if (foundRoute) return;
+
     cache.put(realPathname, { loader, path: realPathname });
+    cache.history.addActivePath(realPathname);
 
     return () => {
       // Keep track of the previous path
       cache.history.previousPath = realPathname;
+      cache.history.removeActivePath(realPathname);
     };
   }, [history.location]);
 
   useEffect(() => {
-    if (!isGoingToRenderRoute({ path, exact, params }, cache.history)) return;
+    if (!shouldRefetchLoader({ path, exact, params }, cache.history)) return;
 
     // Generates errors to be put on the route
     let errors: Muxa.RouteErrors = {};
