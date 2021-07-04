@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@200;400&display=swap");
+
 :root {
   --background: white;
   --siteHeader: rgb(40, 100, 137);
@@ -10,7 +12,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: rgba(16, 22, 35, 0.874);
+    --background: #1f2021;
     --siteHeader: rgba(47, 188, 210, 0.874);
     --primary: rgb(35, 167, 249);
     --secondary: rgb(188, 188, 188);
@@ -95,6 +97,8 @@ h6 {
   background-color: var(--hr);
   padding: 4px;
   border-radius: 3px;
+  font-family: "Source Code Pro", monospace;
+  font-weight: 200;
 }
 
 .picture {

@@ -1,7 +1,7 @@
 import type * as Muxa from "../types";
 import { useRouterCache } from "./router";
 import { useParams } from "react-router-dom";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import invariant from "./utils/invariant";
 
 export default function useRouteData<Data = any, Errors = any>(
@@ -54,10 +54,11 @@ export default function useRouteData<Data, Errors>(
   }
 
   let route = getRoute();
+  let runLoader = useMemo(() => getLoader(route), [getLoader]);
 
   return {
     data: route?.routeData as Data | undefined,
-    runLoader: getLoader(route),
+    runLoader,
     errors: route?.errors as Errors,
     isLoading: route?.isLoading as boolean,
   };

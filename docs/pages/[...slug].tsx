@@ -1,4 +1,5 @@
-import { getAllMenus, MenuDir, MenuFile } from "../lib/page-data";
+import type { MenuDir, MenuFile } from "../lib/page-data";
+import { getAllMenus } from "../lib/page-data";
 import Head from "next/head";
 import Link from "next/link";
 import Layout from "../components/layout";
@@ -53,7 +54,7 @@ export default function Pages({
     file => file.data.order === frontMatter.order + 1
   );
 
-  const components = {
+  let components = {
     code({ inline, className, children, ...props }: any) {
       const match = /language-(\w+)/.exec(className || "");
       return !inline && match ? (
@@ -61,7 +62,11 @@ export default function Pages({
           style={theme === "light" ? materialLight : materialDark}
           language={match[1]}
           showLineNumbers
-          customStyle={{ borderRadius: "18px" }}
+          customStyle={{
+            borderRadius: "18px",
+            fontFamily: "Source Code Pro",
+          }}
+          useInlineStyles={true}
           PreTag="pre"
           children={String(children).replace(/\n$/, "")}
           {...props}

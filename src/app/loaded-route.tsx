@@ -22,6 +22,11 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
     let foundRoute = cache.get(getRealPathname(path));
     if (foundRoute) return;
     cache.put(realPathname, { loader, path: realPathname });
+
+    return () => {
+      // Keep track of the old path
+      cache.history.previousPath = realPathname;
+    };
   }, [history.location]);
 
   useEffect(() => {
