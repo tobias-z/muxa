@@ -54,6 +54,14 @@ export default class RouterCache {
     let updatedRoute: Muxa.Route = {
       ...currentRoute,
       ...action,
+      routeData: {
+        ...currentRoute.routeData,
+        ...action.routeData,
+      },
+      errors: {
+        ...currentRoute.errors,
+        ...action.errors,
+      },
     };
     this.cache.set(path, updatedRoute);
   }

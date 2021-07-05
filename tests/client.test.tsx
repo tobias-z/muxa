@@ -32,7 +32,7 @@ function App() {
 }
 
 async function loader() {
-  return "hello";
+  return { hello: "hello" };
 }
 
 test("renders on the screen", async () => {

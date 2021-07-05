@@ -2,21 +2,26 @@
 
 - [ ] SourceCode
 
-  - [ ] Keep track of previous path state
+  - [x] Keep track of previous path state
+  - [x] Make loader not required
+  - [x] Make Form and call action
+  - [ ] Optimize Action
+  - [ ] Caching option on route (default to 1 minute)
   - [ ] Make only the route which changes call loader
   - [ ] Refactor addError function
-  - [ ] Caching option on route (default to 1 minute)
-  - [ ] Make useRouteData call getter if it doesn't exist
-  - [ ] Make Form and call action
 
 - [ ] Tests
+
+  - [ ] Will throw error if redirect to unknown route
+  - [ ] Will throw error if using Form without an action
+  - [ ] Different props given to the Form
 
 - [ ] Package
 
   - [ ] Readme.md / Docs website
   - [ ] Deploy to NPM
 
-- [ ] Docs
+- [ ] Docsbb
   - [ ] API Reference
   - [ ] Make Examples
     - [ ] Typescript

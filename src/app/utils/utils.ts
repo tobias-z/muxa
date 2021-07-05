@@ -16,12 +16,8 @@ export function getRealPathname(path: Muxa.Path) {
   }
 }
 
-type Params = {
-  [K in keyof string]?: string;
-};
-
 export function getParams(path: Muxa.Path) {
-  let params: Params = {};
+  let params: Muxa.Params = {};
   if (typeof path === "string") {
     let splitPath = path.split("/");
     let splitActualPath = location.pathname.split("/");
@@ -45,7 +41,7 @@ export function getParams(path: Muxa.Path) {
 interface RouteParams {
   path: Muxa.Path;
   exact: boolean | undefined;
-  params: Params;
+  params: Muxa.Params;
 }
 
 export function shouldRefetchLoader(
@@ -80,7 +76,6 @@ export function shouldRefetchLoader(
     willRender = true;
   }
 
-  // Done to fix renders of paramaterized routes when it's not on the page
   if (isParamaterizedAndHasUndefinedParam()) {
     willRender = false;
   }

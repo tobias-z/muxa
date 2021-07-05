@@ -29,6 +29,12 @@ export default function useRouteData<Data, Errors>(
       invariant(route, "Could not generate loader");
 
       return async () => {
+        if (!route.loader) {
+          throw new Error(
+            `You tried to call a loader in route: ${route.path}, but none was found`
+          );
+        }
+
         let realPath = path ? path : window.location.pathname;
         try {
           cache.toggleRouteLoading(realPath);
