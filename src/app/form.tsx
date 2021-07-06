@@ -16,12 +16,6 @@ export default function Form({
   let actionToUse = action ? action : location.pathname;
   let [route] = useState(() => {
     let route = cache.get(actionToUse);
-    /* istanbul ignore next */
-    if (!route) {
-      throw new Error(
-        `An action was made to path: '${actionToUse}' but that route was not found`
-      );
-    }
     return route;
   });
   let formRef = useRef<HTMLFormElement>(null);
@@ -29,16 +23,19 @@ export default function Form({
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    /* istanbul ignore next */
-    if (!route.action) {
-      throw new Error(
-        `You tried to do a ${method} to ${actionToUse}, but no ActionFunction was found for that route`
-      );
-    }
+    invariant(
+      route,
+      `An action was made to path: '${actionToUse}' but that route was not found`
+    );
+    invariant(
+      route.action,
+      `You tried to do a ${method} to ${actionToUse}, but no ActionFunction was found for that route`
+    );
 
     invariant(formRef.current, "Form ref was not defined");
     let body = getFormBody(formRef.current);
 
+    // Create functions for the action
     let redirect: Muxa.RedirectFunction = (path: string) => {
       return () => history.push(path);
     };

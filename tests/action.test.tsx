@@ -9,7 +9,7 @@ import {
   LoaderFunction,
   useRouteData,
 } from "../src";
-import { act, fireEvent, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 let action: ActionFunction<{ name?: string }> = async ({
   body,
@@ -52,10 +52,9 @@ test("action will be called when form is submitted", async () => {
   fireEvent.change(input, { target: { value: "bob the builder" } });
   expect(input.value).toBe("bob the builder");
   fireEvent.click(screen.getByText(/submit/i));
-  await act(async () => {
-    await waitFor(() => {
-      expect(screen.getByDisplayValue(/bob/i));
-    });
+  await waitFor(() => {
+    // Action was complete and the route was refetched
+    expect(screen.getByDisplayValue(/bob/i));
   });
 });
 
@@ -64,10 +63,8 @@ test("Data and errors can be added in the action function", async () => {
     <LoadedRoute path="/" action={action} loader={loader} component={App} />
   );
   fireEvent.click(screen.getByText(/submit/i));
-  await act(async () => {
-    await waitFor(() => {
-      expect(screen.getByText(/error from action/i));
-      expect(screen.getByText(/data from action/i));
-    });
+  await waitFor(() => {
+    expect(screen.getByText(/error from action/i));
+    expect(screen.getByText(/data from action/i));
   });
 });

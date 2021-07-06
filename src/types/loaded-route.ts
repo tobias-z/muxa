@@ -31,9 +31,7 @@ interface ActionHelpers<FormBody> {
   redirect: RedirectFunction;
 }
 
-export type Params = {
-  [K in keyof string]?: string;
-};
+export type Params = Record<string, string>;
 
 interface LoadedProps {
   loader?: LoaderFunction<any>;

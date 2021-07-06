@@ -1,5 +1,5 @@
 import type * as Muxa from "../types";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext } from "react";
 import type { Context } from "react";
 import { BrowserRouter } from "react-router-dom";
 import RouterCache from "./cache/router-cache";
@@ -29,8 +29,7 @@ export function useRouterCache() {
 }
 
 export function Router({ children, ...props }: Muxa.RouterProps) {
-  // useMemo is used to be very surtain that we always have the same instance
-  let cache = useMemo(() => RouterCache.getInstance(), []);
+  let cache = RouterCache.getInstance();
 
   let Context = getRouterContext();
 

@@ -14,7 +14,7 @@ export default function useRouteData<Data, Errors = any>(
 
 export default function useRouteData<Data, Errors>(
   path?: string
-): Muxa.RouteData<Data, Errors> {
+): Muxa.RouteData<Data | undefined, Errors> {
   let cache = useRouterCache();
   let params = useParams();
   let [rerender, toggleRerender] = useState<boolean>(true);
@@ -29,11 +29,10 @@ export default function useRouteData<Data, Errors>(
       invariant(route, "Could not generate loader");
 
       return async () => {
-        if (!route.loader) {
-          throw new Error(
-            `You tried to call a loader in route: ${route.path}, but none was found`
-          );
-        }
+        invariant(
+          route.loader,
+          `You tried to call a loader in route: ${route.path}, but none was found`
+        );
 
         let realPath = path ? path : window.location.pathname;
         try {
