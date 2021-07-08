@@ -1,6 +1,5 @@
 import type * as Muxa from "../types";
 import { useRouterCache } from "./router";
-import { useParams } from "react-router-dom";
 import { useCallback, useMemo, useState } from "react";
 import invariant from "./utils/invariant";
 import { useRoutePath } from "./route-props";
@@ -20,7 +19,6 @@ export default function useRouteData<Data, Errors>(): Muxa.RouteData<
   Errors
 > {
   let cache = useRouterCache();
-  let params = useParams();
   let path = useRoutePath();
   let [rerender, toggleRerender] = useState<boolean>(true);
 
@@ -41,7 +39,10 @@ export default function useRouteData<Data, Errors>(): Muxa.RouteData<
 
         try {
           cache.toggleRouteLoading(path);
-          let routeData = await route.loader({ params, addError });
+          let routeData = await route.loader({
+            params: route.params,
+            addError,
+          });
           cache.updateRoute(route.path, { errors, routeData });
         } catch (err) {
           // Do something with the error?
