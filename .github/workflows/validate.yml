@@ -26,19 +26,14 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
-        env:
-          HUSKY_SKIP_INSTALL: true
-
       - name: ▶️ Run validate script
         run: |
+          npm install
           npm run lint
           npm test
 
       - name: ⬆️ Upload coverage report
         run: |
+          npm install
           npm install -g codecov
           npm run test:coverage_report
