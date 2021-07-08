@@ -33,4 +33,6 @@ jobs:
           npm run test
 
       - name: ⬆️ Upload coverage report
-        run: npm run test:coverage_report
+        run: |
+          npm install -g codecov  
+          npm run test:coverage_report
