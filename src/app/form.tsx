@@ -1,9 +1,9 @@
 import type * as Muxa from "../types";
 import { FormEvent, useRef } from "react";
-import { useState } from "react";
 import { useRouterCache } from "./router";
 import invariant from "./utils/invariant";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useRoutePath } from "./route-props";
 
 export default function Form({
   method = "post",
@@ -11,17 +11,15 @@ export default function Form({
   children,
 }: Muxa.FormProps) {
   let cache = useRouterCache();
-  let location = useLocation();
   let history = useHistory();
-  let actionToUse = action ? action : location.pathname;
-  let [route] = useState(() => {
-    let route = cache.get(actionToUse);
-    return route;
-  });
   let formRef = useRef<HTMLFormElement>(null);
+  let path = useRoutePath();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    let actionToUse = action ? action : path;
+    console.log(actionToUse);
+    let route = cache.get(actionToUse);
 
     invariant(
       route,

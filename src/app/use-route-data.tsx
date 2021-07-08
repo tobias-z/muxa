@@ -3,20 +3,25 @@ import { useRouterCache } from "./router";
 import { useParams } from "react-router-dom";
 import { useCallback, useMemo, useState } from "react";
 import invariant from "./utils/invariant";
+import { useRoutePath } from "./route-props";
 
-export default function useRouteData<Data = any, Errors = any>(
-  path?: string
-): Muxa.RouteData<Data | undefined, Errors>;
+export default function useRouteData<
+  Data = any,
+  Errors = any
+>(): Muxa.RouteData<Data | undefined, Errors>;
 
-export default function useRouteData<Data, Errors = any>(
-  path?: string
-): Muxa.RouteData<Data | undefined, Errors>;
+export default function useRouteData<Data, Errors = any>(): Muxa.RouteData<
+  Data | undefined,
+  Errors
+>;
 
-export default function useRouteData<Data, Errors>(
-  path?: string
-): Muxa.RouteData<Data | undefined, Errors> {
+export default function useRouteData<Data, Errors>(): Muxa.RouteData<
+  Data | undefined,
+  Errors
+> {
   let cache = useRouterCache();
   let params = useParams();
+  let path = useRoutePath();
   let [rerender, toggleRerender] = useState<boolean>(true);
 
   let getLoader = useCallback(
@@ -34,16 +39,15 @@ export default function useRouteData<Data, Errors>(
           `You tried to call a loader in route: ${route.path}, but none was found`
         );
 
-        let realPath = path ? path : window.location.pathname;
         try {
-          cache.toggleRouteLoading(realPath);
+          cache.toggleRouteLoading(path);
           let routeData = await route.loader({ params, addError });
           cache.updateRoute(route.path, { errors, routeData });
         } catch (err) {
           // Do something with the error?
           console.error(err.message);
         } finally {
-          cache.toggleRouteLoading(realPath);
+          cache.toggleRouteLoading(path);
           toggleRerender(!rerender);
         }
       };
@@ -52,10 +56,7 @@ export default function useRouteData<Data, Errors>(
   );
 
   function getRoute() {
-    if (path) {
-      return cache.get(path);
-    }
-    return cache.get(window.location.pathname);
+    return cache.get(path);
   }
 
   let route = getRoute();

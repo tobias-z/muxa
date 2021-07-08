@@ -28,9 +28,9 @@ export function useRouterCache() {
   return context;
 }
 
-export function Router({ children, ...props }: Muxa.RouterProps) {
-  let cache = RouterCache.getInstance();
+let cache = RouterCache.getInstance();
 
+export function Router({ children, ...props }: Muxa.RouterProps) {
   let Context = getRouterContext();
 
   return (

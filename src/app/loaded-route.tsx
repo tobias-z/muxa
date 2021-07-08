@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useHistory, Route } from "react-router-dom";
 import { useRouterCache } from "./router";
 import { getParams, shouldRefetchLoader, getRealPathname } from "./utils/utils";
+import { RoutePropsProvider } from "./route-props";
 
 export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   let { path, loader, exact, action } = props;
@@ -10,7 +11,8 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   let history = useHistory();
   let params = getParams(path);
   let [rerender, toggleRerender] = useState<boolean>(true);
-  let route = cache.get(getRealPathname(path));
+  let thePath = getRealPathname(path);
+  let route = cache.get(thePath);
 
   useEffect(() => {
     // Checks if route is added and adds a brand new one if it doesn't
@@ -61,5 +63,9 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
 
   if (!route) return null;
 
-  return <Route {...props} />;
+  return (
+    <RoutePropsProvider routePath={path}>
+      <Route {...props} />
+    </RoutePropsProvider>
+  );
 }

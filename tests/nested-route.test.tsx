@@ -14,7 +14,7 @@ let parentLoader: LoaderFunction = async () => {
 };
 
 function Parent() {
-  let { data } = useRouteData<{ info?: string }>("/");
+  let { data } = useRouteData<{ info?: string }>();
   let { push } = useHistory();
   return (
     <>

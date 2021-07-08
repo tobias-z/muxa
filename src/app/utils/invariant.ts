@@ -11,9 +11,7 @@ export default function invariant<T>(
 export default function invariant(value: any, message?: string) {
   /* istanbul ignore next */
   if (value === false || value === null || typeof value === "undefined") {
-    console.error(
-      "Muxa's app code messed up, this is not a problem on your part."
-    );
+    console.error(message);
     throw new Error(message);
   }
 }

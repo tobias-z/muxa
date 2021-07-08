@@ -15,7 +15,7 @@ type Errors = {
 };
 
 function ErrorApp() {
-  let { data: routeData, errors } = useRouteData<Data, Errors>("/some-error");
+  let { data: routeData, errors } = useRouteData<Data, Errors>();
   return (
     <>
       {routeData && <p data-testid="hello">{routeData.info}</p>}
@@ -50,7 +50,7 @@ function App() {
 }
 
 function OtherApp() {
-  let { data: routeData } = useRouteData<{ info: string }>("/other-app");
+  let { data: routeData } = useRouteData<{ info: string }>();
 
   return (
     <>
