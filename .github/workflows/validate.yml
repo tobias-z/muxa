@@ -18,22 +18,23 @@ jobs:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.0
 
-      - name: ⏭ Checkout repo
+      - name: ⬇️ Checkout repo
         uses: actions/checkout@v2
 
-      - name: 👷 Setup node
+      - name: ⎔ Setup node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
 
-      - name: ▶️ Run validate script
-        run: |
-          npm install
-          npm run lint
-          npm test
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: false
+        env:
+          HUSKY_SKIP_INSTALL: true
+
+      - name: ▶️ Run tests
+        run: npm run test
 
       - name: ⬆️ Upload coverage report
-        run: |
-          npm install
-          npm install -g codecov
-          npm run test:coverage_report
+        uses: codecov/codecov-action@v1
