@@ -56,17 +56,15 @@ export default function useRouteData<Data, Errors>(): Muxa.RouteData<
     [window.location.pathname, path]
   );
 
-  function getRoute() {
-    return cache.get(path);
-  }
-
-  let route = getRoute();
+  let route = cache.get(path);
   let runLoader = useMemo(() => getLoader(route), [getLoader]);
 
+  invariant(route, `Route with path: ${path}, was not defined`);
+
   return {
-    data: route?.routeData as Data | undefined,
+    data: route.routeData as Data | undefined,
     runLoader,
-    errors: route?.errors as Errors,
-    isLoading: route?.isLoading as boolean,
+    errors: route.errors as Errors,
+    isLoading: route.isLoading,
   };
 }

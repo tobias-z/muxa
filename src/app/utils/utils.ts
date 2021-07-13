@@ -44,6 +44,16 @@ interface RouteParams {
   params: Muxa.Params;
 }
 
+function isParamaterizedAndHasUndefinedParam(route: RouteParams): boolean {
+  if (route.path?.includes(":")) {
+    let param = Object.values(route.params)[0];
+    if (param === undefined || param === "") {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function shouldRefetchLoader(
   route: RouteParams,
   history: History
@@ -59,24 +69,14 @@ export function shouldRefetchLoader(
     willRender = true;
   }
 
-  function isParamaterizedAndHasUndefinedParam(): boolean {
-    if (route.path?.includes(":")) {
-      let param = Object.values(route.params)[0];
-      if (param === undefined || param === "") {
-        return true;
-      }
-    }
-    return false;
-  }
-
   if (
     history.activePaths.has(route.path) &&
-    !isParamaterizedAndHasUndefinedParam()
+    !isParamaterizedAndHasUndefinedParam(route)
   ) {
     willRender = true;
   }
 
-  if (isParamaterizedAndHasUndefinedParam()) {
+  if (isParamaterizedAndHasUndefinedParam(route)) {
     willRender = false;
   }
 

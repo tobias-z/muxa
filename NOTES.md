@@ -2,12 +2,8 @@
 
 - [ ] SourceCode
 
-  - [x] Keep track of previous path state
-  - [x] Make loader not required
-  - [x] Make Form and call action
-  - [ ] Fix params type
-  - [ ] Fix typing of data in useRouteData
-  - [ ] Optimize Action
+  - [ ] Create a route-config file for dynamic routing through a routes folder
+  - [ ] Fix nested folder routes
   - [ ] 'usePendingFormSubmit'
   - [ ] Caching option on route (default to 1 minute)
   - [ ] Make only the route which changes call loader

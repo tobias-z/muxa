@@ -2,14 +2,13 @@ import type * as Muxa from "../types";
 import type { ReactNode } from "react";
 import { createContext, useContext, useState } from "react";
 import { getRealPathname } from "./utils/utils";
+import invariant from "./utils/invariant";
 
 let RouteContext = createContext<Muxa.Path | undefined>(undefined);
 
 export function useRoutePath() {
   let context = useContext(RouteContext);
-  if (!context) {
-    throw new Error("useRoutePath was used outside of a LoadedRoute");
-  }
+  invariant(context, "useRoutePath was used outside of a LoadedRoute");
   return context;
 }
 

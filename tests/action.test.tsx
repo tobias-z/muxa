@@ -12,20 +12,16 @@ import {
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 let action: ActionFunction<{ name?: string }> = async ({
-  body,
-  method,
   redirect,
   addError,
   addData,
 }) => {
-  console.log(`body: ${JSON.stringify(body, null, " ")}, method: ${method}`);
   addError("error", "Error from action");
   addData("action", "Data from action");
   return redirect("/");
 };
 
 let loader: LoaderFunction = async () => {
-  console.log("running loader");
   return { hello: "hello" };
 };
 
@@ -64,6 +60,32 @@ test("Data and errors can be added in the action function", async () => {
   );
   fireEvent.click(screen.getByText(/submit/i));
   await waitFor(() => {
+    expect(screen.getByText(/error from action/i));
+    expect(screen.getByText(/data from action/i));
+  });
+});
+
+function ActionApp() {
+  let { errors, data } = useRouteData();
+  return (
+    <>
+      <Form action="/">
+        <input name="name" defaultValue="bob" />
+        <button type="submit">Submit</button>
+      </Form>
+      {errors.error && <p>{errors.error}</p>}
+      {data.action && <p>{data.action}</p>}
+    </>
+  );
+}
+
+test("using the action prop will post to the choosen path", async () => {
+  await renderWithRouter(
+    <LoadedRoute path="/" action={action} component={ActionApp} />
+  );
+  fireEvent.click(screen.getByText(/submit/i));
+  await waitFor(() => {
+    // Data comes from action
     expect(screen.getByText(/error from action/i));
     expect(screen.getByText(/data from action/i));
   });
