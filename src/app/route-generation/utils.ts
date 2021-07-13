@@ -50,11 +50,7 @@ export function getRoute(fileName: string, theFile: number) {
   // It is a directory
   if (isDirectory(fileName)) {
     let directory = new Directory(fileName, theFile);
-
-    return {
-      path: getPath(fileName),
-      childRoutes: directory.getDirectory(),
-    };
+    directory.getDirectory();
   }
 
   let file = new File(fileName, theFile);
