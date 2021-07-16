@@ -11,6 +11,10 @@
 
 </div>
 
+# Not working
+
+> Please do not use this package. It is in beta, and not really useful yet
+
 ## Docs
 
 **[View documentation here](https://muxa.tobias-z.com)**

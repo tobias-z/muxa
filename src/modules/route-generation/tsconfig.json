@@ -1,23 +1,15 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
     "target": "es6",
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "strict": true,
     "declaration": true,
-    "outDir": "./dist",
+    "outDir": "../../../dist",
     "noImplicitAny": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true
-  },
-  "exclude": [
-    "tests",
-    "dist",
-    "node_modules",
-    "docs",
-    "src/routes",
-    "src/modules/route-generation"
-  ]
+  }
 }

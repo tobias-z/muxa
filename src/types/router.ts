@@ -22,4 +22,5 @@ export interface Route {
   isLoading: boolean;
   loader?: LoaderFunction<any>;
   action?: ActionFunction<any>;
+  Component: ReactNode;
 }

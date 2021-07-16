@@ -1,10 +1,10 @@
 {
-  "name": "muxa",
-  "version": "0.0.1",
+  "name": "@tobias-z/muxa",
+  "version": "0.0.2",
   "description": "Something great",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc -p ./src/modules/route-generation",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -12,7 +12,10 @@
     "lint": "eslint --ext=.tsx,.ts  .",
     "prettier": "prettier --write .",
     "setup": "npm install && npm test",
-    "migrate": "npm run build && node dist/app/route-generation/index.js $1"
+    "migrate": "node dist/modules/route-generation/index.js typescript"
+  },
+  "bin": {
+    "muxa": "dist/modules/route-generation/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/tobias-z/muxa/issues"
   },
-  "homepage": "https://github.com/tobias-z/muxa#readme",
+  "homepage": "https://muxa.tobias-z.com",
   "files": [
     "dist"
   ],
@@ -31,6 +34,10 @@
   ],
   "author": "Tobias Zimmermann",
   "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-router-dom": "^5.2.0"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -52,14 +59,10 @@
     "ts-node": "^10.1.0",
     "typescript": "^4.3.4"
   },
-  "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-router-dom": "^5.2.0"
-  },
   "eslintIgnore": [
-    "node_modules",
+    "**/node_modules",
     "coverage",
-    "dist",
+    "**/dist",
     "*.d.ts"
   ]
 }

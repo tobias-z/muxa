@@ -1,5 +1,5 @@
 **/node_modules
-dist
+**/dist
 coverage
 
 # these cause more harm than good
