@@ -1,5 +1,6 @@
-import { test } from "./generate-all-routes.js";
-import { getFileIdentifier, getPath } from "./utils.js";
+import { test } from "./generate-all-routes";
+import { getFileIdentifier } from "./utils/get-file-identifier";
+import { getPath } from "./utils";
 
 export default class File {
   private readonly fileName: string;
@@ -18,12 +19,16 @@ export default class File {
 
     let theImport = `./routes/${replacedFileIdentifier}`;
 
+    /* istanbul ignore next */
     if (test) {
       theImport = `../src/routes/${replacedFileIdentifier}`;
     }
 
     // Remove slashes and replace colon with dolor since it cannot be used as a name
-    let uniqueEndOfName = path.replace(/\//g, "").replace(/:\s*/g, "$");
+    let uniqueEndOfName = path
+      .replace(/\//g, "")
+      .replace(/:\s*/g, "$")
+      .replace(/-\s*/g, "");
 
     return {
       path,

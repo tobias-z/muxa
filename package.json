@@ -4,15 +4,14 @@
   "description": "Something great",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc && tsc -p ./src/modules/route-generation",
+    "build": "tsc -p .",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:coverage_report": "jest --ci --coverage && codecov",
     "lint": "eslint --ext=.tsx,.ts  .",
     "prettier": "prettier --write .",
-    "setup": "npm install && npm test",
-    "migrate": "node dist/modules/route-generation/index.js typescript"
+    "setup": "npm install && npm test"
   },
   "bin": {
     "muxa": "dist/modules/route-generation/index.js"

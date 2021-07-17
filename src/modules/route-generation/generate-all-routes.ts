@@ -1,11 +1,7 @@
 import type * as Muxa from "../../types";
 import { join } from "path";
 import { readdirSync, openSync, appendFileSync } from "fs";
-import {
-  getRoute,
-  getUsersFileIdentifier,
-  handleReturnedRoute,
-} from "./utils.js";
+import { getRoute, getUsersFileIdentifier, handleReturnedRoute } from "./utils";
 
 export let test = false;
 
@@ -19,7 +15,7 @@ function getFilePath() {
   return filePath;
 }
 
-let generateExportedRoutes = (routes: Muxa.RoutesToString) => {
+function generateExportedRoutes(routes: Muxa.RoutesToString) {
   let identifier = getUsersFileIdentifier();
   return routes
     .map(route => {
@@ -43,7 +39,7 @@ let generateExportedRoutes = (routes: Muxa.RoutesToString) => {
       `;
     })
     .join("");
-};
+}
 
 function createRouteConfig(routes: Muxa.RoutesToString) {
   let filePath = getFilePath();

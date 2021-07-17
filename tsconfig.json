@@ -10,14 +10,17 @@
     "alwaysStrict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "allowJs": true
   },
   "exclude": [
     "tests",
+    "coverage",
     "dist",
     "node_modules",
     "docs",
     "src/routes",
-    "src/modules/route-generation"
+    "src/route-config.js",
+    "jest.config.js"
   ]
 }

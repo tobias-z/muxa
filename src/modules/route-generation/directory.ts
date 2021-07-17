@@ -1,7 +1,7 @@
 import type * as Muxa from "../../types";
 import { join } from "path";
 import { readdirSync } from "fs";
-import { getRoute, handleReturnedRoute } from "./utils.js";
+import { getRoute, handleReturnedRoute } from "./utils";
 
 export default class Directory {
   private readonly dirName: string;
@@ -18,11 +18,9 @@ export default class Directory {
     let directory = readdirSync(pathToDir);
 
     for (let fileName of directory) {
-      if (!fileName.includes(".d.ts")) {
-        let newName = `${this.dirName}/${fileName}`;
-        let returned = await getRoute(newName, this.routes);
-        handleReturnedRoute(this.routes, returned);
-      }
+      let newName = `${this.dirName}/${fileName}`;
+      let returned = await getRoute(newName, this.routes);
+      handleReturnedRoute(this.routes, returned);
     }
     return this.routes;
   }

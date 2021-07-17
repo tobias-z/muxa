@@ -1,5 +1,9 @@
 module.exports = {
+  transform: {
+    ".(ts|tsx)": "ts-jest",
+  },
   preset: "ts-jest",
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   roots: ["<rootDir>/tests"],
   testEnvironment: "node",
   coverageDirectory: "coverage",
