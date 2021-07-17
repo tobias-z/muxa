@@ -16,27 +16,15 @@ function getFilePath() {
 }
 
 function generateExportedRoutes(routes: Muxa.RoutesToString) {
-  let identifier = getUsersFileIdentifier();
   return routes
     .map(route => {
-      if (identifier === "js") {
-        return `{
-      path: "${route.path}",
-      Component: ${route.Component}.default,
-      loader: ${route.Component}.loader,
-      action: ${route.Component}.action,
-    },
-    `;
-      }
       return `{
       path: "${route.path}",
       Component: ${route.Component}.default,
-      // @ts-ignore
-      loader: ${route.Component}.loader,
-      // @ts-ignore
-      action: ${route.Component}.action,
-      },
-      `;
+      loader: doesFunctionExist(${route.Component}, "loader"),
+      action: doesFunctionExist(${route.Component}, "action"),
+    },
+    `;
     })
     .join("");
 }
@@ -44,6 +32,7 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
 function createRouteConfig(routes: Muxa.RoutesToString) {
   let filePath = getFilePath();
   let file = openSync(filePath, "w");
+  let identifier = getUsersFileIdentifier();
 
   for (let route of routes) {
     appendFileSync(
@@ -52,9 +41,19 @@ function createRouteConfig(routes: Muxa.RoutesToString) {
 `
     );
   }
+
   appendFileSync(
     file,
     `
+function doesFunctionExist(route${identifier === "ts" ? ": any" : ""}, fn${
+      identifier === "ts" ? ": any" : ""
+    }) {
+  if (typeof route[fn] === "function") {
+    return route[fn];
+  }
+  return undefined;
+}
+  
 export const routes = [
   ${generateExportedRoutes(routes)}
 ]`

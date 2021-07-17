@@ -10,6 +10,8 @@ export default function Document({ routes }: Muxa.DocumentProps) {
           key={route.path}
           path={route.path}
           component={route.Component}
+          loader={route.loader}
+          action={route.action}
         />
       ))}
     </Switch>

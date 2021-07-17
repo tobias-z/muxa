@@ -5,7 +5,7 @@ export function loader() {
   };
 }
 
-export function action({ redirect }: any) {
+export async function action({ redirect }: any) {
   console.log("action");
   return redirect("/");
 }

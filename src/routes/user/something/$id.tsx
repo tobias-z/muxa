@@ -1,11 +1,11 @@
-export function loader() {
+export async function loader() {
   console.log("loader");
   return {
     something: "hello",
   };
 }
 
-export function action({ redirect }: any) {
+export async function action({ redirect }: any) {
   console.log("action");
   return redirect("/");
 }

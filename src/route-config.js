@@ -6,48 +6,55 @@ import * as Componentuser$id from "./routes/user/$id";
 import * as Componentuserme from "./routes/user/me";
 import * as Componentusersomething$id from "./routes/user/something/$id";
 
+function doesFunctionExist(route, fn) {
+  if (typeof route[fn] === "function") {
+    return route[fn];
+  }
+  return undefined;
+}
+  
 export const routes = [
   {
       path: "/about",
       Component: Componentabout.default,
-      loader: Componentabout.loader,
-      action: Componentabout.action,
+      loader: doesFunctionExist(Componentabout, "loader"),
+      action: doesFunctionExist(Componentabout, "action"),
     },
     {
       path: "/blog",
       Component: Componentblog.default,
-      loader: Componentblog.loader,
-      action: Componentblog.action,
+      loader: doesFunctionExist(Componentblog, "loader"),
+      action: doesFunctionExist(Componentblog, "action"),
     },
     {
       path: "/",
       Component: Component.default,
-      loader: Component.loader,
-      action: Component.action,
+      loader: doesFunctionExist(Component, "loader"),
+      action: doesFunctionExist(Component, "action"),
     },
     {
       path: "/user/:id/:slug",
       Component: Componentuser$id$slug.default,
-      loader: Componentuser$id$slug.loader,
-      action: Componentuser$id$slug.action,
+      loader: doesFunctionExist(Componentuser$id$slug, "loader"),
+      action: doesFunctionExist(Componentuser$id$slug, "action"),
     },
     {
       path: "/user/:id",
       Component: Componentuser$id.default,
-      loader: Componentuser$id.loader,
-      action: Componentuser$id.action,
+      loader: doesFunctionExist(Componentuser$id, "loader"),
+      action: doesFunctionExist(Componentuser$id, "action"),
     },
     {
       path: "/user/me",
       Component: Componentuserme.default,
-      loader: Componentuserme.loader,
-      action: Componentuserme.action,
+      loader: doesFunctionExist(Componentuserme, "loader"),
+      action: doesFunctionExist(Componentuserme, "action"),
     },
     {
       path: "/user/something/:id",
       Component: Componentusersomething$id.default,
-      loader: Componentusersomething$id.loader,
-      action: Componentusersomething$id.action,
+      loader: doesFunctionExist(Componentusersomething$id, "loader"),
+      action: doesFunctionExist(Componentusersomething$id, "action"),
     },
     
 ]
