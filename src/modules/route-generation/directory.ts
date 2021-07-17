@@ -12,14 +12,14 @@ export default class Directory {
     this.routes = routes;
   }
 
-  async getDirectory() {
+  getDirectory() {
     let pathToDir = join(process.cwd(), `src/routes/${this.dirName}`);
 
     let directory = readdirSync(pathToDir);
 
     for (let fileName of directory) {
       let newName = `${this.dirName}/${fileName}`;
-      let returned = await getRoute(newName, this.routes);
+      let returned = getRoute(newName, this.routes, directory);
       handleReturnedRoute(this.routes, returned);
     }
     return this.routes;

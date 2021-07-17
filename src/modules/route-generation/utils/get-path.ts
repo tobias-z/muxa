@@ -11,5 +11,10 @@ export function getPath(fileName: string) {
     removedFileIdentifier = removedFileIdentifier.replace(/\$/g, ":");
   }
 
+  console.log(removedFileIdentifier);
+  if (removedFileIdentifier.startsWith("/")) {
+    return removedFileIdentifier;
+  }
+
   return "/" + removedFileIdentifier;
 }

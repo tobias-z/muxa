@@ -3,16 +3,20 @@ import Directory from "../directory";
 import File from "../file";
 import { isDirectory } from "./is-directory";
 
-export async function getRoute(fileName: string, routes: Muxa.RoutesToString) {
+export function getRoute(
+  fileName: string,
+  routes: Muxa.RoutesToString,
+  currentDir: Array<string>
+) {
   // If the fileName does not have an indicator
   // It is a directory
   if (isDirectory(fileName)) {
     let directory = new Directory(fileName, routes);
-    return await directory.getDirectory();
+    return directory.getDirectory();
   }
 
-  let file = new File(fileName);
-  return await file.getRoute();
+  let file = new File(fileName, currentDir);
+  return file.getRoute();
 }
 
 export function handleReturnedRoute(

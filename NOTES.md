@@ -4,7 +4,7 @@
 
   - [x] Test route generation in other project
   - [x] create Document component
-  - [ ] Get coverage and commit
+  - [ ] Make route-config put child routes in a nested routes array
   - [ ] 'usePendingFormSubmit'
   - [ ] Caching option on route (default to 1 minute)
   - [ ] Make only the route which changes call loader

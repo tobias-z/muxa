@@ -13,6 +13,7 @@ export interface ConfigRouteToString {
   path: string;
   import: string;
   Component: string;
+  routes?: RoutesToString;
 }
 
 export type Routes = Array<ConfigRoute>;

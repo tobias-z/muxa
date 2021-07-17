@@ -1,27 +1,58 @@
+import type * as Muxa from "../../types";
 import { test } from "./generate-all-routes";
 import { getFileIdentifier } from "./utils/get-file-identifier";
 import { getPath } from "./utils";
+import Directory from "./directory";
 
 export default class File {
   private readonly fileName: string;
+  private readonly currentDir: Array<string>;
+  private replacedFileIdentifier: string;
 
-  constructor(fileName: string) {
+  constructor(fileName: string, currentDir: Array<string>) {
     this.fileName = fileName;
-  }
-
-  async getRoute() {
-    let path = getPath(this.fileName);
-
-    let replacedFileIdentifier = this.fileName.replace(
-      getFileIdentifier(this.fileName),
+    this.currentDir = currentDir;
+    this.replacedFileIdentifier = fileName.replace(
+      getFileIdentifier(fileName),
       ""
     );
+  }
 
-    let theImport = `./routes/${replacedFileIdentifier}`;
+  private getChildRoutes(
+    route: Muxa.ConfigRouteToString
+  ): Muxa.ConfigRouteToString {
+    // Check for directory with the same name as file
+    let routes: Muxa.RoutesToString = [];
+    for (let fileName of this.currentDir) {
+      let splitReplaced = this.replacedFileIdentifier.split("/");
+      if (fileName === splitReplaced[splitReplaced.length - 1]) {
+        let currentDirArray = this.fileName.split("/");
+        currentDirArray.pop();
+        let directory = new Directory(
+          `${currentDirArray.join("")}/${fileName}`,
+          routes
+        );
+        routes = directory.getDirectory();
+      }
+    }
+    route.routes = routes;
+    return route;
+  }
+
+  getRoute() {
+    let path = getPath(this.fileName);
+
+    if (this.replacedFileIdentifier.startsWith("/")) {
+      this.replacedFileIdentifier = this.replacedFileIdentifier.replace(
+        "/",
+        ""
+      );
+    }
+    let theImport = `./routes/${this.replacedFileIdentifier}`;
 
     /* istanbul ignore next */
     if (test) {
-      theImport = `../src/routes/${replacedFileIdentifier}`;
+      theImport = `../src/routes/${this.replacedFileIdentifier}`;
     }
 
     // Remove slashes and replace colon with dolor since it cannot be used as a name
@@ -30,10 +61,12 @@ export default class File {
       .replace(/:\s*/g, "$")
       .replace(/-\s*/g, "");
 
-    return {
+    let route: Muxa.ConfigRouteToString = {
       path,
       import: theImport,
       Component: `Component${uniqueEndOfName}`,
     };
+
+    return this.getChildRoutes(route);
   }
 }

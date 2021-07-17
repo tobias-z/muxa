@@ -1,4 +1,6 @@
 import * as Componentabout from "./routes/about";
+import * as Componentblog$slug$id from "./routes/blog/$slug/$id";
+import * as Componentblog$slug from "./routes/blog/$slug";
 import * as Componentblog from "./routes/blog";
 import * as Component from "./routes/index";
 import * as Componentuser$id$slug from "./routes/user/$id/$slug";
@@ -19,6 +21,18 @@ export const routes = [
       Component: Componentabout.default,
       loader: doesFunctionExist(Componentabout, "loader"),
       action: doesFunctionExist(Componentabout, "action"),
+    },
+    {
+      path: "/blog/:slug/:id",
+      Component: Componentblog$slug$id.default,
+      loader: doesFunctionExist(Componentblog$slug$id, "loader"),
+      action: doesFunctionExist(Componentblog$slug$id, "action"),
+    },
+    {
+      path: "/blog/:slug",
+      Component: Componentblog$slug.default,
+      loader: doesFunctionExist(Componentblog$slug, "loader"),
+      action: doesFunctionExist(Componentblog$slug, "action"),
     },
     {
       path: "/blog",
