@@ -2,8 +2,9 @@
 
 - [ ] SourceCode
 
-  - [ ] Create a route-config file for dynamic routing through a routes folder
-  - [ ] Fix nested folder routes
+  - [x] Test route generation in other project
+  - [x] create Document component
+  - [ ] Get coverage and commit
   - [ ] 'usePendingFormSubmit'
   - [ ] Caching option on route (default to 1 minute)
   - [ ] Make only the route which changes call loader

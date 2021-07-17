@@ -1,6 +1,10 @@
 module.exports = {
-  roots: ["<rootDir>/tests"],
+  transform: {
+    ".(ts|tsx)": "ts-jest",
+  },
   preset: "ts-jest",
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
+  roots: ["<rootDir>/tests"],
   testEnvironment: "node",
   coverageDirectory: "coverage",
   testPathIgnorePatterns: ["/node_modules"],
@@ -17,6 +21,7 @@ module.exports = {
   collectCoverageFrom: [
     "**/*.{ts,tsx,js,jsx}",
     "!**/node_modules/**",
+    "!**/src/routes/**",
     "!**/vendor/**",
     "!**/docs/**",
     "!**/tests/**",

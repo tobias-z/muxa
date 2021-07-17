@@ -1,12 +1,12 @@
-import * as Componentabout from "../src/routes/about";
-import * as Componentblog from "../src/routes/blog";
-import * as Component from "../src/routes/index";
-import * as Componentuser$id$slug from "../src/routes/user/$id/$slug";
-import * as Componentuser$id from "../src/routes/user/$id";
-import * as Componentuserme from "../src/routes/user/me";
-import * as Componentusersomething$id from "../src/routes/user/something/$id";
+import * as Componentabout from "./routes/about";
+import * as Componentblog from "./routes/blog";
+import * as Component from "./routes/index";
+import * as Componentuser$id$slug from "./routes/user/$id/$slug";
+import * as Componentuser$id from "./routes/user/$id";
+import * as Componentuserme from "./routes/user/me";
+import * as Componentusersomething$id from "./routes/user/something/$id";
 
-function doesFunctionExist(route: any, fn: any) {
+function doesFunctionExist(route, fn) {
   if (typeof route[fn] === "function") {
     return route[fn];
   }

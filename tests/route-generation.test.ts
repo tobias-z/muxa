@@ -1,5 +1,15 @@
-import { generateAllRoutes } from "../src/app/route-generation/generate-all-routes";
+import { generateAllRoutes } from "../src/modules/route-generation/generate-all-routes";
+
+function putTypescriptArgInProcess() {
+  process.argv.push("typescript");
+}
 
 test("route generation does not throw an error", () => {
+  putTypescriptArgInProcess();
   expect(() => generateAllRoutes(true)).not.toThrow();
+});
+
+test("Will create js route config in src/routes", () => {
+  process.argv[2] = "";
+  expect(() => generateAllRoutes(false)).not.toThrow();
 });
