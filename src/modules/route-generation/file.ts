@@ -25,13 +25,17 @@ export default class File {
     let routes: Muxa.RoutesToString = [];
     for (let fileName of this.currentDir) {
       let splitReplaced = this.replacedFileIdentifier.split("/");
-      if (fileName === splitReplaced[splitReplaced.length - 1]) {
-        let currentDirArray = this.fileName.split("/");
-        currentDirArray.pop();
-        let directory = new Directory(
-          `${currentDirArray.join("")}/${fileName}`,
-          routes
+      let hasDirectoryWithTheSameNameAsFile =
+        fileName === splitReplaced[splitReplaced.length - 1];
+      if (hasDirectoryWithTheSameNameAsFile) {
+        // Removes the everything after the last slash
+        let startOfDir = this.fileName.substr(
+          0,
+          this.fileName.lastIndexOf("/")
         );
+        let dirName = `${startOfDir}/${fileName}`;
+        console.log({ dirName, replaced: this.replacedFileIdentifier });
+        let directory = new Directory(dirName, routes);
         routes = directory.getDirectory();
       }
     }

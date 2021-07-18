@@ -1,11 +1,7 @@
 import { generateAllRoutes } from "../src/modules/route-generation/generate-all-routes";
 
-function putTypescriptArgInProcess() {
-  process.argv.push("typescript");
-}
-
 test("route generation does not throw an error", () => {
-  putTypescriptArgInProcess();
+  process.argv.push("typescript");
   expect(() => generateAllRoutes(true)).not.toThrow();
 });
 

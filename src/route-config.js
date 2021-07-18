@@ -3,10 +3,10 @@ import * as Componentblog$slug$id from "./routes/blog/$slug/$id";
 import * as Componentblog$slug from "./routes/blog/$slug";
 import * as Componentblog from "./routes/blog";
 import * as Component from "./routes/index";
-import * as Componentuser$id$slug from "./routes/user/$id/$slug";
-import * as Componentuser$id from "./routes/user/$id";
-import * as Componentuserme from "./routes/user/me";
-import * as Componentusersomething$id from "./routes/user/something/$id";
+import * as Componentuserprofilename$id from "./routes/user/profile/name/$id";
+import * as Componentuserprofilename from "./routes/user/profile/name";
+import * as Componentusersomething$slug from "./routes/user/something/$slug";
+import * as Componentusersomething from "./routes/user/something";
 
 function doesFunctionExist(route, fn) {
   if (typeof route[fn] === "function") {
@@ -17,58 +17,67 @@ function doesFunctionExist(route, fn) {
   
 export const routes = [
   {
-      path: "/about",
-      Component: Componentabout.default,
-      loader: doesFunctionExist(Componentabout, "loader"),
-      action: doesFunctionExist(Componentabout, "action"),
-    },
-    {
-      path: "/blog/:slug/:id",
-      Component: Componentblog$slug$id.default,
-      loader: doesFunctionExist(Componentblog$slug$id, "loader"),
-      action: doesFunctionExist(Componentblog$slug$id, "action"),
-    },
-    {
-      path: "/blog/:slug",
-      Component: Componentblog$slug.default,
-      loader: doesFunctionExist(Componentblog$slug, "loader"),
-      action: doesFunctionExist(Componentblog$slug, "action"),
-    },
-    {
-      path: "/blog",
-      Component: Componentblog.default,
-      loader: doesFunctionExist(Componentblog, "loader"),
-      action: doesFunctionExist(Componentblog, "action"),
-    },
-    {
-      path: "/",
-      Component: Component.default,
-      loader: doesFunctionExist(Component, "loader"),
-      action: doesFunctionExist(Component, "action"),
-    },
-    {
-      path: "/user/:id/:slug",
-      Component: Componentuser$id$slug.default,
-      loader: doesFunctionExist(Componentuser$id$slug, "loader"),
-      action: doesFunctionExist(Componentuser$id$slug, "action"),
-    },
-    {
-      path: "/user/:id",
-      Component: Componentuser$id.default,
-      loader: doesFunctionExist(Componentuser$id, "loader"),
-      action: doesFunctionExist(Componentuser$id, "action"),
-    },
-    {
-      path: "/user/me",
-      Component: Componentuserme.default,
-      loader: doesFunctionExist(Componentuserme, "loader"),
-      action: doesFunctionExist(Componentuserme, "action"),
-    },
-    {
-      path: "/user/something/:id",
-      Component: Componentusersomething$id.default,
-      loader: doesFunctionExist(Componentusersomething$id, "loader"),
-      action: doesFunctionExist(Componentusersomething$id, "action"),
-    },
-    
+        path: "/blog",
+        Component: Componentblog.default,
+        loader: doesFunctionExist(Componentblog, "loader"),
+        action: doesFunctionExist(Componentblog, "action"),
+        routes: [{
+        path: "/blog/:slug",
+        Component: Componentblog$slug.default,
+        loader: doesFunctionExist(Componentblog$slug, "loader"),
+        action: doesFunctionExist(Componentblog$slug, "action"),
+        routes: [{
+        path: "/blog/:slug/:id",
+        Component: Componentblog$slug$id.default,
+        loader: doesFunctionExist(Componentblog$slug$id, "loader"),
+        action: doesFunctionExist(Componentblog$slug$id, "action"),
+        routes: []
+      },
+      ]
+      },
+      ]
+      },
+      {
+        path: "/user/profile/name",
+        Component: Componentuserprofilename.default,
+        loader: doesFunctionExist(Componentuserprofilename, "loader"),
+        action: doesFunctionExist(Componentuserprofilename, "action"),
+        routes: [{
+        path: "/user/profile/name/:id",
+        Component: Componentuserprofilename$id.default,
+        loader: doesFunctionExist(Componentuserprofilename$id, "loader"),
+        action: doesFunctionExist(Componentuserprofilename$id, "action"),
+        routes: []
+      },
+      ]
+      },
+      {
+        path: "/user/something",
+        Component: Componentusersomething.default,
+        loader: doesFunctionExist(Componentusersomething, "loader"),
+        action: doesFunctionExist(Componentusersomething, "action"),
+        routes: [{
+        path: "/user/something/:slug",
+        Component: Componentusersomething$slug.default,
+        loader: doesFunctionExist(Componentusersomething$slug, "loader"),
+        action: doesFunctionExist(Componentusersomething$slug, "action"),
+        routes: []
+      },
+      ]
+      },
+      {
+        path: "/about",
+        Component: Componentabout.default,
+        loader: doesFunctionExist(Componentabout, "loader"),
+        action: doesFunctionExist(Componentabout, "action"),
+        routes: []
+      },
+      {
+        path: "/",
+        Component: Component.default,
+        loader: doesFunctionExist(Component, "loader"),
+        action: doesFunctionExist(Component, "action"),
+        routes: []
+      },
+      
 ]

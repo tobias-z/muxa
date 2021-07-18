@@ -16,17 +16,78 @@ function getFilePath() {
 }
 
 function generateExportedRoutes(routes: Muxa.RoutesToString) {
-  return routes
-    .map(route => {
-      return `{
-      path: "${route.path}",
-      Component: ${route.Component}.default,
-      loader: doesFunctionExist(${route.Component}, "loader"),
-      action: doesFunctionExist(${route.Component}, "action"),
-    },
-    `;
-    })
-    .join("");
+  let usedImports: Array<string> = [];
+
+  function getRouteString(route: Muxa.ConfigRouteToString): string {
+    usedImports.push(route.import);
+    return `{
+        path: "${route.path}",
+        Component: ${route.Component}.default,
+        loader: doesFunctionExist(${route.Component}, "loader"),
+        action: doesFunctionExist(${route.Component}, "action"),
+        ${getChildRoutes(route)}
+      },
+      `;
+  }
+
+  function getChildRoutes(route: Muxa.ConfigRouteToString): string {
+    if (!route.routes) return "routes: []";
+    if (route.routes.length < 1) return "routes: []";
+    let toReturn = "routes: [";
+    toReturn = toReturn + goThroughAllWithChildRoute(route.routes);
+    for (let childRoute of route.routes) {
+      if (isUsedImport(usedImports, childRoute.import)) continue;
+      toReturn = toReturn + getRouteString(childRoute);
+    }
+    toReturn = toReturn + "]";
+    return toReturn;
+  }
+
+  function shouldWaitForChildPath(
+    currentRoute: Muxa.ConfigRouteToString,
+    allRoutes: Muxa.RoutesToString
+  ) {
+    let waitForChildPath = false;
+    for (let r of allRoutes) {
+      let splitChild = r.path.split("/");
+      let splitParent = currentRoute.path.split("/");
+      let child = splitChild[splitChild.length - 1];
+      let parent = splitParent[splitParent.length - 2];
+      if (child === parent) {
+        if (child) {
+          waitForChildPath = true;
+        }
+      }
+    }
+    return waitForChildPath;
+  }
+
+  let toReturn = "";
+
+  function goThroughAllWithChildRoute(routes: Muxa.RoutesToString) {
+    let toReturn = "";
+    for (let route of routes) {
+      if (route.routes && route.routes.length > 0) {
+        let waitForChildPath = shouldWaitForChildPath(route, routes);
+
+        let used = isUsedImport(usedImports, route.import);
+        if (!used && !waitForChildPath) {
+          toReturn = toReturn + getRouteString(route);
+        }
+      }
+    }
+    return toReturn;
+  }
+
+  toReturn = goThroughAllWithChildRoute(routes);
+
+  for (let route of routes) {
+    if (!isUsedImport(usedImports, route.import)) {
+      toReturn = toReturn + getRouteString(route);
+    }
+  }
+
+  return toReturn;
 }
 
 function isUsedImport(usedImports: Array<string>, theImport: string) {
@@ -103,8 +164,12 @@ export function generateAllRoutes(isTest: boolean) {
     for (let fileName of routesDir) {
       // Can return an array of routes if it hit a directory
       let returned = getRoute(fileName, routes, routesDir);
-      handleReturnedRoute(routes, returned);
+      if (returned) {
+        handleReturnedRoute(routes, returned);
+      }
     }
+
+    console.log(routes);
 
     createRouteConfig(routes);
   } catch (error) {
