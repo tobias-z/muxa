@@ -7,6 +7,7 @@ export interface ConfigRoute {
   Component: ComponentType<any>;
   loader?: LoaderFunction | (() => any);
   action?: ActionFunction | (() => any);
+  routes?: Routes;
 }
 
 export interface ConfigRouteToString {

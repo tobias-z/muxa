@@ -59,7 +59,7 @@ export default function useRouteData<Data, Errors>(): Muxa.RouteData<
   let route = cache.get(path);
   let runLoader = useMemo(() => getLoader(route), [getLoader]);
 
-  invariant(route, `Route with path: ${path}, was not defined`);
+  invariant(route, "No route was found for path: " + path);
 
   return {
     data: route.routeData as Data | undefined,

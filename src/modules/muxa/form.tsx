@@ -18,7 +18,6 @@ export default function Form({
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     let actionToUse = action ? action : path;
-    console.log(actionToUse);
     let route = cache.get(actionToUse);
 
     invariant(

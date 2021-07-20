@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { ActionFunction, LoaderFunction, Params } from "./loaded-route";
 import type { BrowserRouterProps } from "react-router-dom";
+import type { Routes } from "./route-config";
 
 export type Path = string | readonly string[] | undefined;
 
@@ -23,4 +24,5 @@ export interface Route {
   loader?: LoaderFunction<any>;
   action?: ActionFunction<any>;
   Component: ReactNode;
+  routes?: Routes;
 }

@@ -34,7 +34,6 @@ export default class File {
           this.fileName.lastIndexOf("/")
         );
         let dirName = `${startOfDir}/${fileName}`;
-        console.log({ dirName, replaced: this.replacedFileIdentifier });
         let directory = new Directory(dirName, routes);
         routes = directory.getDirectory();
       }

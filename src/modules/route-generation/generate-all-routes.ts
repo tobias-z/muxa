@@ -169,8 +169,6 @@ export function generateAllRoutes(isTest: boolean) {
       }
     }
 
-    console.log(routes);
-
     createRouteConfig(routes);
   } catch (error) {
     /* istanbul ignore next */

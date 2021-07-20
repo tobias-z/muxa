@@ -2,13 +2,8 @@
  * @jest-environment jsdom
  */
 import { renderWithRouter } from "../test-utils";
-import {
-  LoadedRoute,
-  Form,
-  ActionFunction,
-  LoaderFunction,
-  useRouteData,
-} from "../../src";
+import { Form, ActionFunction, LoaderFunction, useRouteData } from "../../src";
+import LoadedRoute from "../../src/modules/muxa/loaded-route";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 let action: ActionFunction<{ name?: string }> = async ({

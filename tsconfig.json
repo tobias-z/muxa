@@ -20,6 +20,7 @@
     "node_modules",
     "docs",
     "src/routes",
+    "src/route-config.ts",
     "src/route-config.js",
     "jest.config.js"
   ]

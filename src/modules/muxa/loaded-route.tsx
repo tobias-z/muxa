@@ -6,7 +6,7 @@ import { getParams, shouldRefetchLoader, getRealPathname } from "./utils/utils";
 import { RoutePropsProvider } from "./route-props";
 
 export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
-  let { path, loader, exact, action } = props;
+  let { path, loader, exact, action, routes } = props;
   let cache = useRouterCache();
   let history = useHistory();
   let params = getParams(path);
@@ -35,6 +35,7 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
       action,
       params,
       Component: props.component,
+      routes,
     });
 
     // Will never reach the end of the finally block

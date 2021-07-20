@@ -3,7 +3,8 @@
  */
 
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { LoaderFunction, LoadedRoute, useRouteData } from "../../src";
+import LoadedRoute from "../../src/modules/muxa/loaded-route";
+import { LoaderFunction, useRouteData } from "../../src";
 import { renderWithRouter } from "../test-utils";
 import { Switch, useHistory } from "react-router-dom";
 

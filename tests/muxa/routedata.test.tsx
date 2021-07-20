@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { LoaderFunction, LoadedRoute, useRouteData } from "../../src";
+import LoadedRoute from "../../src/modules/muxa/loaded-route";
+import { LoaderFunction, useRouteData } from "../../src";
 import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { useHistory, Switch } from "react-router-dom";
 import { renderWithRouter } from "../test-utils";

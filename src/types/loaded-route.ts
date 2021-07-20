@@ -1,5 +1,6 @@
 import type { RouteProps } from "react-router-dom";
 import type { FormMethods } from "./form";
+import type { Routes } from "./route-config";
 
 export type Redirect = () => void;
 
@@ -36,6 +37,7 @@ export type Params = Record<string, string>;
 interface LoadedProps {
   loader?: LoaderFunction<any>;
   action?: ActionFunction<any>;
+  routes?: Routes;
 }
 
 export type LoadedRouteProps = RouteProps & LoadedProps;
