@@ -2,10 +2,8 @@
 
 - [ ] SourceCode
 
-  - [ ] Make Document component render routes with the child routes
-  - [ ] Make LoadedRoute take a routes array prop for it's layout routes
   - [ ] Make exact property for routes without layout routes
-  - [ ] Make Outlet component which will render the specific paths layout routes
+  - [ ] Make route data local to the route instead of in the cache
   - [ ] 'usePendingFormSubmit'
   - [ ] Caching option on route (default to 1 minute)
   - [ ] Make only the route which changes call loader

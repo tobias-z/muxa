@@ -9,6 +9,7 @@ export default function Document({ routes }: Muxa.DocumentProps) {
         <LoadedRoute
           key={route.path}
           path={route.path}
+          exact={route.exact}
           component={route.Component}
           loader={route.loader}
           action={route.action}

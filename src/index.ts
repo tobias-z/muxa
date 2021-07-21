@@ -1,9 +1,9 @@
 import type { LoaderFunction, ActionFunction } from "./types";
-import Outlet from "./modules/muxa/outlet";
-import { Router } from "./modules/muxa/router";
-import useRouteData from "./modules/muxa/use-route-data";
-import Form from "./modules/muxa/form";
-import Document from "./modules/muxa/document";
+import Outlet from "./core/muxa/outlet";
+import { Router } from "./core/muxa/router";
+import useRouteData from "./core/muxa/use-route-data";
+import Form from "./core/muxa/form";
+import Document from "./core/muxa/document";
 
 export {
   Router,

@@ -21,18 +21,21 @@ export const routes = [
     Component: Componentblog.default,
     loader: doesFunctionExist(Componentblog, "loader"),
     action: doesFunctionExist(Componentblog, "action"),
+    exact: false,
     routes: [
       {
         path: "/blog/:slug",
         Component: Componentblog$slug.default,
         loader: doesFunctionExist(Componentblog$slug, "loader"),
         action: doesFunctionExist(Componentblog$slug, "action"),
+        exact: false,
         routes: [
           {
             path: "/blog/:slug/:id",
             Component: Componentblog$slug$id.default,
             loader: doesFunctionExist(Componentblog$slug$id, "loader"),
             action: doesFunctionExist(Componentblog$slug$id, "action"),
+            exact: true,
             routes: [],
           },
         ],
@@ -44,12 +47,14 @@ export const routes = [
     Component: Componentuserprofilename.default,
     loader: doesFunctionExist(Componentuserprofilename, "loader"),
     action: doesFunctionExist(Componentuserprofilename, "action"),
+    exact: false,
     routes: [
       {
         path: "/user/profile/name/:id",
         Component: Componentuserprofilename$id.default,
         loader: doesFunctionExist(Componentuserprofilename$id, "loader"),
         action: doesFunctionExist(Componentuserprofilename$id, "action"),
+        exact: true,
         routes: [],
       },
     ],
@@ -59,12 +64,14 @@ export const routes = [
     Component: Componentusersomething.default,
     loader: doesFunctionExist(Componentusersomething, "loader"),
     action: doesFunctionExist(Componentusersomething, "action"),
+    exact: false,
     routes: [
       {
         path: "/user/something/:slug",
         Component: Componentusersomething$slug.default,
         loader: doesFunctionExist(Componentusersomething$slug, "loader"),
         action: doesFunctionExist(Componentusersomething$slug, "action"),
+        exact: true,
         routes: [],
       },
     ],
@@ -74,6 +81,7 @@ export const routes = [
     Component: Componentabout.default,
     loader: doesFunctionExist(Componentabout, "loader"),
     action: doesFunctionExist(Componentabout, "action"),
+    exact: true,
     routes: [],
   },
   {
@@ -81,6 +89,7 @@ export const routes = [
     Component: Component.default,
     loader: doesFunctionExist(Component, "loader"),
     action: doesFunctionExist(Component, "action"),
+    exact: true,
     routes: [],
   },
 ];

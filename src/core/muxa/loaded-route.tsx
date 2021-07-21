@@ -10,7 +10,7 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
   let cache = useRouterCache();
   let history = useHistory();
   let params = getParams(path);
-  let [rerender, toggleRerender] = useState<boolean>(true);
+  let [update, forceUpdate] = useState<number>(0);
   let thePath = getRealPathname(path);
   let route = cache.get(thePath);
 
@@ -41,13 +41,15 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
     // Will never reach the end of the finally block
     // So we have to rerender after the path has been added
     if (!loader) {
-      toggleRerender(!rerender);
+      forceUpdate(c => c + 1);
     }
   }, [history.location]);
 
   useEffect(() => {
     if (!loader) return;
     if (!shouldRefetchLoader({ path, exact, params }, cache.history)) return;
+
+    let isCurrent = true;
 
     // Generates errors to be put on the route
     let errors: Muxa.RouteErrors = {};
@@ -65,15 +67,21 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
       })
       .finally(() => {
         cache.toggleRouteLoading(thePath);
-        toggleRerender(!rerender);
+        if (isCurrent) {
+          forceUpdate(c => c + 1);
+        }
       });
+
+    return () => {
+      isCurrent = false;
+    };
   }, [history.location]);
 
   if (!route) return null;
 
   return (
     <RoutePropsProvider routePath={path}>
-      <Route {...props} />
+      <Route {...props} key={update} />
     </RoutePropsProvider>
   );
 }

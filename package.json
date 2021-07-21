@@ -12,10 +12,10 @@
     "lint": "eslint --ext=.tsx,.ts  .",
     "prettier": "prettier --write .",
     "setup": "npm install && npm test",
-    "migrate": "ts-node src/modules/route-generation/index.ts typescript"
+    "migrate": "ts-node src/core/route-generation/index.ts typescript"
   },
   "bin": {
-    "muxa": "dist/modules/route-generation/index.js"
+    "muxa": "dist/core/route-generation/index.js"
   },
   "repository": {
     "type": "git",

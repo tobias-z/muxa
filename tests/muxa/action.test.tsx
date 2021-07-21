@@ -3,7 +3,7 @@
  */
 import { renderWithRouter } from "../test-utils";
 import { Form, ActionFunction, LoaderFunction, useRouteData } from "../../src";
-import LoadedRoute from "../../src/modules/muxa/loaded-route";
+import LoadedRoute from "../../src/core/muxa/loaded-route";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 let action: ActionFunction<{ name?: string }> = async ({

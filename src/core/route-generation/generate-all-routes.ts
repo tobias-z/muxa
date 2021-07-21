@@ -20,12 +20,15 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
 
   function getRouteString(route: Muxa.ConfigRouteToString): string {
     usedImports.push(route.import);
+    let childRoutes = getChildRoutes(route);
+    let isExact = childRoutes === "routes: []";
     return `{
         path: "${route.path}",
         Component: ${route.Component}.default,
         loader: doesFunctionExist(${route.Component}, "loader"),
         action: doesFunctionExist(${route.Component}, "action"),
-        ${getChildRoutes(route)}
+        exact: ${isExact},
+        ${childRoutes}
       },
       `;
   }

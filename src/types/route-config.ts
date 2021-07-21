@@ -4,6 +4,7 @@ import type { ActionFunction, LoaderFunction } from "./loaded-route";
 export interface ConfigRoute {
   path: string;
   import?: string;
+  exact: boolean;
   Component: ComponentType<any>;
   loader?: LoaderFunction | (() => any);
   action?: ActionFunction | (() => any);
