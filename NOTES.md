@@ -2,8 +2,7 @@
 
 - [ ] SourceCode
 
-  - [ ] Make exact property for routes without layout routes
-  - [ ] Make route data local to the route instead of in the cache
+  - [ ] Move from index to root.tsx route
   - [ ] 'usePendingFormSubmit'
   - [ ] Caching option on route (default to 1 minute)
   - [ ] Make only the route which changes call loader
@@ -11,6 +10,8 @@
 
 - [ ] Tests
 
+  - [ ] Test outlet
+  - [ ] Test navigation through the routes from <Document>
   - [ ] Will throw error if redirect to unknown route
   - [ ] Will throw error if using Form without an action
   - [ ] Different props given to the Form

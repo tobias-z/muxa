@@ -20,9 +20,7 @@ export default class Directory {
     for (let fileName of directory) {
       let newName = `${this.dirName}/${fileName}`;
       let returned = getRoute(newName, this.routes, directory);
-      if (returned) {
-        handleReturnedRoute(this.routes, returned);
-      }
+      handleReturnedRoute(this.routes, returned);
     }
     return this.routes;
   }
