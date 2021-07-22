@@ -1,7 +1,7 @@
 import type * as Muxa from "../../types";
 import { useRouterCache } from "./router";
 import { useCallback, useMemo, useState } from "react";
-import invariant from "./utils/invariant";
+import { invariant } from "./utils";
 import { useRoutePath } from "./route-props";
 
 export default function useRouteData<

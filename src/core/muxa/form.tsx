@@ -1,7 +1,7 @@
 import type * as Muxa from "../../types";
 import { FormEvent, useRef } from "react";
 import { useRouterCache } from "./router";
-import invariant from "./utils/invariant";
+import { invariant } from "./utils/";
 import { useHistory } from "react-router-dom";
 import { useRoutePath } from "./route-props";
 
