@@ -2,7 +2,7 @@ import type * as Muxa from "../../types";
 import { useEffect, useState } from "react";
 import { useHistory, Route } from "react-router-dom";
 import { useRouterCache } from "./router";
-import { getParams, shouldRefetchLoader, getRealPathname } from "./utils/utils";
+import { getParams, shouldRefetchLoader, getRealPathname } from "./utils";
 import { RoutePropsProvider } from "./route-props";
 
 export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
