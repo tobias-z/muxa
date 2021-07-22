@@ -3,15 +3,10 @@ import { join } from "path";
 import { readdirSync, openSync, appendFileSync } from "fs";
 import { getRoute, getUsersFileIdentifier, handleReturnedRoute } from "./utils";
 
-export let test = false;
-
 function getFilePath() {
   let identifier = getUsersFileIdentifier();
   let filePath = `${process.cwd()}/src/route-config.${identifier}`;
 
-  if (test) {
-    filePath = `${process.cwd()}/tests/route-config.ts`;
-  }
   return filePath;
 }
 
@@ -22,6 +17,12 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
     usedImports.push(route.import);
     let childRoutes = getChildRoutes(route);
     let isExact = childRoutes === "routes: []";
+
+    if (route.path === "/404") {
+      route.path = "/";
+      isExact = false;
+    }
+
     return `{
         path: "${route.path}",
         Component: ${route.Component}.default,
@@ -82,13 +83,26 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
     return toReturn;
   }
 
+  function getSpecificRoutes(routes: Muxa.RoutesToString) {
+    let result = "";
+    for (let route of routes) {
+      if (route.path === "/404") {
+        result = getRouteString(route);
+      }
+    }
+    return result;
+  }
+
   toReturn = goThroughAllWithChildRoute(routes);
 
   for (let route of routes) {
     if (!isUsedImport(usedImports, route.import)) {
+      if (route.path === "/404") continue;
       toReturn = toReturn + getRouteString(route);
     }
   }
+
+  toReturn = toReturn + getSpecificRoutes(routes);
 
   return toReturn;
 }
@@ -156,10 +170,8 @@ function getRootRoutesDirectory() {
   return readdirSync(routesPath);
 }
 
-export function generateAllRoutes(isTest: boolean) {
+export function generateAllRoutes() {
   try {
-    test = isTest;
-
     let routesDir = getRootRoutesDirectory();
 
     let routes: Muxa.RoutesToString = [];

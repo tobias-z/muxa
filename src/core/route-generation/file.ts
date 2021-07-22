@@ -1,5 +1,4 @@
 import type * as Muxa from "../../types";
-import { test } from "./generate-all-routes";
 import { getFileIdentifier } from "./utils/get-file-identifier";
 import { getPath } from "./utils";
 import Directory from "./directory";
@@ -52,11 +51,6 @@ export default class File {
       );
     }
     let theImport = `./routes/${this.replacedFileIdentifier}`;
-
-    /* istanbul ignore next */
-    if (test) {
-      theImport = `../src/routes/${this.replacedFileIdentifier}`;
-    }
 
     // Remove slashes and replace colon with dolor since it cannot be used as a name
     let uniqueEndOfName = path

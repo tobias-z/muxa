@@ -1,3 +1,4 @@
+import * as Component404 from "./routes/404";
 import * as Componentabout from "./routes/about";
 import * as Componentblog$slug$id from "./routes/blog/$slug/$id";
 import * as Componentblog$slug from "./routes/blog/$slug";
@@ -86,6 +87,14 @@ export const routes = [
         loader: doesFunctionExist(Component, "loader"),
         action: doesFunctionExist(Component, "action"),
         exact: true,
+        routes: []
+      },
+      {
+        path: "/",
+        Component: Component404.default,
+        loader: doesFunctionExist(Component404, "loader"),
+        action: doesFunctionExist(Component404, "action"),
+        exact: false,
         routes: []
       },
       

@@ -2,7 +2,7 @@
 
 - [ ] SourceCode
 
-  - [ ] Move from index to root.tsx route
+  - [ ] Create 404 page
   - [ ] 'usePendingFormSubmit'
   - [ ] Caching option on route (default to 1 minute)
   - [ ] Make only the route which changes call loader

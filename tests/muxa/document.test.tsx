@@ -3,7 +3,7 @@
  */
 import { renderWithRouter } from "../test-utils";
 import { Document } from "../../src";
-import { routes } from "../route-config";
+import { routes } from "../../src/route-config";
 import { screen } from "@testing-library/react";
 
 test("document renders when given a route-config", async () => {
