@@ -18,11 +18,10 @@ export type RouteErrors = {
 export interface Route {
   path: Path;
   params: Params;
-  routeData?: Record<string, unknown> | null;
+  routeData?: unknown | null;
   errors?: RouteErrors;
   isLoading: boolean;
   loader?: LoaderFunction<any>;
   action?: ActionFunction<any>;
-  Component: ReactNode;
   routes?: Routes;
 }

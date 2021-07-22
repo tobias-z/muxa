@@ -42,22 +42,17 @@ export default function Form({
       errors[key] = value;
     }
 
-    let data: Muxa.RouteErrors = {};
-    function addData(key: string, value: any) {
-      data[key] = value;
-    }
-
     let toRedirect = await route.action({
       body,
       method,
       params: route.params,
       redirect,
       addError,
-      addData,
+      globalData: cache.globalData,
     });
 
-    // Action has finished. Add the data and errors that was set on the action
-    cache.updateRoute(actionToUse, { errors, routeData: data });
+    // Action has finished. Add the errors that was set on the action
+    cache.updateRoute(actionToUse, { errors });
 
     //Redirect to new route
     toRedirect();

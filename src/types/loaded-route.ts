@@ -1,4 +1,5 @@
 import type { RouteProps } from "react-router-dom";
+import GlobalData from "../core/muxa/cache/global-data";
 import type { FormMethods } from "./form";
 import type { Routes } from "./route-config";
 
@@ -9,18 +10,18 @@ export type RedirectFunction = (path: string) => Redirect;
 // Any used so that developer can choose if he wants to type it
 export type LoaderFunction<Params = any> = (
   helpers: LoaderHelpers<Params>
-) => Promise<Record<string, unknown>>;
+) => Promise<any>;
 
 export type ActionFunction<FormBody = any> = (
   helpers: ActionHelpers<FormBody>
 ) => Promise<Redirect>;
 
 type AddErrorFunction = (key: string, value: any) => void;
-type AddDataFunction = (key: string, value: any) => void;
 
 interface LoaderHelpers<T> {
   params: T;
   addError: AddErrorFunction;
+  globalData: GlobalData;
 }
 
 interface ActionHelpers<FormBody> {
@@ -28,7 +29,7 @@ interface ActionHelpers<FormBody> {
   body: FormBody;
   method: FormMethods;
   addError: AddErrorFunction;
-  addData: AddDataFunction;
+  globalData: GlobalData;
   redirect: RedirectFunction;
 }
 

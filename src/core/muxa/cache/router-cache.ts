@@ -1,8 +1,9 @@
 import type * as Muxa from "../../../types";
 import invariant from "../utils/invariant";
+import GlobalData from "./global-data";
 import History from "./history";
 
-export default class RouterCache {
+export default class RouterCache<TGlobalData = any> {
   private static instance: RouterCache | undefined;
 
   // Singleton makes sure that we always have the same instance
@@ -15,10 +16,12 @@ export default class RouterCache {
 
   private readonly cache: Map<Muxa.Path, Muxa.Route>;
   readonly history: History;
+  readonly globalData: GlobalData;
 
   constructor() {
     this.cache = new Map();
     this.history = new History();
+    this.globalData = new GlobalData<TGlobalData>();
   }
 
   put(path: Muxa.Path, action: Muxa.AddRoute): void {
@@ -54,10 +57,7 @@ export default class RouterCache {
     let updatedRoute: Muxa.Route = {
       ...currentRoute,
       ...action,
-      routeData: {
-        ...currentRoute.routeData,
-        ...action.routeData,
-      },
+      routeData: action.routeData,
       errors: {
         ...currentRoute.errors,
         ...action.errors,

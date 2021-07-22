@@ -2,17 +2,23 @@
  * @jest-environment jsdom
  */
 import { renderWithRouter } from "../test-utils";
-import { Form, ActionFunction, LoaderFunction, useRouteData } from "../../src";
+import {
+  Form,
+  ActionFunction,
+  LoaderFunction,
+  useRouteData,
+  useGlobalData,
+} from "../../src";
 import LoadedRoute from "../../src/core/muxa/loaded-route";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 let action: ActionFunction<{ name?: string }> = async ({
   redirect,
   addError,
-  addData,
+  globalData,
 }) => {
   addError("error", "Error from action");
-  addData("action", "Data from action");
+  globalData.set("action", "global data");
   return redirect("/");
 };
 
@@ -21,7 +27,9 @@ let loader: LoaderFunction = async () => {
 };
 
 function App() {
-  let { errors, data } = useRouteData();
+  let { errors } = useRouteData();
+  let globalData = useGlobalData<{ action: string }>();
+
   return (
     <>
       <Form>
@@ -29,7 +37,7 @@ function App() {
         <button type="submit">Submit</button>
       </Form>
       {errors.error && <p>{errors.error}</p>}
-      {data.action && <p>{data.action}</p>}
+      <p>{globalData.get("action")}</p>
     </>
   );
 }
@@ -49,19 +57,21 @@ test("action will be called when form is submitted", async () => {
   });
 });
 
-test("Data and errors can be added in the action function", async () => {
+test("errors can be added in the action function", async () => {
   await renderWithRouter(
     <LoadedRoute path="/" action={action} loader={loader} component={App} />
   );
   fireEvent.click(screen.getByText(/submit/i));
   await waitFor(() => {
     expect(screen.getByText(/error from action/i));
-    expect(screen.getByText(/data from action/i));
+    expect(screen.getByText(/global data/i));
   });
 });
 
 function ActionApp() {
-  let { errors, data } = useRouteData();
+  let { errors } = useRouteData();
+  let globalData = useGlobalData();
+
   return (
     <>
       <Form action="/">
@@ -69,7 +79,7 @@ function ActionApp() {
         <button type="submit">Submit</button>
       </Form>
       {errors.error && <p>{errors.error}</p>}
-      {data.action && <p>{data.action}</p>}
+      <p>{globalData.get("action")}</p>
     </>
   );
 }
@@ -82,6 +92,6 @@ test("using the action prop will post to the choosen path", async () => {
   await waitFor(() => {
     // Data comes from action
     expect(screen.getByText(/error from action/i));
-    expect(screen.getByText(/data from action/i));
+    expect(screen.getByText(/global data/i));
   });
 });

@@ -42,6 +42,7 @@ export default function useRouteData<Data, Errors>(): Muxa.RouteData<
           let routeData = await route.loader({
             params: route.params,
             addError,
+            globalData: cache.globalData,
           });
           cache.updateRoute(route.path, { errors, routeData });
         } catch (err) {

@@ -34,7 +34,6 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
       path: thePath,
       action,
       params,
-      Component: props.component,
       routes,
     });
 
@@ -58,7 +57,7 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
     }
 
     cache.toggleRouteLoading(thePath);
-    loader({ params, addError })
+    loader({ params, addError, globalData: cache.globalData })
       .then(response => {
         cache.updateRoute(thePath, { errors, routeData: response });
       })
