@@ -7,9 +7,7 @@ import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { useHistory, Switch } from "react-router-dom";
 import { renderWithRouter } from "../test-utils";
 
-type Data = {
-  info: string;
-};
+type Data = string;
 
 type Errors = {
   info: string;
@@ -19,7 +17,7 @@ function ErrorApp() {
   let { data: routeData, errors } = useRouteData<Data, Errors>();
   return (
     <>
-      {routeData && <p data-testid="hello">{routeData.info}</p>}
+      {routeData && <p data-testid="hello">{routeData}</p>}
       {errors && <p data-testid="error">{errors.info}</p>}
     </>
   );
@@ -37,7 +35,7 @@ function App() {
     <>
       <h1>App</h1>
       {isLoading && <p>Loading...</p>}
-      {routeData && <p>{routeData.info}</p>}
+      {routeData && <p>{routeData}</p>}
       {errors && <p>{errors.info}</p>}
       <button onClick={() => push("/other-app")}>Push</button>
       <button
@@ -63,9 +61,7 @@ function OtherApp() {
 
 let loader: LoaderFunction = async ({ addError }) => {
   addError("info", "This is an error");
-  return {
-    info: "hello",
-  };
+  return "hello";
 };
 
 test("will run loader function when rendered and rerun it when called", async () => {

@@ -1,5 +1,10 @@
 import type { ReactNode } from "react";
-import type { ActionFunction, LoaderFunction, Params } from "./loaded-route";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+  Params,
+} from "./loaded-route";
 import type { BrowserRouterProps } from "react-router-dom";
 import type { Routes } from "./route-config";
 
@@ -23,5 +28,6 @@ export interface Route {
   isLoading: boolean;
   loader?: LoaderFunction<any>;
   action?: ActionFunction<any>;
+  meta?: MetaFunction;
   routes?: Routes;
 }

@@ -16,6 +16,13 @@ export type ActionFunction<FormBody = any> = (
   helpers: ActionHelpers<FormBody>
 ) => Promise<Redirect>;
 
+export type MetaFunction = () => Meta;
+
+export interface Meta {
+  title?: string;
+  description?: string;
+}
+
 type AddErrorFunction = (key: string, value: any) => void;
 
 interface LoaderHelpers<T> {
@@ -38,6 +45,7 @@ export type Params = Record<string, string>;
 interface LoadedProps {
   loader?: LoaderFunction<any>;
   action?: ActionFunction<any>;
+  meta?: MetaFunction;
   routes?: Routes;
 }
 

@@ -13,6 +13,7 @@ export default function Document({ routes }: Muxa.DocumentProps) {
           component={route.Component}
           loader={route.loader}
           action={route.action}
+          meta={route.meta}
           routes={route.routes}
         />
       ))}

@@ -1,4 +1,4 @@
-import type { LoaderFunction, ActionFunction } from "./types";
+import type { LoaderFunction, ActionFunction, MetaFunction } from "./types";
 import Outlet from "./core/muxa/outlet";
 import { Router } from "./core/muxa/router";
 import Form from "./core/muxa/form";
@@ -15,4 +15,5 @@ export {
   useGlobalData,
   LoaderFunction,
   ActionFunction,
+  MetaFunction,
 };

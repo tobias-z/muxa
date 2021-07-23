@@ -1,5 +1,9 @@
 import type { ComponentType } from "react";
-import type { ActionFunction, LoaderFunction } from "./loaded-route";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "./loaded-route";
 
 export interface ConfigRoute {
   path: string;
@@ -8,6 +12,7 @@ export interface ConfigRoute {
   Component: ComponentType<any>;
   loader?: LoaderFunction | (() => any);
   action?: ActionFunction | (() => any);
+  meta?: MetaFunction | (() => Record<string, any>);
   routes?: Routes;
 }
 

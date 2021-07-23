@@ -1,12 +1,21 @@
 import type * as Muxa from "../../types";
-import { useEffect, useState } from "react";
+import { createElement, useEffect, useState } from "react";
 import { useHistory, Route } from "react-router-dom";
 import { useRouterCache } from "./router";
-import { getParams, shouldRefetchLoader, getRealPathname } from "./utils";
+import {
+  getParams,
+  shouldRefetchLoader,
+  getRealPathname,
+  invariant,
+} from "./utils";
 import { RoutePropsProvider } from "./route-props";
+import { Helmet } from "react-helmet";
 
-export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
-  let { path, loader, exact, action, routes } = props;
+export default function LoadedRoute({
+  component,
+  ...props
+}: Muxa.LoadedRouteProps) {
+  let { path, loader, exact, action, routes, meta } = props;
   let cache = useRouterCache();
   let history = useHistory();
   let params = getParams(path);
@@ -78,9 +87,23 @@ export default function LoadedRoute(props: Muxa.LoadedRouteProps) {
 
   if (!route) return null;
 
+  invariant(component, `No component was found for route ${thePath}`);
+
+  let metaData = meta ? meta() : null;
+
   return (
     <RoutePropsProvider routePath={path}>
-      <Route {...props} key={update} />
+      <Route {...props} key={update}>
+        {metaData && (
+          <Helmet>
+            {metaData.title && <title>{metaData.title}</title>}
+            {metaData.description && (
+              <meta name="description" content={metaData.description} />
+            )}
+          </Helmet>
+        )}
+        {createElement(component)}
+      </Route>
     </RoutePropsProvider>
   );
 }

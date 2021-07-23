@@ -28,6 +28,7 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
         Component: ${route.Component}.default,
         loader: doesFunctionExist(${route.Component}, "loader"),
         action: doesFunctionExist(${route.Component}, "action"),
+        meta: doesFunctionExist(${route.Component}, "meta"),
         exact: ${isExact},
         ${childRoutes}
       },

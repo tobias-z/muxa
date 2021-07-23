@@ -2,12 +2,11 @@
 
 - [ ] SourceCode
 
-  - [ ] Make globalData(Map of data) in the action put it into global data
-        instead of addData
-    - [ ] Make it possible to return anything in the loader
-    - [ ] Get the global data through a useGlobalData
   - [ ] 'usePendingFormSubmit'
+  - [ ] 'useSession'
   - [ ] Caching option on route (default to 1 minute)
+    - [ ] export function 'meta' that returns properties for the LoadedRoute
+          such as 'title', 'meta' and 'cacheFor'
   - [ ] Make only the route which changes call loader
   - [ ] Refactor addError function
 
