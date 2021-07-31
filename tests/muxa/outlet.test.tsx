@@ -4,7 +4,7 @@
 import { Link } from "react-router-dom";
 import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { Outlet } from "../../src";
-import LoadedRoute from "../../src/core/muxa/loaded-route";
+import LoadedRoute from "../../src/core/react/loaded-route";
 import { renderWithRouter } from "../test-utils";
 
 function Parent() {

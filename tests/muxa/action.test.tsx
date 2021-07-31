@@ -9,7 +9,7 @@ import {
   useRouteData,
   useGlobalData,
 } from "../../src";
-import LoadedRoute from "../../src/core/muxa/loaded-route";
+import LoadedRoute from "../../src/core/react/loaded-route";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 let action: ActionFunction<{ name?: string }> = async ({

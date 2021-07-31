@@ -2,7 +2,7 @@ import type * as Muxa from "../../types";
 import { createContext, useContext } from "react";
 import type { Context } from "react";
 import { BrowserRouter } from "react-router-dom";
-import RouterCache from "./cache/router-cache";
+import RouterCache from "../cache/router-cache";
 
 declare global {
   interface Window {

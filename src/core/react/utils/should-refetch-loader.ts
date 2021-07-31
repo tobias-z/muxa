@@ -1,6 +1,6 @@
 import type * as Muxa from "../../../types";
 import { getRealPathname } from ".";
-import History from "../cache/history";
+import History from "../../cache/history";
 
 interface RouteParams {
   path: Muxa.Path;

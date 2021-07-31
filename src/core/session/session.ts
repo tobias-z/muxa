@@ -1,4 +1,4 @@
-import type * as Muxa from "../../../types";
+import type * as Muxa from "../../types";
 
 export default class Session<
   Entries extends Record<string, unknown> = Record<string, any>
@@ -7,14 +7,14 @@ export default class Session<
   private readonly name: string;
 
   constructor(options: Muxa.SessionOptions) {
-    this.data = this.initializeSession(options.name);
     this.name = options.name;
+    this.data = this.initializeSession();
   }
 
-  private initializeSession(name: string): Entries {
+  private initializeSession(): Entries {
     let sessionCookie = document.cookie
       .split(";")
-      .find(row => row.trim().startsWith(`${name}=`));
+      .find(row => row.trim().startsWith(`${this.name}=`));
 
     if (!sessionCookie) return {} as Entries;
 

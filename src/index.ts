@@ -4,13 +4,13 @@ import type {
   MetaFunction,
   Session,
 } from "./types";
-import Outlet from "./core/muxa/outlet";
-import { Router } from "./core/muxa/router";
-import Form from "./core/muxa/form";
-import Document from "./core/muxa/document";
-import useRouteData from "./core/muxa/use-route-data";
-import useGlobalData from "./core/muxa/use-global-data";
-import createSession from "./core/muxa/session/createSession";
+import Outlet from "./core/react/outlet";
+import { Router } from "./core/react/router";
+import Form from "./core/react/form";
+import Document from "./core/react/document";
+import useRouteData from "./core/react/use-route-data";
+import useGlobalData from "./core/react/use-global-data";
+import createSession from "./core/session/create-session";
 
 export {
   Router,

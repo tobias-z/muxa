@@ -1,4 +1,4 @@
-import GlobalData from "./cache/global-data";
+import GlobalData from "../cache/global-data";
 import { useRouterCache } from "./router";
 
 export default function useGlobalData<T = any>() {

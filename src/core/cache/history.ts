@@ -1,4 +1,4 @@
-import type * as Muxa from "../../../types";
+import type * as Muxa from "../../types";
 
 export default class History {
   // Enables us to know what we should refetch

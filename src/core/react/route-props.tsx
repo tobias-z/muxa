@@ -1,7 +1,8 @@
 import type * as Muxa from "../../types";
 import type { ReactNode } from "react";
 import { createContext, useContext, useState } from "react";
-import { getRealPathname, invariant } from "./utils";
+import { getRealPathname } from "./utils";
+import invariant from "../invariant";
 
 let RouteContext = createContext<Muxa.Path | undefined>(undefined);
 

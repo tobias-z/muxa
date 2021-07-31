@@ -2,7 +2,7 @@ import type * as Muxa from "../../types";
 import { useEffect, useState } from "react";
 import { useRoutePath } from "./route-props";
 import { useRouterCache } from "./router";
-import LoadedRoute from "./loaded-route";
+import LoadedRoute from "../react/loaded-route";
 
 export default function Outlet() {
   let path = useRoutePath();

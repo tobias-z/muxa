@@ -1,4 +1,4 @@
-import TheSession from "../core/muxa/session/session";
+import TheSession from "../core/session/session";
 
 export interface SessionEntry {
   key: string;

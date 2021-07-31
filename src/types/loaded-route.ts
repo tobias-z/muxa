@@ -1,5 +1,5 @@
 import type { RouteProps } from "react-router-dom";
-import GlobalData from "../core/muxa/cache/global-data";
+import GlobalData from "../core/cache/global-data";
 import type { FormMethods } from "./form";
 import type { Routes } from "./route-config";
 

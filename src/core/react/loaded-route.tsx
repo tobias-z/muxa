@@ -2,12 +2,8 @@ import type * as Muxa from "../../types";
 import { createElement, useEffect, useReducer } from "react";
 import { useHistory, Route } from "react-router-dom";
 import { useRouterCache } from "./router";
-import {
-  getParams,
-  shouldRefetchLoader,
-  getRealPathname,
-  invariant,
-} from "./utils";
+import { getParams, shouldRefetchLoader, getRealPathname } from "./utils";
+import invariant from "../invariant";
 import { RoutePropsProvider } from "./route-props";
 import { Helmet } from "react-helmet";
 

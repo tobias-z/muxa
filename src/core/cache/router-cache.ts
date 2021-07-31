@@ -1,5 +1,5 @@
-import type * as Muxa from "../../../types";
-import { invariant } from "../utils/";
+import type * as Muxa from "../../types";
+import invariant from "../invariant";
 import GlobalData from "./global-data";
 import History from "./history";
 
