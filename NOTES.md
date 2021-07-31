@@ -3,7 +3,6 @@
 - [ ] SourceCode
 
   - [ ] 'usePendingFormSubmit'
-  - [ ] 'useSession'
   - [ ] Caching option on route (default to 1 minute)
     - [ ] export function 'meta' that returns properties for the LoadedRoute
           such as 'title', 'meta' and 'cacheFor'
@@ -12,8 +11,8 @@
 
 - [ ] Tests
 
-  - [ ] Test outlet
-  - [ ] Test navigation through the routes from <Document>
+  - [x] Test outlet
+  - [ ] Test navigation through the routes from <Document />
   - [ ] Will throw error if redirect to unknown route
   - [ ] Will throw error if using Form without an action
   - [ ] Different props given to the Form
@@ -25,6 +24,7 @@
   - [ ] Deploy to NPM
 
 - [ ] Docs
+
   - [ ] API Reference
   - [ ] Make Examples
     - [ ] Typescript

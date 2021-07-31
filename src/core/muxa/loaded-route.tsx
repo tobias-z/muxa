@@ -1,5 +1,5 @@
 import type * as Muxa from "../../types";
-import { createElement, useEffect, useState } from "react";
+import { createElement, useEffect, useReducer } from "react";
 import { useHistory, Route } from "react-router-dom";
 import { useRouterCache } from "./router";
 import {
@@ -18,8 +18,7 @@ export default function LoadedRoute({
   let { path, loader, exact, action, routes, meta } = props;
   let cache = useRouterCache();
   let history = useHistory();
-  let params = getParams(path);
-  let [update, forceUpdate] = useState<number>(0);
+  let [update, forceUpdate] = useReducer(c => c + 1, 0);
   let thePath = getRealPathname(path);
   let route = cache.get(thePath);
 
@@ -38,6 +37,8 @@ export default function LoadedRoute({
     // Checks if route is added and adds a brand new one if it doesn't
     if (route) return;
 
+    let params = getParams(path);
+
     cache.put(thePath, {
       loader,
       path: thePath,
@@ -49,12 +50,15 @@ export default function LoadedRoute({
     // Will never reach the end of the finally block
     // So we have to rerender after the path has been added
     if (!loader) {
-      forceUpdate(c => c + 1);
+      forceUpdate();
     }
   }, [history.location]);
 
   useEffect(() => {
     if (!loader) return;
+
+    let params = getParams(path);
+
     if (!shouldRefetchLoader({ path, exact, params }, cache.history)) return;
 
     let isCurrent = true;
@@ -65,20 +69,39 @@ export default function LoadedRoute({
       errors[key] = value;
     }
 
+    function runLoader(loader: Muxa.LoaderFunction) {
+      let redirect: Muxa.RedirectFunction = (path: string) => {
+        return () => {
+          return history.push(path);
+        };
+      };
+
+      loader({
+        params,
+        addError,
+        globalData: cache.globalData,
+        redirect,
+      })
+        .then(response => {
+          // Redirect function was called
+          if (typeof response === "function") {
+            return response();
+          }
+          cache.updateRoute(thePath, { errors, routeData: response });
+        })
+        .catch(err => {
+          console.error(err.message);
+        })
+        .finally(() => {
+          cache.toggleRouteLoading(thePath);
+          if (isCurrent) {
+            forceUpdate();
+          }
+        });
+    }
+
     cache.toggleRouteLoading(thePath);
-    loader({ params, addError, globalData: cache.globalData })
-      .then(response => {
-        cache.updateRoute(thePath, { errors, routeData: response });
-      })
-      .catch(err => {
-        console.error(err.message);
-      })
-      .finally(() => {
-        cache.toggleRouteLoading(thePath);
-        if (isCurrent) {
-          forceUpdate(c => c + 1);
-        }
-      });
+    runLoader(loader);
 
     return () => {
       isCurrent = false;
@@ -89,7 +112,7 @@ export default function LoadedRoute({
 
   invariant(component, `No component was found for route ${thePath}`);
 
-  let metaData = meta ? meta() : null;
+  let metaData = meta ? meta({ params: getParams(path) }) : null;
 
   return (
     <RoutePropsProvider routePath={path}>

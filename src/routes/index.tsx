@@ -8,13 +8,14 @@ export async function action({ redirect }: any) {
 export let meta: MetaFunction = () => {
   return {
     title: "index page",
+    description: "The index page for testing routes",
   };
 };
 
 export default function IndexPage() {
   return (
     <div>
-      <h1>Hello world</h1>
+      <h1>index page</h1>
     </div>
   );
 }

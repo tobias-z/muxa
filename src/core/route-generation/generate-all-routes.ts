@@ -19,7 +19,7 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
     let isExact = childRoutes === "routes: []";
 
     if (route.path === "/404") {
-      route.path = "/";
+      route.path = "*";
       isExact = false;
     }
 

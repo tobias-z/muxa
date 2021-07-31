@@ -3,24 +3,32 @@ import { useRouterCache } from "./router";
 import { useCallback, useMemo, useState } from "react";
 import { invariant } from "./utils";
 import { useRoutePath } from "./route-props";
+import { useHistory } from "react-router-dom";
 
 export default function useRouteData<
   Data = any,
   Errors = any
->(): Muxa.RouteData<Data | undefined, Errors>;
+>(): Muxa.RouteData<Data, Errors>;
 
 export default function useRouteData<Data, Errors = any>(): Muxa.RouteData<
-  Data | undefined,
+  Data,
   Errors
 >;
 
 export default function useRouteData<Data, Errors>(): Muxa.RouteData<
-  Data | undefined,
+  Data,
   Errors
 > {
   let cache = useRouterCache();
   let path = useRoutePath();
-  let [rerender, toggleRerender] = useState<boolean>(true);
+  let { push } = useHistory();
+  let [route, setRoute] = useState(() => cache.get(path));
+
+  let redirect: Muxa.RedirectFunction = (path: string) => {
+    return () => {
+      return push(path);
+    };
+  };
 
   let getLoader = useCallback(
     (route: Muxa.Route | undefined) => {
@@ -43,27 +51,31 @@ export default function useRouteData<Data, Errors>(): Muxa.RouteData<
             params: route.params,
             addError,
             globalData: cache.globalData,
+            redirect,
           });
           cache.updateRoute(route.path, { errors, routeData });
+          setRoute({
+            ...route,
+            errors,
+            routeData,
+          });
         } catch (err) {
           // Do something with the error?
           console.error(err.message);
         } finally {
           cache.toggleRouteLoading(path);
-          toggleRerender(!rerender);
         }
       };
     },
     [window.location.pathname, path]
   );
 
-  let route = cache.get(path);
   let runLoader = useMemo(() => getLoader(route), [getLoader]);
 
   invariant(route, "No route was found for path: " + path);
 
   return {
-    data: route.routeData as Data | undefined,
+    data: route.routeData as Data,
     runLoader,
     errors: route.errors as Errors,
     isLoading: route.isLoading,

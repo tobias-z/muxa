@@ -7,29 +7,23 @@ export type Redirect = () => void;
 
 export type RedirectFunction = (path: string) => Redirect;
 
+type AddErrorFunction = (key: string, value: any) => void;
+
 // Any used so that developer can choose if he wants to type it
 export type LoaderFunction<Params = any> = (
   helpers: LoaderHelpers<Params>
 ) => Promise<any>;
 
-export type ActionFunction<FormBody = any> = (
-  helpers: ActionHelpers<FormBody>
-) => Promise<Redirect>;
-
-export type MetaFunction = () => Meta;
-
-export interface Meta {
-  title?: string;
-  description?: string;
-}
-
-type AddErrorFunction = (key: string, value: any) => void;
-
 interface LoaderHelpers<T> {
   params: T;
   addError: AddErrorFunction;
   globalData: GlobalData;
+  redirect: RedirectFunction;
 }
+
+export type ActionFunction<FormBody = any> = (
+  helpers: ActionHelpers<FormBody>
+) => Promise<Redirect>;
 
 interface ActionHelpers<FormBody> {
   params: Params;
@@ -38,6 +32,17 @@ interface ActionHelpers<FormBody> {
   addError: AddErrorFunction;
   globalData: GlobalData;
   redirect: RedirectFunction;
+}
+
+export type MetaFunction<Params = any> = (helpers: MetaHelpers<Params>) => Meta;
+
+export interface Meta {
+  title?: string;
+  description?: string;
+}
+
+interface MetaHelpers<Params> {
+  params: Params;
 }
 
 export type Params = Record<string, string>;

@@ -4,6 +4,7 @@ import { useRouterCache } from "./router";
 import { invariant } from "./utils/";
 import { useHistory } from "react-router-dom";
 import { useRoutePath } from "./route-props";
+import useRouteData from "./use-route-data";
 
 export default function Form({
   method = "post",
@@ -14,6 +15,7 @@ export default function Form({
   let history = useHistory();
   let formRef = useRef<HTMLFormElement>(null);
   let path = useRoutePath();
+  let { runLoader } = useRouteData();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -34,7 +36,12 @@ export default function Form({
 
     // Create functions for the action
     let redirect: Muxa.RedirectFunction = (path: string) => {
-      return () => history.push(path);
+      return () => {
+        if (path !== history.location.pathname) {
+          return history.push(path);
+        }
+        runLoader();
+      };
     };
 
     let errors: Muxa.RouteErrors = {};

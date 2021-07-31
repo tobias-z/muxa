@@ -1,9 +1,10 @@
-export async function loader() {
-  console.log("loader");
-  return {
-    something: "hello",
-  };
-}
+import { Link } from "react-router-dom";
+import type { LoaderFunction } from "../..";
+import { useRouteData, Outlet } from "../..";
+
+export let loader: LoaderFunction<{ slug: string }> = async ({ params }) => {
+  return { slug: params.slug };
+};
 
 export async function action({ redirect }: any) {
   console.log("action");
@@ -11,9 +12,12 @@ export async function action({ redirect }: any) {
 }
 
 export default function Blog() {
+  let { data } = useRouteData<{ slug: string }>();
   return (
     <div>
-      <h1>The blog!</h1>
+      <h1>{data.slug}</h1>
+      <Link to={`/blog/${data.slug}/hello`}>NestedId</Link>
+      <Outlet />
     </div>
   );
 }

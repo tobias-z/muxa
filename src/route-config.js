@@ -4,6 +4,8 @@ import * as Componentblog$slug$id from "./routes/blog/$slug/$id";
 import * as Componentblog$slug from "./routes/blog/$slug";
 import * as Componentblog from "./routes/blog";
 import * as Component from "./routes/index";
+import * as Componentlogin from "./routes/login";
+import * as Componentme from "./routes/me";
 import * as Componentuserprofilename$id from "./routes/user/profile/name/$id";
 import * as Componentuserprofilename from "./routes/user/profile/name";
 import * as Componentusersomething$slug from "./routes/user/something/$slug";
@@ -99,7 +101,25 @@ export const routes = [
         routes: []
       },
       {
-        path: "/",
+        path: "/login",
+        Component: Componentlogin.default,
+        loader: doesFunctionExist(Componentlogin, "loader"),
+        action: doesFunctionExist(Componentlogin, "action"),
+        meta: doesFunctionExist(Componentlogin, "meta"),
+        exact: true,
+        routes: []
+      },
+      {
+        path: "/me",
+        Component: Componentme.default,
+        loader: doesFunctionExist(Componentme, "loader"),
+        action: doesFunctionExist(Componentme, "action"),
+        meta: doesFunctionExist(Componentme, "meta"),
+        exact: true,
+        routes: []
+      },
+      {
+        path: "*",
         Component: Component404.default,
         loader: doesFunctionExist(Component404, "loader"),
         action: doesFunctionExist(Component404, "action"),
