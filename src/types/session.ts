@@ -7,6 +7,12 @@ export interface SessionEntry {
 
 export interface SessionOptions {
   name: string;
+  domain?: string;
+  expires?: Date;
+  maxAge?: number;
+  path?: string;
+  sameSite?: "Lax" | "Strict" | "None";
+  secure?: boolean;
 }
 
 export type Session<

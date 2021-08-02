@@ -1,15 +1,15 @@
-import * as Component404 from "./routes/404";
-import * as Componentabout from "./routes/about";
-import * as Componentblog$slug$id from "./routes/blog/$slug/$id";
-import * as Componentblog$slug from "./routes/blog/$slug";
-import * as Componentblog from "./routes/blog";
-import * as Component from "./routes/index";
-import * as Componentlogin from "./routes/login";
-import * as Componentme from "./routes/me";
-import * as Componentuserprofilename$id from "./routes/user/profile/name/$id";
-import * as Componentuserprofilename from "./routes/user/profile/name";
-import * as Componentusersomething$slug from "./routes/user/something/$slug";
-import * as Componentusersomething from "./routes/user/something";
+import * as Route404 from "./routes/404";
+import * as Routeabout from "./routes/about";
+import * as Routeblog$slug$id from "./routes/blog/$slug/$id";
+import * as Routeblog$slug from "./routes/blog/$slug";
+import * as Routeblog from "./routes/blog";
+import * as Route from "./routes/index";
+import * as Routelogin from "./routes/login";
+import * as Routeme from "./routes/me";
+import * as Routeuserprofilename$id from "./routes/user/profile/name/$id";
+import * as Routeuserprofilename from "./routes/user/profile/name";
+import * as Routeusersomething$slug from "./routes/user/something/$slug";
+import * as Routeusersomething from "./routes/user/something";
 
 function doesFunctionExist(route, fn) {
   if (typeof route[fn] === "function") {
@@ -21,24 +21,24 @@ function doesFunctionExist(route, fn) {
 export const routes = [
   {
         path: "/blog",
-        Component: Componentblog.default,
-        loader: doesFunctionExist(Componentblog, "loader"),
-        action: doesFunctionExist(Componentblog, "action"),
-        meta: doesFunctionExist(Componentblog, "meta"),
+        Component: Routeblog.default,
+        loader: doesFunctionExist(Routeblog, "loader"),
+        action: doesFunctionExist(Routeblog, "action"),
+        meta: doesFunctionExist(Routeblog, "meta"),
         exact: false,
         routes: [{
         path: "/blog/:slug",
-        Component: Componentblog$slug.default,
-        loader: doesFunctionExist(Componentblog$slug, "loader"),
-        action: doesFunctionExist(Componentblog$slug, "action"),
-        meta: doesFunctionExist(Componentblog$slug, "meta"),
+        Component: Routeblog$slug.default,
+        loader: doesFunctionExist(Routeblog$slug, "loader"),
+        action: doesFunctionExist(Routeblog$slug, "action"),
+        meta: doesFunctionExist(Routeblog$slug, "meta"),
         exact: false,
         routes: [{
         path: "/blog/:slug/:id",
-        Component: Componentblog$slug$id.default,
-        loader: doesFunctionExist(Componentblog$slug$id, "loader"),
-        action: doesFunctionExist(Componentblog$slug$id, "action"),
-        meta: doesFunctionExist(Componentblog$slug$id, "meta"),
+        Component: Routeblog$slug$id.default,
+        loader: doesFunctionExist(Routeblog$slug$id, "loader"),
+        action: doesFunctionExist(Routeblog$slug$id, "action"),
+        meta: doesFunctionExist(Routeblog$slug$id, "meta"),
         exact: true,
         routes: []
       },
@@ -48,17 +48,17 @@ export const routes = [
       },
       {
         path: "/user/profile/name",
-        Component: Componentuserprofilename.default,
-        loader: doesFunctionExist(Componentuserprofilename, "loader"),
-        action: doesFunctionExist(Componentuserprofilename, "action"),
-        meta: doesFunctionExist(Componentuserprofilename, "meta"),
+        Component: Routeuserprofilename.default,
+        loader: doesFunctionExist(Routeuserprofilename, "loader"),
+        action: doesFunctionExist(Routeuserprofilename, "action"),
+        meta: doesFunctionExist(Routeuserprofilename, "meta"),
         exact: false,
         routes: [{
         path: "/user/profile/name/:id",
-        Component: Componentuserprofilename$id.default,
-        loader: doesFunctionExist(Componentuserprofilename$id, "loader"),
-        action: doesFunctionExist(Componentuserprofilename$id, "action"),
-        meta: doesFunctionExist(Componentuserprofilename$id, "meta"),
+        Component: Routeuserprofilename$id.default,
+        loader: doesFunctionExist(Routeuserprofilename$id, "loader"),
+        action: doesFunctionExist(Routeuserprofilename$id, "action"),
+        meta: doesFunctionExist(Routeuserprofilename$id, "meta"),
         exact: true,
         routes: []
       },
@@ -66,17 +66,17 @@ export const routes = [
       },
       {
         path: "/user/something",
-        Component: Componentusersomething.default,
-        loader: doesFunctionExist(Componentusersomething, "loader"),
-        action: doesFunctionExist(Componentusersomething, "action"),
-        meta: doesFunctionExist(Componentusersomething, "meta"),
+        Component: Routeusersomething.default,
+        loader: doesFunctionExist(Routeusersomething, "loader"),
+        action: doesFunctionExist(Routeusersomething, "action"),
+        meta: doesFunctionExist(Routeusersomething, "meta"),
         exact: false,
         routes: [{
         path: "/user/something/:slug",
-        Component: Componentusersomething$slug.default,
-        loader: doesFunctionExist(Componentusersomething$slug, "loader"),
-        action: doesFunctionExist(Componentusersomething$slug, "action"),
-        meta: doesFunctionExist(Componentusersomething$slug, "meta"),
+        Component: Routeusersomething$slug.default,
+        loader: doesFunctionExist(Routeusersomething$slug, "loader"),
+        action: doesFunctionExist(Routeusersomething$slug, "action"),
+        meta: doesFunctionExist(Routeusersomething$slug, "meta"),
         exact: true,
         routes: []
       },
@@ -84,46 +84,46 @@ export const routes = [
       },
       {
         path: "/about",
-        Component: Componentabout.default,
-        loader: doesFunctionExist(Componentabout, "loader"),
-        action: doesFunctionExist(Componentabout, "action"),
-        meta: doesFunctionExist(Componentabout, "meta"),
+        Component: Routeabout.default,
+        loader: doesFunctionExist(Routeabout, "loader"),
+        action: doesFunctionExist(Routeabout, "action"),
+        meta: doesFunctionExist(Routeabout, "meta"),
         exact: true,
         routes: []
       },
       {
         path: "/",
-        Component: Component.default,
-        loader: doesFunctionExist(Component, "loader"),
-        action: doesFunctionExist(Component, "action"),
-        meta: doesFunctionExist(Component, "meta"),
+        Component: Route.default,
+        loader: doesFunctionExist(Route, "loader"),
+        action: doesFunctionExist(Route, "action"),
+        meta: doesFunctionExist(Route, "meta"),
         exact: true,
         routes: []
       },
       {
         path: "/login",
-        Component: Componentlogin.default,
-        loader: doesFunctionExist(Componentlogin, "loader"),
-        action: doesFunctionExist(Componentlogin, "action"),
-        meta: doesFunctionExist(Componentlogin, "meta"),
+        Component: Routelogin.default,
+        loader: doesFunctionExist(Routelogin, "loader"),
+        action: doesFunctionExist(Routelogin, "action"),
+        meta: doesFunctionExist(Routelogin, "meta"),
         exact: true,
         routes: []
       },
       {
         path: "/me",
-        Component: Componentme.default,
-        loader: doesFunctionExist(Componentme, "loader"),
-        action: doesFunctionExist(Componentme, "action"),
-        meta: doesFunctionExist(Componentme, "meta"),
+        Component: Routeme.default,
+        loader: doesFunctionExist(Routeme, "loader"),
+        action: doesFunctionExist(Routeme, "action"),
+        meta: doesFunctionExist(Routeme, "meta"),
         exact: true,
         routes: []
       },
       {
         path: "*",
-        Component: Component404.default,
-        loader: doesFunctionExist(Component404, "loader"),
-        action: doesFunctionExist(Component404, "action"),
-        meta: doesFunctionExist(Component404, "meta"),
+        Component: Route404.default,
+        loader: doesFunctionExist(Route404, "loader"),
+        action: doesFunctionExist(Route404, "action"),
+        meta: doesFunctionExist(Route404, "meta"),
         exact: false,
         routes: []
       },

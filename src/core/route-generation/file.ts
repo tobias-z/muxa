@@ -61,7 +61,7 @@ export default class File {
     let route: Muxa.ConfigRouteToString = {
       path,
       import: theImport,
-      Component: `Component${uniqueEndOfName}`,
+      Component: `Route${uniqueEndOfName}`,
     };
 
     return this.getChildRoutes(route);

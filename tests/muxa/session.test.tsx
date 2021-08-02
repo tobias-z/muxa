@@ -6,7 +6,12 @@ import { useRouteData } from "../../src";
 import type { LoaderFunction } from "../../src";
 import { cleanup, screen } from "@testing-library/react";
 import { renderWithRouter } from "../test-utils";
-import { withSession, deleteSession, getSession } from "./session-utils";
+import {
+  withSession,
+  deleteSession,
+  getSession,
+  COOKIE_NAME,
+} from "./session-utils";
 
 afterEach(cleanup);
 
@@ -52,7 +57,7 @@ test("session loads data from cookie when rendered", async () => {
   let data = {
     hello: "hello there",
   };
-  document.cookie = `SESSIONID=${JSON.stringify(data)}`;
+  document.cookie = `${COOKIE_NAME}=${JSON.stringify(data)}`;
   await renderWithRouter(
     <LoadedRoute path="/" component={App} loader={secondLoader} />
   );
@@ -84,4 +89,14 @@ test("delete will remove an entry in the session", () => {
   expect(session.get("test")).not.toBe(message);
   // within a new session
   expect(getSession().get("test")).not.toBe(message);
+});
+
+test("has correctly checks if a value exists in the session", () => {
+  let message = "Yo";
+  let session = initTest(message);
+
+  expect(session.has("hello")).toBeFalsy();
+
+  session.set("hello", message);
+  expect(session.has("hello")).toBeTruthy();
 });
