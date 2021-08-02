@@ -42,7 +42,6 @@ export default class Session<
     if (path) cookieString += `; Path=${path}`;
     if (sameSite) cookieString += `; SameSite=${sameSite}`;
     if (secure) cookieString += `; Secure`;
-    console.log(cookieString);
     document.cookie = cookieString;
   }
 }
