@@ -30,4 +30,5 @@ export interface Route {
   action?: ActionFunction<any>;
   meta?: MetaFunction;
   routes?: Routes;
+  expires: Date;
 }

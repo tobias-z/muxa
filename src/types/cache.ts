@@ -8,6 +8,7 @@ export interface AddRoute {
   loader?: LoaderFunction<any>;
   action?: ActionFunction<any>;
   routes?: Routes;
+  expires: Date;
 }
 
 export interface UpdateRoute {

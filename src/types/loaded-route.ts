@@ -39,6 +39,7 @@ export type MetaFunction<Params = any> = (helpers: MetaHelpers<Params>) => Meta;
 export interface Meta {
   title?: string;
   description?: string;
+  expires?: Date;
 }
 
 interface MetaHelpers<Params> {

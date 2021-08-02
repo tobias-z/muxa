@@ -6,6 +6,7 @@ import { getParams, shouldRefetchLoader, getRealPathname } from "./utils";
 import invariant from "../invariant";
 import { RoutePropsProvider } from "./route-props";
 import { Helmet } from "react-helmet";
+import getBaseLoader from "./utils/get-loader";
 
 export default function LoadedRoute({
   component,
@@ -29,11 +30,19 @@ export default function LoadedRoute({
     };
   }, [history.location]);
 
-  useEffect(() => {
+  function initRoute() {
     // Checks if route is added and adds a brand new one if it doesn't
     if (route) return;
 
     let params = getParams(path);
+
+    let expires = meta && meta({ params }).expires;
+    if (!expires) {
+      let currentDate = new Date();
+      // Defaults to one minute
+      currentDate.setTime(currentDate.getTime() + 1000 * 60);
+      expires = currentDate;
+    }
 
     cache.put(thePath, {
       loader,
@@ -41,6 +50,7 @@ export default function LoadedRoute({
       action,
       params,
       routes,
+      expires,
     });
 
     // Will never reach the end of the finally block
@@ -48,56 +58,32 @@ export default function LoadedRoute({
     if (!loader) {
       forceUpdate();
     }
-  }, [history.location]);
+  }
 
   useEffect(() => {
+    initRoute();
     if (!loader) return;
 
     let params = getParams(path);
-
     if (!shouldRefetchLoader({ path, exact, params }, cache.history)) return;
 
     let isCurrent = true;
 
-    // Generates errors to be put on the route
-    let errors: Muxa.RouteErrors = {};
-    function addError(key: string, value: any) {
-      errors[key] = value;
-    }
-
-    function runLoader(loader: Muxa.LoaderFunction) {
-      let redirect: Muxa.RedirectFunction = (path: string) => {
-        return () => {
-          return history.push(path);
-        };
-      };
-
-      loader({
-        params,
-        addError,
-        globalData: cache.globalData,
-        redirect,
-      })
-        .then(response => {
-          // Redirect function was called
-          if (typeof response === "function") {
-            return response();
-          }
-          cache.updateRoute(thePath, { errors, routeData: response });
-        })
-        .catch(err => {
-          console.error(err.message);
-        })
-        .finally(() => {
-          cache.toggleRouteLoading(thePath);
+    let runLoader = getBaseLoader(
+      {
+        cache,
+        redirect: path => () => history.push(path),
+        route: cache.get(thePath),
+      },
+      {
+        afterAll() {
           if (isCurrent) {
             forceUpdate();
           }
-        });
-    }
-
-    cache.toggleRouteLoading(thePath);
-    runLoader(loader);
+        },
+      }
+    );
+    runLoader();
 
     return () => {
       isCurrent = false;

@@ -2,11 +2,6 @@
 
 - [ ] SourceCode
 
-  - [ ] Add more options to createSession domain: "remix.run", expires: new
-        Date(Date.now() + 60), httpOnly: true, maxAge: 60, path: "/", sameSite:
-        "lax", secrets: ["s3cret1"], secure: true
-
-  - [ ] Add 'has' function on Session
   - [ ] Caching option on route (default to 1 minute)
     - [ ] export function 'meta' that returns properties for the LoadedRoute
           such as 'title', 'meta' and 'cacheFor'
