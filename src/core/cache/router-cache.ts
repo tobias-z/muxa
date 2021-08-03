@@ -1,5 +1,6 @@
 import type * as Muxa from "../../types";
 import invariant from "../invariant";
+import { getExpirationDate } from "../react/utils";
 import GlobalData from "./global-data";
 import History from "./history";
 
@@ -28,6 +29,7 @@ export default class RouterCache<TGlobalData = any> {
     let route: Muxa.Route = {
       ...action,
       isLoading: false,
+      isRedirect: false,
       errors: {},
       routeData: null,
     };
@@ -48,6 +50,15 @@ export default class RouterCache<TGlobalData = any> {
     this.cache.set(path, { ...route, isLoading: !route.isLoading });
   }
 
+  sendRedirect(path: Muxa.Path) {
+    let route = this.get(path);
+    invariant(
+      route,
+      `A redirect was made to path: '${path}'. But no route with that path was found`
+    );
+    this.cache.set(path, { ...route, isRedirect: true });
+  }
+
   updateRoute(path: Muxa.Path, action: Muxa.UpdateRoute): void {
     let currentRoute = this.get(path);
     invariant(
@@ -57,6 +68,11 @@ export default class RouterCache<TGlobalData = any> {
     let updatedRoute: Muxa.Route = {
       ...currentRoute,
       ...action,
+      isRedirect: false,
+      expires: getExpirationDate({
+        params: currentRoute.params,
+        meta: currentRoute.meta,
+      }),
       routeData: action.routeData,
       errors: {
         ...currentRoute.errors,

@@ -2,9 +2,6 @@
 
 - [ ] SourceCode
 
-  - [ ] Caching option on route (default to 1 minute)
-    - [ ] export function 'meta' that returns properties for the LoadedRoute
-          such as 'title', 'meta' and 'cacheFor'
   - [ ] 'usePendingFormSubmit'
   - [ ] Make only the route which changes call loader
   - [ ] Refactor addError function

@@ -38,6 +38,7 @@ export default function Form({
     let redirect: Muxa.RedirectFunction = (path: string) => {
       return () => {
         if (path !== history.location.pathname) {
+          cache.sendRedirect(path);
           return history.push(path);
         }
         runLoader();

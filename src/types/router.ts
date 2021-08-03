@@ -31,4 +31,5 @@ export interface Route {
   meta?: MetaFunction;
   routes?: Routes;
   expires: Date;
+  isRedirect: boolean;
 }

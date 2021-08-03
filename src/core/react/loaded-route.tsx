@@ -1,12 +1,18 @@
 import type * as Muxa from "../../types";
-import { createElement, useEffect, useReducer } from "react";
+import { createElement, useReducer, useLayoutEffect } from "react";
 import { useHistory, Route } from "react-router-dom";
 import { useRouterCache } from "./router";
-import { getParams, shouldRefetchLoader, getRealPathname } from "./utils";
+import {
+  getParams,
+  shouldRefetchLoader,
+  getRealPathname,
+  isOutdatedData,
+  getExpirationDate,
+} from "./utils";
 import invariant from "../invariant";
 import { RoutePropsProvider } from "./route-props";
 import { Helmet } from "react-helmet";
-import getBaseLoader from "./utils/get-loader";
+import { getBaseLoader } from "./utils";
 
 export default function LoadedRoute({
   component,
@@ -19,30 +25,8 @@ export default function LoadedRoute({
   let thePath = getRealPathname(path);
   let route = cache.get(thePath);
 
-  useEffect(() => {
-    cache.history.addActivePath(thePath);
-
-    return () => {
-      cache.history.removeActivePath(thePath);
-
-      // Keep track of the previous path
-      cache.history.previousPath = thePath;
-    };
-  }, [history.location]);
-
-  function initRoute() {
-    // Checks if route is added and adds a brand new one if it doesn't
-    if (route) return;
-
-    let params = getParams(path);
-
-    let expires = meta && meta({ params }).expires;
-    if (!expires) {
-      let currentDate = new Date();
-      // Defaults to one minute
-      currentDate.setTime(currentDate.getTime() + 1000 * 60);
-      expires = currentDate;
-    }
+  function initRoute(params: Muxa.Params) {
+    let expires = getExpirationDate({ meta, params });
 
     cache.put(thePath, {
       loader,
@@ -53,26 +37,40 @@ export default function LoadedRoute({
       expires,
     });
 
-    // Will never reach the end of the finally block
+    // Will never reach the afterAll function
     // So we have to rerender after the path has been added
     if (!loader) {
       forceUpdate();
     }
   }
 
-  useEffect(() => {
-    initRoute();
-    if (!loader) return;
+  useLayoutEffect(() => {
+    let unsubscribe = cache.history.subscribe(thePath);
 
     let params = getParams(path);
-    if (!shouldRefetchLoader({ path, exact, params }, cache.history)) return;
+    if (!route) {
+      initRoute(params);
+    }
+
+    let tmpRoute = cache.get(thePath);
+    invariant(
+      tmpRoute,
+      `Route ${thePath} was not yet initialized, when trying to run it's loader`
+    );
+
+    if (!loader) return;
+    if (!shouldRefetchLoader({ exact, route: tmpRoute }, cache.history)) return;
+    if (!isOutdatedData(tmpRoute)) return;
 
     let isCurrent = true;
 
     let runLoader = getBaseLoader(
       {
         cache,
-        redirect: path => () => history.push(path),
+        redirect: path => () => {
+          cache.sendRedirect(path);
+          history.push(path);
+        },
         route: cache.get(thePath),
       },
       {
@@ -87,6 +85,7 @@ export default function LoadedRoute({
 
     return () => {
       isCurrent = false;
+      unsubscribe();
     };
   }, [history.location]);
 

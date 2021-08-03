@@ -9,6 +9,7 @@ export let meta: MetaFunction = () => {
   return {
     title: "index page",
     description: "The index page for testing routes",
+    expires: new Date(Date.now() + 60),
   };
 };
 

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import invariant from "../invariant";
 import { useRoutePath } from "./route-props";
 import { useHistory } from "react-router-dom";
-import getBaseLoader from "./utils/get-loader";
+import { getBaseLoader } from "./utils";
 
 export default function useRouteData<
   Data = any,
@@ -30,7 +30,10 @@ export default function useRouteData<Data, Errors>(): Muxa.RouteData<
       getBaseLoader(
         {
           cache,
-          redirect: path => () => push(path),
+          redirect: path => () => {
+            cache.sendRedirect(path);
+            push(path);
+          },
           route: cache.get(path),
         },
         {

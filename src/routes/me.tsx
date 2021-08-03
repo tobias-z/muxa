@@ -1,7 +1,13 @@
-import type { LoaderFunction } from "../";
+import type { LoaderFunction, MetaFunction } from "../";
 
 export let loader: LoaderFunction = async ({ redirect }) => {
   return redirect("/");
+};
+
+export let meta: MetaFunction = () => {
+  return {
+    expires: new Date(),
+  };
 };
 
 export default function Me() {

@@ -8,9 +8,9 @@ interface Props {
   redirect: Muxa.RedirectFunction;
 }
 
-export default function getBaseLoader(
+export function getBaseLoader(
   { route, cache, redirect }: Props,
-  callbacks?: {
+  callbacks: {
     afterAll?: () => void;
     onSuccess?: (props: {
       response: any;
@@ -45,13 +45,13 @@ export default function getBaseLoader(
         return response();
       }
       cache.updateRoute(route.path, { errors, routeData: response });
-      callbacks?.onSuccess && callbacks.onSuccess({ errors, response, route });
+      callbacks.onSuccess && callbacks.onSuccess({ errors, response, route });
     } catch (err) {
       // Do something with the error?
       console.error(err.message);
     } finally {
       cache.toggleRouteLoading(route.path);
-      callbacks?.afterAll && callbacks.afterAll();
+      callbacks.afterAll && callbacks.afterAll();
     }
   };
 }

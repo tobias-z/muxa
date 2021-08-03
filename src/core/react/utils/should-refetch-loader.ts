@@ -1,15 +1,16 @@
 import type * as Muxa from "../../../types";
 import { getRealPathname } from ".";
 import History from "../../cache/history";
+import invariant from "../../invariant";
 
 interface RouteParams {
-  path: Muxa.Path;
   exact: boolean | undefined;
-  params: Muxa.Params;
+  route: Muxa.Route;
 }
 
-function isParamaterizedAndHasUndefinedParam(route: RouteParams): boolean {
-  if (route.path?.includes(":")) {
+function isParamaterizedAndHasUndefinedParam({ route }: RouteParams): boolean {
+  invariant(route.path, "Unknown error: No path was found for route");
+  if (route.path.includes(":")) {
     let param = Object.values(route.params)[0];
     if (param === undefined || param === "") {
       return true;
@@ -19,9 +20,10 @@ function isParamaterizedAndHasUndefinedParam(route: RouteParams): boolean {
 }
 
 export function shouldRefetchLoader(
-  route: RouteParams,
+  props: RouteParams,
   history: History
 ): boolean {
+  let { exact, route } = props;
   let willRender = false;
   let realPath = getRealPathname(route.path) as string;
 
@@ -29,18 +31,18 @@ export function shouldRefetchLoader(
     willRender = true;
   }
 
-  if (location.pathname.includes(realPath) && !route.exact) {
+  if (location.pathname.includes(realPath) && !exact) {
     willRender = true;
   }
 
   if (
     history.activePaths.has(route.path) &&
-    !isParamaterizedAndHasUndefinedParam(route)
+    !isParamaterizedAndHasUndefinedParam(props)
   ) {
     willRender = true;
   }
 
-  if (isParamaterizedAndHasUndefinedParam(route)) {
+  if (isParamaterizedAndHasUndefinedParam(props)) {
     willRender = false;
   }
 

@@ -4,16 +4,9 @@
 import LoadedRoute from "../../src/core/react/loaded-route";
 import { useRouteData } from "../../src";
 import type { LoaderFunction } from "../../src";
-import { cleanup, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { renderWithRouter } from "../test-utils";
-import {
-  withSession,
-  deleteSession,
-  getSession,
-  COOKIE_NAME,
-} from "./session-utils";
-
-afterEach(cleanup);
+import { withSession, deleteSession, getSession } from "./session-utils";
 
 let loader: LoaderFunction = async () => {
   return withSession(async session => {
@@ -43,25 +36,6 @@ test("routeData has values from session after beeing set in the loader", async (
   );
   expect(screen.getByText(/this is a test/i));
   expect(screen.getByText(/second/i));
-});
-
-let secondLoader: LoaderFunction = async () => {
-  return withSession(async session => {
-    return {
-      data: session.data,
-    };
-  });
-};
-
-test("session loads data from cookie when rendered", async () => {
-  let data = {
-    hello: "hello there",
-  };
-  document.cookie = `${COOKIE_NAME}=${JSON.stringify(data)}`;
-  await renderWithRouter(
-    <LoadedRoute path="/" component={App} loader={secondLoader} />
-  );
-  expect(screen.getByText(/hello there/i));
 });
 
 function initTest(message: string) {
