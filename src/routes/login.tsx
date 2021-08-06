@@ -1,7 +1,7 @@
-import { Form } from "../";
+import { Form, redirect } from "../";
 import type { ActionFunction } from "../";
 
-export let action: ActionFunction = async ({ redirect }) => {
+export let action: ActionFunction = async () => {
   return redirect("/");
 };
 

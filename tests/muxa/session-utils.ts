@@ -18,8 +18,18 @@ export let { getSession, deleteSession } = createSession<TestSession>({
   path: "/",
 });
 
+export function requireUser(
+  next: (session: Session) => ReturnType<LoaderFunction>
+) {
+  let session = getSession();
+  if (session.has("hello")) {
+    return next(session);
+  }
+  return;
+}
+
 export function withSession(
-  next: (session: Session<TestSession>) => ReturnType<LoaderFunction>
+  next: (session: Session) => ReturnType<LoaderFunction>
 ) {
   let session = getSession();
   return next(session);

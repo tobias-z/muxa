@@ -8,12 +8,12 @@ import {
   LoaderFunction,
   useRouteData,
   useGlobalData,
+  redirect,
 } from "../../src";
 import LoadedRoute from "../../src/core/react/loaded-route";
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 let action: ActionFunction<{ name?: string }> = async ({
-  redirect,
   addError,
   globalData,
 }) => {

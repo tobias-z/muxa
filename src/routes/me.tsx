@@ -1,6 +1,7 @@
 import type { LoaderFunction, MetaFunction } from "../";
+import { redirect } from "../";
 
-export let loader: LoaderFunction = async ({ redirect }) => {
+export let loader: LoaderFunction = async () => {
   return redirect("/");
 };
 

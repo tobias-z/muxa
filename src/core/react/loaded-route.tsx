@@ -67,11 +67,8 @@ export default function LoadedRoute({
     let runLoader = getBaseLoader(
       {
         cache,
-        redirect: path => () => {
-          cache.sendRedirect(path);
-          history.push(path);
-        },
         route: cache.get(thePath),
+        history,
       },
       {
         afterAll() {

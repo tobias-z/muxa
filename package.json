@@ -1,6 +1,6 @@
 {
   "name": "@tobias-z/muxa",
-  "version": "0.0.13",
+  "version": "0.0.16",
   "description": "Something great",
   "main": "./dist/index.js",
   "scripts": {

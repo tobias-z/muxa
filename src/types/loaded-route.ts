@@ -1,9 +1,15 @@
 import type { RouteProps } from "react-router-dom";
 import GlobalData from "../core/cache/global-data";
+import RouterCache from "../core/cache/router-cache";
 import type { FormMethods } from "./form";
 import type { Routes } from "./route-config";
+import type { History } from "history";
 
-export type Redirect = () => void;
+export type Redirect = (
+  cache: RouterCache,
+  history: History,
+  runLoader?: () => Promise<unknown>
+) => void;
 
 export type RedirectFunction = (path: string) => Redirect;
 
@@ -18,7 +24,6 @@ interface LoaderHelpers<T> {
   params: T;
   addError: AddErrorFunction;
   globalData: GlobalData;
-  redirect: RedirectFunction;
 }
 
 export type ActionFunction<FormBody = any> = (
@@ -31,7 +36,6 @@ interface ActionHelpers<FormBody> {
   method: FormMethods;
   addError: AddErrorFunction;
   globalData: GlobalData;
-  redirect: RedirectFunction;
 }
 
 export type MetaFunction<Params = any> = (helpers: MetaHelpers<Params>) => Meta;

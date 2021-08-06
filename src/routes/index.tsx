@@ -1,6 +1,7 @@
 import { MetaFunction } from "../types";
+import { redirect } from "../";
 
-export async function action({ redirect }: any) {
+export async function action() {
   console.log("action");
   return redirect("/");
 }

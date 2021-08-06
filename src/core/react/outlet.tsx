@@ -25,6 +25,7 @@ export default function Outlet() {
           component={route.Component}
           loader={route.loader}
           action={route.action}
+          meta={route.meta}
           routes={route.routes}
         />
       ))}

@@ -1,15 +1,16 @@
 import type * as Muxa from "../../../types";
 import RouterCache from "../../cache/router-cache";
 import invariant from "../../invariant";
+import type { History } from "history";
 
 interface Props {
   route: Muxa.Route | undefined;
   cache: RouterCache;
-  redirect: Muxa.RedirectFunction;
+  history: History;
 }
 
 export function getBaseLoader(
-  { route, cache, redirect }: Props,
+  { route, cache, history }: Props,
   callbacks: {
     afterAll?: () => void;
     onSuccess?: (props: {
@@ -38,17 +39,16 @@ export function getBaseLoader(
         params: route.params,
         addError,
         globalData: cache.globalData,
-        redirect,
       });
       // Redirect function was called
       if (typeof response === "function") {
-        return response();
+        return response(cache, history);
       }
       cache.updateRoute(route.path, { errors, routeData: response });
       callbacks.onSuccess && callbacks.onSuccess({ errors, response, route });
     } catch (err) {
       // Do something with the error?
-      console.error(err.message);
+      console.error(err);
     } finally {
       cache.toggleRouteLoading(route.path);
       callbacks.afterAll && callbacks.afterAll();

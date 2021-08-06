@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useRouteData, Outlet } from "../";
+import { useRouteData, Outlet, redirect } from "../";
 
 export async function loader() {
   return {
@@ -7,7 +7,7 @@ export async function loader() {
   };
 }
 
-export async function action({ redirect }: any) {
+export async function action() {
   return redirect("/");
 }
 

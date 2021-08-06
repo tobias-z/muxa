@@ -34,17 +34,6 @@ export default function Form({
     invariant(formRef.current, "Form ref was not defined");
     let body = getFormBody(formRef.current);
 
-    // Create functions for the action
-    let redirect: Muxa.RedirectFunction = (path: string) => {
-      return () => {
-        if (path !== history.location.pathname) {
-          cache.sendRedirect(path);
-          return history.push(path);
-        }
-        runLoader();
-      };
-    };
-
     let errors: Muxa.RouteErrors = {};
     function addError(key: string, value: any) {
       errors[key] = value;
@@ -54,7 +43,6 @@ export default function Form({
       body,
       method,
       params: route.params,
-      redirect,
       addError,
       globalData: cache.globalData,
     });
@@ -63,7 +51,7 @@ export default function Form({
     cache.updateRoute(actionToUse, { errors });
 
     //Redirect to new route
-    toRedirect();
+    toRedirect(cache, history, runLoader);
   }
 
   return (

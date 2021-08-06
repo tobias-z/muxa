@@ -16,5 +16,5 @@ export interface SessionOptions {
 }
 
 export type Session<
-  Entries extends Record<string, any> = Record<string, unknown>
+  Entries extends Record<string, unknown> = Record<string, any>
 > = TheSession<Entries>;

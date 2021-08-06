@@ -8,7 +8,7 @@ import type { LoaderFunction } from "../../src";
 import { renderWithRouter } from "../test-utils";
 
 let loader: LoaderFunction = async () => {
-  return Promise.reject("Some error happended");
+  return Promise.reject("Expected error in the tests. Ignore this");
 };
 
 function App() {

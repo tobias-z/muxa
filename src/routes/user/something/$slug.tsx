@@ -1,3 +1,5 @@
+import { redirect } from "../../..";
+
 export async function loader() {
   console.log("loader");
   return {
@@ -5,7 +7,7 @@ export async function loader() {
   };
 }
 
-export async function action({ redirect }: any) {
+export async function action() {
   console.log("action");
   return redirect("/");
 }

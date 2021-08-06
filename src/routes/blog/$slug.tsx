@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import type { LoaderFunction } from "../..";
-import { useRouteData, Outlet } from "../..";
+import { useRouteData, Outlet, redirect } from "../..";
 
 export let loader: LoaderFunction<{ slug: string }> = async ({ params }) => {
   return { slug: params.slug };
 };
 
-export async function action({ redirect }: any) {
+export async function action() {
   console.log("action");
   return redirect("/");
 }
