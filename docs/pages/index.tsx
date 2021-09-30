@@ -12,6 +12,10 @@ export default function Home({ menus }: { menus: Array<MenuDir> }) {
       <main style={{ marginTop: "20px" }}>
         <h1>Overview</h1>
         <h2>Motivation</h2>
+        <p>
+          Muxa was inspired by <a href="http://remix.run/">Remix.run</a>
+          which I would heavily recommend taking a look at.
+        </p>
         <h2>The problem</h2>
         <h2>This solution</h2>
       </main>

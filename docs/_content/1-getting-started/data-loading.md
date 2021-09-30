@@ -9,10 +9,8 @@ order: 3
 # Loading Data
 
 When loading data the usual react way, is to keep track of multiple states such
-as "isLoading". Muxa tries to fix this issue by showing the fallback component
-given to your "Router" when you first load the page. The second time someone
-visits the page, the old data will be returned immediately. Meanwhile a
-background fetch is happening to get an updated version of your data.
+as "isLoading". Muxa tries to fix this by handing you all the data through a
+useRouteData function.
 
 ## Creating a loader
 
@@ -20,12 +18,14 @@ A loader is simply an asynchronous function that that which can return any data
 that you want. You can look at a loader as all of the data, that your route
 needs to function correctly.
 
-In `routes/index.js`:
+In `routes/index.tsx`:
 
 ```jsx
-export async function homeLoader() {
-  let res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
-  let data = await res.json();
+import type { LoaderFunction } from "muxa";
+
+export function loader() {
+  const res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
+  const data = await res.json();
   return data;
 }
 ```
@@ -34,14 +34,11 @@ Whatever you return as your data will be set as your routes's state.
 
 ## Using data from your loader
 
-Still in `routes/index.js` create a HomePage component:
+Still in `routes/index.js` lets make our home page use that data
 
 ```jsx
-// At the top
-import { useRouteData } from "muxa";
-
 export default function HomePage() {
-  let { data: pokemon } = useRouteData();
+  const { data: pokemon } = useRouteData();
 
   return (
     <div>
@@ -54,6 +51,52 @@ export default function HomePage() {
 }
 ```
 
-There you have it. That is the basics of Muxa.
+## Meta
 
-If you want more in detail examples, please checkout the examples on the left.
+Muxa provides a meta function which lets you set a title, description and
+expires. Expires allows you to choose when you want your loader to be called
+again.
+
+Lets make our homepage use this
+
+```tsx
+// MetaFunction imported from muxa
+export const meta: MetaFunction = () => {
+  return {
+    title: "Home page",
+    description: "This is the home page",
+  };
+};
+```
+
+## Finished Product
+
+```tsx
+import type { LoaderFunction, MetaFunction } from "muxa";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Home page",
+    description: "This is the home page",
+  };
+};
+
+export function loader() {
+  const res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
+  const data = await res.json();
+  return data;
+}
+
+export default function HomePage() {
+  const { data: pokemon } = useRouteData();
+
+  return (
+    <div>
+      {pokemon && (
+        <h1>Pokemon</h1>
+        <p>Our pokemon is {pokemon.name}</p>
+      )}
+    </div>
+  );
+}
+```
