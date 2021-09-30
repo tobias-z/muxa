@@ -4,18 +4,18 @@ import { readdirSync, openSync, appendFileSync } from "fs";
 import { getRoute, getUsersFileIdentifier, handleReturnedRoute } from "./utils";
 
 function getFilePath() {
-  let identifier = getUsersFileIdentifier();
-  let filePath = `${process.cwd()}/src/route-config.${identifier}`;
+  const identifier = getUsersFileIdentifier();
+  const filePath = `${process.cwd()}/src/route-config.${identifier}`;
 
   return filePath;
 }
 
 function generateExportedRoutes(routes: Muxa.RoutesToString) {
-  let usedImports: Array<string> = [];
+  const usedImports: Array<string> = [];
 
   function getRouteString(route: Muxa.ConfigRouteToString): string {
     usedImports.push(route.import);
-    let childRoutes = getChildRoutes(route);
+    const childRoutes = getChildRoutes(route);
     let isExact = childRoutes === "routes: []";
 
     if (route.path === "/404") {
@@ -40,7 +40,7 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
     if (route.routes.length < 1) return "routes: []";
     let toReturn = "routes: [";
     toReturn = toReturn + goThroughAllWithChildRoute(route.routes);
-    for (let childRoute of route.routes) {
+    for (const childRoute of route.routes) {
       if (isUsedImport(usedImports, childRoute.import)) continue;
       toReturn = toReturn + getRouteString(childRoute);
     }
@@ -53,11 +53,11 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
     allRoutes: Muxa.RoutesToString
   ) {
     let waitForChildPath = false;
-    for (let r of allRoutes) {
-      let splitChild = r.path.split("/");
-      let splitParent = currentRoute.path.split("/");
-      let child = splitChild[splitChild.length - 1];
-      let parent = splitParent[splitParent.length - 2];
+    for (const r of allRoutes) {
+      const splitChild = r.path.split("/");
+      const splitParent = currentRoute.path.split("/");
+      const child = splitChild[splitChild.length - 1];
+      const parent = splitParent[splitParent.length - 2];
       if (child === parent) {
         if (child) {
           waitForChildPath = true;
@@ -71,11 +71,11 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
 
   function goThroughAllWithChildRoute(routes: Muxa.RoutesToString) {
     let toReturn = "";
-    for (let route of routes) {
+    for (const route of routes) {
       if (route.routes && route.routes.length > 0) {
-        let waitForChildPath = shouldWaitForChildPath(route, routes);
+        const waitForChildPath = shouldWaitForChildPath(route, routes);
 
-        let used = isUsedImport(usedImports, route.import);
+        const used = isUsedImport(usedImports, route.import);
         if (!used && !waitForChildPath) {
           toReturn = toReturn + getRouteString(route);
         }
@@ -86,7 +86,7 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
 
   function getSpecificRoutes(routes: Muxa.RoutesToString) {
     let result = "";
-    for (let route of routes) {
+    for (const route of routes) {
       if (route.path === "/404") {
         result = getRouteString(route);
       }
@@ -96,7 +96,7 @@ function generateExportedRoutes(routes: Muxa.RoutesToString) {
 
   toReturn = goThroughAllWithChildRoute(routes);
 
-  for (let route of routes) {
+  for (const route of routes) {
     if (!isUsedImport(usedImports, route.import)) {
       if (route.path === "/404") continue;
       toReturn = toReturn + getRouteString(route);
@@ -113,11 +113,11 @@ function isUsedImport(usedImports: Array<string>, theImport: string) {
 }
 
 function createRouteConfig(routes: Muxa.RoutesToString) {
-  let filePath = getFilePath();
-  let file = openSync(filePath, "w");
-  let identifier = getUsersFileIdentifier();
+  const filePath = getFilePath();
+  const file = openSync(filePath, "w");
+  const identifier = getUsersFileIdentifier();
 
-  let usedImports: Array<string> = [];
+  const usedImports: Array<string> = [];
 
   function appendImportAndCheckForChildRoute(route: Muxa.ConfigRouteToString) {
     usedImports.push(route.import);
@@ -132,8 +132,8 @@ function createRouteConfig(routes: Muxa.RoutesToString) {
 
   function checkForChildren(route: Muxa.ConfigRouteToString) {
     if (route.routes) {
-      for (let childRoute of route.routes) {
-        let isUsed = isUsedImport(usedImports, childRoute.import);
+      for (const childRoute of route.routes) {
+        const isUsed = isUsedImport(usedImports, childRoute.import);
         if (!isUsed) {
           appendImportAndCheckForChildRoute(childRoute);
         }
@@ -141,8 +141,8 @@ function createRouteConfig(routes: Muxa.RoutesToString) {
     }
   }
 
-  for (let route of routes) {
-    let isUsed = isUsedImport(usedImports, route.import);
+  for (const route of routes) {
+    const isUsed = isUsedImport(usedImports, route.import);
     if (!isUsed) {
       appendImportAndCheckForChildRoute(route);
     }
@@ -167,26 +167,27 @@ export const routes = [
 }
 
 function getRootRoutesDirectory() {
-  let routesPath = join(process.cwd(), "src/routes");
+  const routesPath = join(process.cwd(), "src/routes");
   return readdirSync(routesPath);
 }
 
 export function generateAllRoutes() {
   try {
-    let routesDir = getRootRoutesDirectory();
+    const routesDir = getRootRoutesDirectory();
 
-    let routes: Muxa.RoutesToString = [];
+    const routes: Muxa.RoutesToString = [];
 
-    for (let fileName of routesDir) {
+    for (const fileName of routesDir) {
       // Can return an array of routes if it hit a directory
-      let returned = getRoute(fileName, routes, routesDir);
+      const returned = getRoute(fileName, routes, routesDir);
       if (returned) {
         handleReturnedRoute(routes, returned);
       }
     }
 
     createRouteConfig(routes);
-  } catch (error) {
+  } catch (_error) {
+    const error = _error as Error;
     /* istanbul ignore next */
     console.log(error.message);
   }

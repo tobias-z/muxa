@@ -11,16 +11,16 @@ export default function Form({
   action,
   children,
 }: Muxa.FormProps) {
-  let cache = useRouterCache();
-  let history = useHistory();
-  let formRef = useRef<HTMLFormElement>(null);
-  let path = useRoutePath();
-  let { runLoader } = useRouteData();
+  const cache = useRouterCache();
+  const history = useHistory();
+  const formRef = useRef<HTMLFormElement>(null);
+  const path = useRoutePath();
+  const { runLoader } = useRouteData();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    let actionToUse = action ? action : path;
-    let route = cache.get(actionToUse);
+    const actionToUse = action ? action : path;
+    const route = cache.get(actionToUse);
 
     invariant(
       route,
@@ -32,14 +32,14 @@ export default function Form({
     );
 
     invariant(formRef.current, "Form ref was not defined");
-    let body = getFormBody(formRef.current);
+    const body = getFormBody(formRef.current);
 
-    let errors: Muxa.RouteErrors = {};
+    const errors: Muxa.RouteErrors = {};
     function addError(key: string, value: any) {
       errors[key] = value;
     }
 
-    let toRedirect = await route.action({
+    const toRedirect = await route.action({
       body,
       method,
       params: route.params,
@@ -62,10 +62,10 @@ export default function Form({
 }
 
 function getFormBody(formRef: HTMLFormElement) {
-  let formData = new FormData(formRef);
-  let body: Record<string, FormDataEntryValue> = {};
+  const formData = new FormData(formRef);
+  const body: Record<string, FormDataEntryValue> = {};
 
-  for (let [key, value] of formData.entries()) {
+  for (const [key, value] of formData.entries()) {
     body[key] = value;
   }
 

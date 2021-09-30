@@ -13,13 +13,13 @@ export default class Directory {
   }
 
   getDirectory() {
-    let pathToDir = join(process.cwd(), `src/routes/${this.dirName}`);
+    const pathToDir = join(process.cwd(), `src/routes/${this.dirName}`);
 
-    let directory = readdirSync(pathToDir);
+    const directory = readdirSync(pathToDir);
 
-    for (let fileName of directory) {
-      let newName = `${this.dirName}/${fileName}`;
-      let returned = getRoute(newName, this.routes, directory);
+    for (const fileName of directory) {
+      const newName = `${this.dirName}/${fileName}`;
+      const returned = getRoute(newName, this.routes, directory);
       handleReturnedRoute(this.routes, returned);
     }
     return this.routes;

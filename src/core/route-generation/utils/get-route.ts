@@ -11,11 +11,11 @@ export function getRoute(
   // If the fileName does not have an indicator
   // It is a directory
   if (isDirectory(fileName)) {
-    let directory = new Directory(fileName, routes);
+    const directory = new Directory(fileName, routes);
     return directory.getDirectory();
   }
 
-  let file = new File(fileName, currentDir);
+  const file = new File(fileName, currentDir);
   return file.getRoute();
 }
 

@@ -2,8 +2,6 @@
 
 - [ ] SourceCode
 
-  - [ ] Redirect not working
-    - [ ] redirect function using the Redirect component from react router dom
   - [ ] Fix updates when switching page
     - [ ] return state/ref instead of the current object in the useRouteDate
           hook

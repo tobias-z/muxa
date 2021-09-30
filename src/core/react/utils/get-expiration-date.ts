@@ -8,7 +8,7 @@ interface Props {
 export function getExpirationDate({ meta, params }: Props) {
   let expires = meta && meta({ params }).expires;
   if (!expires) {
-    let currentDate = new Date();
+    const currentDate = new Date();
     // Defaults to one minute
     currentDate.setTime(currentDate.getTime() + 1000 * 60);
     expires = currentDate;

@@ -22,18 +22,18 @@ export default class File {
   ): Muxa.ConfigRouteToString {
     // Check for directory with the same name as file
     let routes: Muxa.RoutesToString = [];
-    for (let fileName of this.currentDir) {
-      let splitReplaced = this.replacedFileIdentifier.split("/");
-      let hasDirectoryWithTheSameNameAsFile =
+    for (const fileName of this.currentDir) {
+      const splitReplaced = this.replacedFileIdentifier.split("/");
+      const hasDirectoryWithTheSameNameAsFile =
         fileName === splitReplaced[splitReplaced.length - 1];
       if (hasDirectoryWithTheSameNameAsFile) {
         // Removes the everything after the last slash
-        let startOfDir = this.fileName.substr(
+        const startOfDir = this.fileName.substr(
           0,
           this.fileName.lastIndexOf("/")
         );
-        let dirName = `${startOfDir}/${fileName}`;
-        let directory = new Directory(dirName, routes);
+        const dirName = `${startOfDir}/${fileName}`;
+        const directory = new Directory(dirName, routes);
         routes = directory.getDirectory();
       }
     }
@@ -42,7 +42,7 @@ export default class File {
   }
 
   getRoute() {
-    let path = getPath(this.fileName);
+    const path = getPath(this.fileName);
 
     if (this.replacedFileIdentifier.startsWith("/")) {
       this.replacedFileIdentifier = this.replacedFileIdentifier.replace(
@@ -50,15 +50,15 @@ export default class File {
         ""
       );
     }
-    let theImport = `./routes/${this.replacedFileIdentifier}`;
+    const theImport = `./routes/${this.replacedFileIdentifier}`;
 
     // Remove slashes and replace colon with dolor since it cannot be used as a name
-    let uniqueEndOfName = path
+    const uniqueEndOfName = path
       .replace(/\//g, "")
       .replace(/:\s*/g, "$")
       .replace(/-\s*/g, "");
 
-    let route: Muxa.ConfigRouteToString = {
+    const route: Muxa.ConfigRouteToString = {
       path,
       import: theImport,
       Component: `Route${uniqueEndOfName}`,

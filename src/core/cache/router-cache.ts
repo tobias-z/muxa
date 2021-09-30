@@ -52,10 +52,10 @@ export default class RouterCache<TGlobalData = any> {
 
   sendRedirect(path: Muxa.Path) {
     let route = this.get(path);
-    invariant(
-      route,
-      `A redirect was made to path: '${path}'. But no route with that path was found`
-    );
+    // If a redirect is made to a loaded route
+    // which has not yet been rendered. It will not be defined
+    // so we do not need to set redirect to true
+    if (!route) return;
     this.cache.set(path, { ...route, isRedirect: true });
   }
 

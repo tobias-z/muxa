@@ -1,12 +1,12 @@
 {
   "name": "@tobias-z/muxa",
-  "version": "0.0.16",
+  "version": "0.0.19",
   "description": "Something great",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc -p .",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --watch",
+    "test:all": "jest",
     "test:coverage": "jest --coverage",
     "test:coverage_report": "jest --ci --coverage && codecov",
     "lint": "eslint --ext=.tsx,.ts  .",

@@ -10,10 +10,10 @@ declare global {
   }
 }
 
-let initialContext = createContext<RouterCache | undefined>(undefined);
+const initialContext = createContext<RouterCache | undefined>(undefined);
 
 function getRouterContext() {
-  // Keep a singleton of the context
+  // Keep a singconston of the context
   if (!window.RouterCacheContext) {
     window.RouterCacheContext = initialContext;
   }
@@ -21,7 +21,7 @@ function getRouterContext() {
 }
 
 export function useRouterCache() {
-  let context = useContext(getRouterContext());
+  const context = useContext(getRouterContext());
   if (!context) {
     throw new Error("You must wrap your LoadedRoutes inside a Router");
   }
@@ -29,9 +29,9 @@ export function useRouterCache() {
 }
 
 export function Router({ children, ...props }: Muxa.RouterProps) {
-  let cache = RouterCache.getInstance();
+  const cache = RouterCache.getInstance();
 
-  let Context = getRouterContext();
+  const Context = getRouterContext();
 
   return (
     <BrowserRouter {...props}>

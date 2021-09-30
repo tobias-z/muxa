@@ -15,6 +15,6 @@ export function getFileIdentifier(fileName: string) {
 }
 
 export function getUsersFileIdentifier() {
-  let identifier = process.argv[2] === "typescript" ? "ts" : "js";
+  const identifier = process.argv[2] === "typescript" ? "ts" : "js";
   return identifier;
 }

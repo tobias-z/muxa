@@ -2,7 +2,11 @@ import { History } from "history";
 import RouterCache from "../cache/router-cache";
 
 /**
- * Only to be used in actions and loaders.
+ * Usage:
+ * -
+ * return redirect("/some-path")
+ *
+ * only to be used in actions and loaders
  */
 export default function redirect(path: string) {
   return (

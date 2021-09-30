@@ -17,7 +17,7 @@ export default class Session<
   }
 
   get(key: keyof Entries) {
-    let sessionEntry = this.data[key];
+    const sessionEntry = this.data[key];
     if (!sessionEntry) return null;
     return sessionEntry;
   }
@@ -28,12 +28,12 @@ export default class Session<
   }
 
   has(key: keyof Entries) {
-    let value = this.data[key];
+    const value = this.data[key];
     return value !== null && value !== undefined;
   }
 
   private commit() {
-    let { name, domain, expires, maxAge, path, sameSite, secure } =
+    const { name, domain, expires, maxAge, path, sameSite, secure } =
       this.options;
     let cookieString = `${name}=${JSON.stringify(this.data)}`;
     if (domain) cookieString += `; Domain=${domain}`;
@@ -47,7 +47,7 @@ export default class Session<
 }
 
 function initializeSession<Entries>(name: string): Entries {
-  let sessionCookie = document.cookie
+  const sessionCookie = document.cookie
     .split(";")
     .find(row => row.trim().startsWith(`${name}=`));
 

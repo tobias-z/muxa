@@ -11,7 +11,7 @@ interface RouteParams {
 function isParamaterizedAndHasUndefinedParam({ route }: RouteParams): boolean {
   invariant(route.path, "Unknown error: No path was found for route");
   if (route.path.includes(":")) {
-    let param = Object.values(route.params)[0];
+    const param = Object.values(route.params)[0];
     if (param === undefined || param === "") {
       return true;
     }
@@ -23,9 +23,9 @@ export function shouldRefetchLoader(
   props: RouteParams,
   history: History
 ): boolean {
-  let { exact, route } = props;
+  const { exact, route } = props;
   let willRender = false;
-  let realPath = getRealPathname(route.path) as string;
+  const realPath = getRealPathname(route.path) as string;
 
   if (location.pathname === realPath) {
     willRender = true;

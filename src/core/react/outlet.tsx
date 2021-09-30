@@ -4,10 +4,10 @@ import { useRoutePath } from "./route-props";
 import { useRouterCache } from "./router";
 import LoadedRoute from "../react/loaded-route";
 
-export default function Outlet() {
-  let path = useRoutePath();
-  let cache = useRouterCache();
-  let [route, setRoute] = useState<Muxa.Route | undefined>();
+export default function Outconst() {
+  const path = useRoutePath();
+  const cache = useRouterCache();
+  const [route, setRoute] = useState<Muxa.Route | undefined>();
 
   useEffect(() => {
     setRoute(cache.get(path));

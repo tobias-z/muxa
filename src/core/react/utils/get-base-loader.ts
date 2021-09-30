@@ -20,7 +20,7 @@ export function getBaseLoader(
     }) => void;
   }
 ) {
-  let errors: Muxa.RouteErrors = {};
+  const errors: Muxa.RouteErrors = {};
   function addError(key: string, value: any) {
     errors[key] = value;
   }
@@ -35,7 +35,7 @@ export function getBaseLoader(
 
     try {
       cache.toggleRouteLoading(route.path);
-      let response = await route.loader({
+      const response = await route.loader({
         params: route.params,
         addError,
         globalData: cache.globalData,

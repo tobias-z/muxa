@@ -1,10 +1,10 @@
 import type * as Muxa from "../../types";
 import { useRouterCache } from "./router";
-import { useEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import invariant from "../invariant";
 import { useRoutePath } from "./route-props";
 import { useHistory } from "react-router-dom";
-import { getBaseLoader, isOutdatedData } from "./utils";
+import { getBaseLoader } from "./utils";
 
 export default function useRouteData<
   Data = any,
@@ -20,12 +20,11 @@ export default function useRouteData<Data, Errors>(): Muxa.RouteData<
   Data,
   Errors
 > {
-  let cache = useRouterCache();
-  let path = useRoutePath();
-  let history = useHistory();
-  let [route, setRoute] = useState(cache.get(path));
+  const cache = useRouterCache();
+  const path = useRoutePath();
+  const history = useHistory();
 
-  let runLoader = useMemo(
+  const runLoader = useMemo(
     () =>
       getBaseLoader(
         {
@@ -34,31 +33,34 @@ export default function useRouteData<Data, Errors>(): Muxa.RouteData<
           history,
         },
         {
-          onSuccess({ errors, response, route }) {
-            setRoute({
-              ...route,
+          onSuccess({ errors, response }) {
+            route.current = {
+              ...route.current,
               errors,
-              routeData: response,
-            });
+              data: response,
+            };
           },
         }
       ),
     []
   );
 
-  useEffect(() => {
-    invariant(route, "No route was found for path: " + path);
-    if (!isOutdatedData(route)) {
-      setRoute(cache.get(path));
-    }
+  function getCurrentRoute() {
+    const foundRoute = cache.get(path);
+    invariant(foundRoute, "No route was found for path: " + path);
+    return {
+      data: foundRoute.routeData as Data,
+      runLoader,
+      errors: foundRoute.errors as Errors,
+      isLoading: foundRoute.isLoading,
+    };
+  }
+
+  const route = useRef<Muxa.RouteData<Data, Errors>>(getCurrentRoute());
+
+  useLayoutEffect(() => {
+    route.current = getCurrentRoute();
   }, [history.location]);
 
-  invariant(route, "No route was found for path: " + path);
-
-  return {
-    data: route.routeData as Data,
-    runLoader,
-    errors: route.errors as Errors,
-    isLoading: route.isLoading,
-  };
+  return route.current;
 }

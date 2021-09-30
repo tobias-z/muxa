@@ -18,15 +18,15 @@ export default function LoadedRoute({
   component,
   ...props
 }: Muxa.LoadedRouteProps) {
-  let { path, loader, exact, action, routes, meta } = props;
-  let cache = useRouterCache();
-  let history = useHistory();
-  let [update, forceUpdate] = useReducer(c => c + 1, 0);
-  let thePath = getRealPathname(path);
-  let route = cache.get(thePath);
+  const { path, loader, exact, action, routes, meta } = props;
+  const cache = useRouterCache();
+  const history = useHistory();
+  const [update, forceUpdate] = useReducer(c => c + 1, 0);
+  const thePath = getRealPathname(path);
+  const route = cache.get(thePath);
 
   function initRoute(params: Muxa.Params) {
-    let expires = getExpirationDate({ meta, params });
+    const expires = getExpirationDate({ meta, params });
 
     cache.put(thePath, {
       loader,
@@ -45,14 +45,14 @@ export default function LoadedRoute({
   }
 
   useLayoutEffect(() => {
-    let unsubscribe = cache.history.subscribe(thePath);
+    const unsubscribe = cache.history.subscribe(thePath);
 
-    let params = getParams(path);
+    const params = getParams(path);
     if (!route) {
       initRoute(params);
     }
 
-    let tmpRoute = cache.get(thePath);
+    const tmpRoute = cache.get(thePath);
     invariant(
       tmpRoute,
       `Route ${thePath} was not yet initialized, when trying to run it's loader`
@@ -64,7 +64,7 @@ export default function LoadedRoute({
 
     let isCurrent = true;
 
-    let runLoader = getBaseLoader(
+    const runLoader = getBaseLoader(
       {
         cache,
         route: cache.get(thePath),
@@ -90,11 +90,11 @@ export default function LoadedRoute({
 
   invariant(component, `No component was found for route ${thePath}`);
 
-  let metaData = meta ? meta({ params: getParams(path) }) : null;
+  const metaData = meta ? meta({ params: getParams(path) }) : null;
 
   return (
-    <RoutePropsProvider routePath={path}>
-      <Route {...props} key={update}>
+    <RoutePropsProvider routePath={path} key={update}>
+      <Route {...props}>
         {metaData && (
           <Helmet>
             {metaData.title && <title>{metaData.title}</title>}
