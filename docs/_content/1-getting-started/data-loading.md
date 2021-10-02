@@ -21,8 +21,6 @@ needs to function correctly.
 In `routes/index.tsx`:
 
 ```jsx
-import type { LoaderFunction } from "muxa";
-
 export function loader() {
   const res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
   const data = await res.json();
@@ -72,7 +70,7 @@ export const meta: MetaFunction = () => {
 ## Finished Product
 
 ```tsx
-import type { LoaderFunction, MetaFunction } from "muxa";
+import type { MetaFunction } from "muxa";
 
 export const meta: MetaFunction = () => {
   return {

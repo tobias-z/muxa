@@ -14,22 +14,24 @@ will show it's information.
 
 ## Creating the Links
 
-Notice that we are still using React Router to do the actual routing.
+In routes/pokemons.tsx
 
-```jsx
-import { useRouteData, LoadedRoute } from "muxa";
-import { useHistory } from "react-router-dom";
+```tsx
+import { useRouteData, Outlet } from "muxa";
+import { Link } from "react-router-dom";
 
-export function homeLoader() {
-  let res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1118");
-  let data = await res.json();
+interface Pokemons {
+  name: string
+}
+
+export function loader() {
+  const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1118");
+  const data = await res.json();
   return data.results;
 }
 
-export default function HomePage() {
-  // When using nested routes, you have to specify which destination your parent is in
-  let { data: pokemons } = useRouteData("/");
-  let history = useHistory();
+export default function PokemonsPage() {
+  const { data: pokemons } = useRouteData<Pokemons>();
 
   {pokemons && (
       {/* Puts our links on the left of our pokemon */}
@@ -37,15 +39,14 @@ export default function HomePage() {
         <ul>
           {pokemons.map(pokemon => (
             <li
-              key={pokemon.name}
-              onClick={() => history.push(`/${pokemon.name}`)}>
-              {pokemon.name}
+              key={pokemon.name}>
+              <Link to={`/pokemons/${pokemon.name}`}>{pokemon.name}</Link>
             </li>
           ))}
         </ul>
 
-        {/* Replace with LoadedRoute when implemented */}
-        <p>The Pokemon</p>
+        {/* Outlet will display any child routes of pokemons  */}
+        <Outlet />
       </div>
     );
   }
@@ -57,25 +58,28 @@ clicked the url path changes to the choosen pokemon
 
 ## Creating A Nested Route
 
+Nested routes in Muxa are created when you create a folder called the same as
+your route.
+
 We now want to have our nested route render the chosen pokemon's information. So
 we setup a loader for our nested route, which will find the choosen pokemon.
 
-`Create a file called pokemon.js`
+`Create a folder called pokemons with a file called $name.tsx inside it`
 
-```jsx
-export async function pokemonLoader(helpers) {
-  // The loader is given an object of helpers.
-  // One of these helpers is the params
-  let { params } = helpers;
+The folder name makes this a nested route since we have a file called
+pokemons.tsx and the $ infont of $name.tsx tells Muxa that there will be a
+paramater called name in it.
 
-  let res = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${params.pokemonName}`
-  );
+```tsx
+import type { LoaderFunction } from "muxa";
+
+export const loader: LoaderFunction<{ name: string }> = async ({ params }) => {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.name}`);
   return await res.json();
-}
+};
 
-export default function Pokemon() {
-  let { data: pokemon } = useRouteData();
+export default function PokemonPage() {
+  const { data: pokemon } = useRouteData<{ name: string }>();
 
   return (
     <div>
@@ -89,61 +93,58 @@ export default function Pokemon() {
 }
 ```
 
-There you have it, this is how you can create routes in Muxa.
+There you have it, this is how you can create nested routes in Muxa.
 
 ## Finished Product
 
 This is the complete code of this example, with the implemented LoadedRoute
 
 ```jsx
-import { useRouteData, LoadedRoute } from "muxa";
-import { useHistory } from "react-router-dom";
-import Pokemon, { pokemonLoader } from "./pokemon";
+// in pokemons.tsx
+import { useRouteData, Outlet } from "muxa";
+import { Link } from "react-router-dom";
 
-export function homeLoader() {
-  let res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1118");
-  let data = await res.json();
+interface Pokemons {
+  name: string
+}
+
+export function loader() {
+  const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1118");
+  const data = await res.json();
   return data.results;
 }
 
-export default function HomePage() {
-  // When using nested routes, you have to specify which destination your parent is in
-  let { data: pokemons } = useRouteData("/");
-  let history = useHistory();
+export default function PokemonsPage() {
+  const { data: pokemons } = useRouteData<Pokemons>();
 
   {pokemons && (
-      {/* Puts our links on the left of our pokemon */}
       <div style={{display: "flex"}}>
         <ul>
           {pokemons.map(pokemon => (
             <li
-              key={pokemon.name}
-              onClick={() => history.push(`/${pokemon.name}`)}>
-              {pokemon.name}
+              key={pokemon.name}>
+              <Link to={`/pokemons/${pokemon.name}`}>{pokemon.name}</Link>
             </li>
           ))}
         </ul>
-        <LoadedRoute path="/:pokemonName" component={Pokemon} loader={pokemonLoader} />
+
+        <Outlet />
       </div>
     );
   }
 }
 
 
-// In pokemon.js
-export async function pokemonLoader(helpers) {
-  // The loader is given an object of helpers.
-  // One of these helpers is the params
-  let { params } = helpers;
+// In pokemons/$name.tsx
+import type { LoaderFunction } from "muxa";
 
-  let res = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${params.pokemonName}`
-  );
+export const loader: LoaderFunction<{ name: string }> = async ({ params }) => {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.name}`);
   return await res.json();
-}
+};
 
-export default function Pokemon() {
-  let { data: pokemon } = useRouteData();
+export default function PokemonPage() {
+  const { data: pokemon } = useRouteData<{ name: string }>();
 
   return (
     <div>
