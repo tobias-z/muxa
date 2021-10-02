@@ -10,7 +10,7 @@ export default class History {
     this._activePaths = new Set();
   }
 
-  subscribe(path: Muxa.Path) {
+  public subscribe(path: Muxa.Path) {
     this.activePaths.add(path);
     return () => {
       // Keep track of the previous path

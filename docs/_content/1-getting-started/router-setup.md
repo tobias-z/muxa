@@ -51,7 +51,7 @@ import { routes } from "./route-config"
 
 export default function App() {
   return (
-    <Router fallback={<h1>Loading...</h1>}>
+    <Router>
       <Document routes={routes}>
     </Router>
   );

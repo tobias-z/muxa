@@ -41,7 +41,7 @@ export default class File {
     return route;
   }
 
-  getRoute() {
+  public getRoute() {
     const path = getPath(this.fileName);
 
     if (this.replacedFileIdentifier.startsWith("/")) {

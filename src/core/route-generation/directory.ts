@@ -12,7 +12,7 @@ export default class Directory {
     this.routes = routes;
   }
 
-  getDirectory() {
+  public getDirectory() {
     const pathToDir = join(process.cwd(), `src/routes/${this.dirName}`);
 
     const directory = readdirSync(pathToDir);

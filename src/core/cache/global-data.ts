@@ -5,7 +5,7 @@ export default class GlobalData<
     super(new Map());
   }
 
-  get(key: keyof T): T[typeof key] {
+  public get(key: keyof T): T[typeof key] {
     return super.get(key);
   }
 }

@@ -25,7 +25,7 @@ export default class RouterCache<TGlobalData = any> {
     this.globalData = new GlobalData<TGlobalData>();
   }
 
-  put(path: Muxa.Path, action: Muxa.AddRoute): void {
+  public put(path: Muxa.Path, action: Muxa.AddRoute): void {
     let route: Muxa.Route = {
       ...action,
       isLoading: false,
@@ -36,11 +36,11 @@ export default class RouterCache<TGlobalData = any> {
     this.cache.set(path, route);
   }
 
-  get(path: Muxa.Path): Muxa.Route | undefined {
+  public get(path: Muxa.Path): Muxa.Route | undefined {
     return this.cache.get(path);
   }
 
-  toggleRouteLoading(path: Muxa.Path): void {
+  public toggleRouteLoading(path: Muxa.Path): void {
     let route = this.get(path);
     /* istanbul ignore next */
     invariant(
@@ -50,7 +50,7 @@ export default class RouterCache<TGlobalData = any> {
     this.cache.set(path, { ...route, isLoading: !route.isLoading });
   }
 
-  sendRedirect(path: Muxa.Path) {
+  public sendRedirect(path: Muxa.Path) {
     let route = this.get(path);
     // If a redirect is made to a loaded route
     // which has not yet been rendered. It will not be defined
@@ -59,7 +59,7 @@ export default class RouterCache<TGlobalData = any> {
     this.cache.set(path, { ...route, isRedirect: true });
   }
 
-  updateRoute(path: Muxa.Path, action: Muxa.UpdateRoute): void {
+  public updateRoute(path: Muxa.Path, action: Muxa.UpdateRoute): void {
     let currentRoute = this.get(path);
     invariant(
       currentRoute,
