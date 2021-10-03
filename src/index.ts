@@ -3,6 +3,7 @@ import type {
   ActionFunction,
   MetaFunction,
   Session,
+  Filter,
 } from "./types";
 import Outlet from "./core/react/outlet";
 import { Router } from "./core/react/router";
@@ -26,4 +27,5 @@ export {
   ActionFunction,
   MetaFunction,
   Session,
+  Filter,
 };

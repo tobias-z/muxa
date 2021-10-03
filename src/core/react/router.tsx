@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import type { Context } from "react";
 import { BrowserRouter } from "react-router-dom";
 import RouterCache from "../cache/router-cache";
+import { FilterHandlerProvider } from "./filter-handler-provider";
 
 declare global {
   interface Window {
@@ -10,12 +11,12 @@ declare global {
   }
 }
 
-const initialContext = createContext<RouterCache | undefined>(undefined);
+const initialRouterContext = createContext<RouterCache | undefined>(undefined);
 
 function getRouterContext() {
   // Keep a singconston of the context
   if (!window.RouterCacheContext) {
-    window.RouterCacheContext = initialContext;
+    window.RouterCacheContext = initialRouterContext;
   }
   return window.RouterCacheContext;
 }
@@ -28,14 +29,16 @@ export function useRouterCache() {
   return context;
 }
 
-export function Router({ children, ...props }: Muxa.RouterProps) {
+export function Router({ children, filters, ...props }: Muxa.RouterProps) {
   const cache = RouterCache.getInstance();
 
   const Context = getRouterContext();
 
   return (
     <BrowserRouter {...props}>
-      <Context.Provider value={cache}>{children}</Context.Provider>
+      <FilterHandlerProvider filters={filters}>
+        <Context.Provider value={cache}>{children}</Context.Provider>
+      </FilterHandlerProvider>
     </BrowserRouter>
   );
 }

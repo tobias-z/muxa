@@ -7,11 +7,13 @@ import type {
 } from "./loaded-route";
 import type { BrowserRouterProps } from "react-router-dom";
 import type { Routes } from "./route-config";
+import type { Filter } from ".";
 
 export type Path = string | readonly string[] | undefined;
 
 interface MuxaProps {
   children: ReactNode;
+  filters?: Array<Filter>;
 }
 
 export type RouterProps = BrowserRouterProps & MuxaProps;

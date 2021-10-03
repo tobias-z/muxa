@@ -13,6 +13,7 @@ import invariant from "../invariant";
 import { RoutePropsProvider } from "./route-props";
 import { Helmet } from "react-helmet";
 import { getBaseLoader } from "./utils";
+import { useFilterHandler } from "./filter-handler-provider";
 
 export default function LoadedRoute({
   component,
@@ -24,6 +25,7 @@ export default function LoadedRoute({
   const [update, forceUpdate] = useReducer(c => c + 1, 0);
   const thePath = getRealPathname(path);
   const route = cache.get(thePath);
+  const filterHandler = useFilterHandler();
 
   function initRoute(params: Muxa.Params) {
     const expires = getExpirationDate({ meta, params });
@@ -92,7 +94,8 @@ export default function LoadedRoute({
 
   const metaData = meta ? meta({ params: getParams(path) }) : null;
 
-  return (
+  // If filters all return true we can render the screen
+  return filterHandler.callFilters(thePath as string) ? (
     <RoutePropsProvider routePath={path} key={update}>
       <Route {...props}>
         {metaData && (
@@ -106,5 +109,5 @@ export default function LoadedRoute({
         {createElement(component)}
       </Route>
     </RoutePropsProvider>
-  );
+  ) : null;
 }
