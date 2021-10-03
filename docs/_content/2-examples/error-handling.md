@@ -3,7 +3,7 @@ parent: "Examples"
 title: "Error Handling"
 description: "Handling errors in Loaders"
 slug: "error-handling"
-order: 3
+order: 2
 ---
 
 # Error Handling
