@@ -14,7 +14,13 @@ import { useRouter } from "next/dist/client/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
 
-export type PageProps = {
+interface Path {
+  params: {
+    slug: Array<string>;
+  };
+}
+
+interface PageProps {
   frontMatter: {
     title: string;
     description: string;
@@ -24,7 +30,60 @@ export type PageProps = {
   source: string;
   menus: Array<MenuDir>;
   directoryName: string;
-};
+}
+
+export async function getStaticProps({ params }: Path) {
+  const menus = getAllMenus();
+  let file: MenuFile | undefined;
+  let directoryName = "";
+  for (const menu of menus) {
+    for (const item of menu.files) {
+      const foundSlug = params.slug.find(slug => slug === item.slug);
+      if (!foundSlug) continue;
+      // the slug was in this directory
+      file = item;
+      directoryName = menu.directoryName;
+    }
+  }
+
+  // Did not find a page
+  if (!file) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      source: file.content,
+      frontMatter: file.data,
+      menus,
+      directoryName,
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  const menus = getAllMenus();
+  const paths: Array<Path> = [];
+  for (const menu of menus) {
+    for (const file of menu.files) {
+      paths.push({
+        params: {
+          slug: file.data.link.split("/"),
+        },
+      });
+    }
+  }
+
+  return {
+    paths,
+    fallback: true,
+  };
+}
 
 export default function Pages({
   frontMatter,
@@ -32,14 +91,14 @@ export default function Pages({
   menus,
   directoryName,
 }: PageProps) {
-  let theme = useTheme();
-  let router = useRouter();
+  const theme = useTheme();
+  const router = useRouter();
 
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
 
-  let currentDir = menus.find(menu =>
+  const currentDir = menus.find(menu =>
     menu.files.find(
       file =>
         file.data.order === frontMatter.order &&
@@ -47,14 +106,14 @@ export default function Pages({
     )
   );
 
-  let previousPage = currentDir?.files.find(
+  const previousPage = currentDir?.files.find(
     file => file.data.order === frontMatter.order - 1
   );
-  let nextPage = currentDir?.files.find(
+  const nextPage = currentDir?.files.find(
     file => file.data.order === frontMatter.order + 1
   );
 
-  let components = {
+  const components = {
     code({ inline, className, children, ...props }: any) {
       const match = /language-(\w+)/.exec(className || "");
       return !inline && match ? (
@@ -140,66 +199,4 @@ export default function Pages({
       </main>
     </Layout>
   );
-}
-
-type Path = {
-  params: {
-    slug: Array<string>;
-  };
-};
-
-export async function getStaticProps({ params }: Path) {
-  let menus = getAllMenus();
-  let file: MenuFile | undefined;
-  let directoryName = "";
-  for (let menu of menus) {
-    for (let item of menu.files) {
-      let foundSlug = params.slug.find(slug => slug === item.slug);
-      if (foundSlug) {
-        // the slug was in this directory
-        file = item;
-        directoryName = menu.directoryName;
-      } else {
-        continue;
-      }
-    }
-  }
-
-  // Did not find a page
-  if (!file) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      source: file.content,
-      frontMatter: file.data,
-      menus,
-      directoryName,
-    },
-  };
-}
-
-export async function getStaticPaths() {
-  let menus = getAllMenus();
-  let paths: Array<Path> = [];
-  for (let menu of menus) {
-    for (let file of menu.files) {
-      paths.push({
-        params: {
-          slug: file.data.link.split("/"),
-        },
-      });
-    }
-  }
-
-  return {
-    paths,
-    fallback: true,
-  };
 }

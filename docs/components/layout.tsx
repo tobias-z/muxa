@@ -1,10 +1,9 @@
-import type { ReactNode } from "react";
 import Head from "next/head";
-import Link from "next/link";
-import Links from "./links";
-import styles from "../styles/layout.module.css";
-import { MenuDir } from "../lib/page-data";
+import type { ReactNode } from "react";
 import { useTheme } from "../context/theme-provider";
+import { MenuDir } from "../lib/page-data";
+import styles from "../styles/layout.module.css";
+import Links from "./links";
 
 export default function Layout({
   children,
@@ -13,8 +12,8 @@ export default function Layout({
   children: ReactNode;
   menus: Array<MenuDir>;
 }) {
-  let theme = useTheme();
-  let themeColor = theme === "light" ? "white" : "rgba(16, 22, 35, 0.874)";
+  const theme = useTheme();
+  const themeColor = theme === "light" ? "white" : "rgba(16, 22, 35, 0.874)";
 
   return (
     <>

@@ -26,31 +26,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 function getAllLinks(): Array<SitemapLink> {
-  return [
-    { url: "/", changefreq: "daily", priority: 0.3 },
-    {
-      url: "/getting-started/installation",
+  const links: Array<SitemapLink> = [];
+
+  function addLink(path: string) {
+    links.push({
+      url: path,
       changefreq: "daily",
       priority: 0.3,
-    },
-    {
-      url: "/getting-started/router-setup",
-      changefreq: "daily",
-      priority: 0.3,
-    },
-    {
-      url: "/getting-started/data-loading",
-      changefreq: "daily",
-      priority: 0.3,
-    },
-    { url: "/examples/typescript", changefreq: "daily", priority: 0.3 },
-    {
-      url: "/examples/nested-routing",
-      changefreq: "daily",
-      priority: 0.3,
-    },
-    { url: "/api/router", changefreq: "daily", priority: 0.3 },
-    { url: "/api/loaded-route", changefreq: "daily", priority: 0.3 },
-    { url: "/api/use-route-data", changefreq: "daily", priority: 0.3 },
-  ];
+    });
+  }
+
+  addLink("/");
+  addLink("/getting-started/installation");
+  addLink("/getting-started/router-setup");
+  addLink("/getting-started/data-loading");
+  addLink("/examples/typescript");
+  addLink("/examples/nested-routing");
+  addLink("/api/router");
+  addLink("/api/loaded-route");
+  addLink("/api/use-route-data");
+
+  return links;
 }

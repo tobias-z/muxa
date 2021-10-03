@@ -21,7 +21,7 @@ needs to function correctly.
 In `routes/index.tsx`:
 
 ```jsx
-export function loader() {
+export async function loader() {
   const res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
   const data = await res.json();
   return data;
@@ -79,7 +79,7 @@ export const meta: MetaFunction = () => {
   };
 };
 
-export function loader() {
+export async function loader() {
   const res = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
   const data = await res.json();
   return data;

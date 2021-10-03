@@ -8,17 +8,17 @@ import {
 
 export type Theme = "dark" | "light";
 
-let ThemeContext = createContext<Theme>("light");
+const ThemeContext = createContext<Theme>("light");
 
 export function useTheme() {
   return useContext(ThemeContext);
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  let [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    let darkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)");
     if (darkTheme.matches) {
       setTheme("dark");
     }

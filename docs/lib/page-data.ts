@@ -20,28 +20,28 @@ export type MenuDir = {
   files: Array<MenuFile>;
 };
 
-let directories = path.join(process.cwd(), "_content");
+const directories = path.join(process.cwd(), "_content");
 
 export function getAllMenus(): Array<MenuDir> {
-  let allDirectories = fs.readdirSync(directories);
-  let menus: Array<MenuDir> = [];
-  for (let directory of allDirectories) {
+  const allDirectories = fs.readdirSync(directories);
+  const menus: Array<MenuDir> = [];
+  for (const directory of allDirectories) {
     menus.push(getDirectory(directory));
   }
   return menus;
 }
 
 export function getDirectory(directory: string): MenuDir {
-  let foundDirectory = path.join(process.cwd(), `_content/${directory}`);
-  let allFiles = fs.readdirSync(foundDirectory);
+  const foundDirectory = path.join(process.cwd(), `_content/${directory}`);
+  const allFiles = fs.readdirSync(foundDirectory);
 
-  let unorderedMenuFiles = allFiles.map(fileName => {
-    let slug = fileName.replace(".md", "");
-    let fileContent = fs.readFileSync(
+  const unorderedMenuFiles = allFiles.map(fileName => {
+    const slug = fileName.replace(".md", "");
+    const fileContent = fs.readFileSync(
       path.join(foundDirectory, fileName),
       "utf-8"
     );
-    let { data, content } = matter(fileContent);
+    const { data, content } = matter(fileContent);
     return {
       data: {
         ...data,
@@ -52,7 +52,7 @@ export function getDirectory(directory: string): MenuDir {
     };
   }) as Array<MenuFile>;
 
-  let orderedMenufiles = getOrderedMenuFiles(unorderedMenuFiles, [], 1);
+  const orderedMenufiles = getOrderedMenuFiles(unorderedMenuFiles, [], 1);
 
   if (!orderedMenufiles) {
     throw new Error("No menu files were found for directory: " + directory);
@@ -71,7 +71,7 @@ function getOrderedMenuFiles(
   currentMenus: Array<MenuFile>,
   orderCount: number
 ): Array<MenuFile> {
-  for (let menu of unorderedMenus) {
+  for (const menu of unorderedMenus) {
     if (menu.data.order === orderCount) {
       currentMenus.push(menu);
       break;

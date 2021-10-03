@@ -5,11 +5,11 @@ import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 
 export default function Links({ menus }: { menus: Array<MenuDir> }) {
-  let router = useRouter();
-  let [currentPath, setCurrentPath] = useState("");
+  const router = useRouter();
+  const [currentPath, setCurrentPath] = useState("");
 
   useEffect(() => {
-    let slugArray = router.query.slug;
+    const slugArray = router.query.slug;
     if (Array.isArray(slugArray)) {
       setCurrentPath(slugArray.join("/"));
     }
@@ -31,22 +31,20 @@ export default function Links({ menus }: { menus: Array<MenuDir> }) {
               <Fragment key={menu.title}>
                 <h3 className={styles.linkTitle}>{menu.title}</h3>
                 <ul>
-                  {menu.files.map(file => {
-                    return (
-                      <li key={file.slug} className={styles.link}>
-                        <Link href={file.data.link}>
-                          <a
-                            className={
-                              currentPath === file.data.link
-                                ? styles.activeLink
-                                : ""
-                            }>
-                            {file.data.title}
-                          </a>
-                        </Link>
-                      </li>
-                    );
-                  })}
+                  {menu.files.map(file => (
+                    <li key={file.slug} className={styles.link}>
+                      <Link href={file.data.link}>
+                        <a
+                          className={
+                            currentPath === file.data.link
+                              ? styles.activeLink
+                              : ""
+                          }>
+                          {file.data.title}
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </Fragment>
             ))}
