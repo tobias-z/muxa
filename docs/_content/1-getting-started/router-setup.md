@@ -59,3 +59,6 @@ export default function App() {
 ```
 
 And there we go, we now have our home page running!
+
+Just remember that each time you create a new route, you have to run
+`npm run migrate` to create your new route.
