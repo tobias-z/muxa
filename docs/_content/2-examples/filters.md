@@ -3,7 +3,7 @@ parent: "Examples"
 title: "Filters"
 description: "Adding custom filters to your muxa project"
 slug: "filters"
-order: 3
+order: 4
 ---
 
 # Custom Filters
