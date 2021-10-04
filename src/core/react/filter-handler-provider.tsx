@@ -1,15 +1,15 @@
-import type * as Muxa from "../../types";
 import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
 import { FilterHandler } from "../filters/filter-handler";
 import invariant from "../invariant";
+import Filter from "../filters/filter";
 
 export function FilterHandlerProvider({
   children,
   filters,
 }: {
   children: ReactNode;
-  filters: Array<Muxa.Filter> | undefined;
+  filters: Array<Filter> | undefined;
 }) {
   const filter = new FilterHandler(filters || []);
   return (

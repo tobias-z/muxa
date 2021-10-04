@@ -27,16 +27,14 @@ In `filters/user-filter.ts`
 import { Filter } from "muxa";
 import type { User } from "../user";
 
-export default class UserFilter implements Filter {
+export default class UserFilter extends Filter {
   private readonly user: User;
 
   constructor(user: User) {
+    // Any route after and equal value, this filter will be called
+    // Will default to / if none is given
+    super("/profile");
     this.user = user;
-  }
-
-  // Any route after and equal to the returned value, this filter will be called
-  getFilterPath(): string {
-    return "/profile";
   }
 
   doFilter(): boolean {

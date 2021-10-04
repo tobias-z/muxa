@@ -3,7 +3,6 @@ import type {
   ActionFunction,
   MetaFunction,
   Session,
-  Filter,
 } from "./types";
 import Outlet from "./core/react/outlet";
 import { Router } from "./core/react/router";
@@ -13,6 +12,7 @@ import useRouteData from "./core/react/use-route-data";
 import useGlobalData from "./core/react/use-global-data";
 import createSession from "./core/session/create-session";
 import redirect from "./core/react/redirect";
+import Filter from "./core/filters/filter";
 
 export {
   Router,

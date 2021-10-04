@@ -6,9 +6,9 @@ import { screen, fireEvent, waitFor, render } from "@testing-library/react";
 import { Link } from "react-router-dom";
 import LoadedRoute from "../../src/core/react/loaded-route";
 
-class AdminFilter implements Filter {
-  getFilterPath(): string {
-    return "/admin";
+class AdminFilter extends Filter {
+  constructor() {
+    super("/admin");
   }
   doFilter(): boolean {
     console.log("running filter");
@@ -16,20 +16,17 @@ class AdminFilter implements Filter {
   }
 }
 
-class TrueFilter implements Filter {
+class TrueFilter extends Filter {
   // Doens't get run because our path is never /something
-  getFilterPath(): string {
-    return "/";
-  }
   doFilter(): boolean {
     return true;
   }
 }
 
-class OtherFilter implements Filter {
+class OtherFilter extends Filter {
   // Doens't get run because our path is never /something
-  getFilterPath(): string {
-    return "/something";
+  constructor() {
+    super("/something");
   }
   doFilter(): boolean {
     return true;
